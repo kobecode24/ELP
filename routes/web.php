@@ -27,5 +27,5 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile');
+Route::get('/profile', [UserController::class, 'showProfile'])->name('profile');
 Route::post('/user/profile-image', [UserController::class, 'uploadProfileImage'])->name('user.upload-profile-image');

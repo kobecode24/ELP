@@ -69,9 +69,4 @@ class AuthController extends Controller
 
         return redirect()->route('login');
     }
-
-    public function showProfile()
-    {
-        return view('dashboard.profile');
-    }
 }
