@@ -16,6 +16,8 @@ class Course extends Model
         'creator_id',
         'programming_language_id',
         'spoken_language_id',
+        'image_url',
+        'image_public_id',
     ];
     public function users()
     {
