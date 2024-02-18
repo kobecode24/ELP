@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string("description");
+            $table->string("description")->nullable();
+            $table->string('profile_image_url')->nullable();
+            $table->string('profile_image_public_id')->nullable();
             $table->integer("points")->default(500);
             $table->timestamps();
         });

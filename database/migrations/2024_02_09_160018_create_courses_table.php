@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
             $table->foreignId('programming_language_id')->nullable()->constrained('programming_languages')->onDelete('set null');
             $table->foreignId('spoken_language_id')->nullable()->constrained('spoken_languages')->onDelete('set null');
+            $table->string('image_url')->nullable();
+            $table->string('image_public_id')->nullable();
             $table->timestamps();
         });
     }
