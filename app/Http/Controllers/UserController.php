@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProfileImageRequest;
+use Auth;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
@@ -30,8 +31,17 @@ class UserController extends Controller
 
     public function showProfile()
     {
-        return view('dashboard.profile');
+        $user = auth()->user();
+        $roles = $user->roles;
+        return view('dashboard.profile', compact('roles'));
     }
 
+    public function becomeInstructor()
+    {
+        $user = auth()->user();
+        $user->assignRole('instructor');
+
+        return redirect()->back()->with('success', 'Congratulations! You are now an instructor.');
+    }
 
 }
