@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,3 +30,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/profile', [UserController::class, 'showProfile'])->name('profile');
 Route::post('/user/profile-image', [UserController::class, 'uploadProfileImage'])->name('user.upload-profile-image');
+
+Route::post('/user/become-instructor', [UserController::class, 'becomeInstructor'])->name('user.become-instructor');
+Route::resource('courses', CourseController::class);
