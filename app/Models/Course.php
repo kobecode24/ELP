@@ -16,6 +16,7 @@ class Course extends Model
         'creator_id',
         'programming_language_id',
         'spoken_language_id',
+        'points_required',
         'image_url',
         'image_public_id',
     ];
