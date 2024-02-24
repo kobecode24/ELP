@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CourseController;
+use App\Http\Controllers\instructor\ChapterController;
+use App\Http\Controllers\instructor\CourseController;
+use App\Http\Controllers\instructor\ExerciseController;
+use App\Http\Controllers\instructor\LessonController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,4 +35,11 @@ Route::get('/profile', [UserController::class, 'showProfile'])->name('profile');
 Route::post('/user/profile-image', [UserController::class, 'uploadProfileImage'])->name('user.upload-profile-image');
 
 Route::post('/user/become-instructor', [UserController::class, 'becomeInstructor'])->name('user.become-instructor');
-Route::resource('courses', CourseController::class);
+
+
+Route::group(['prefix' => 'instructor', 'middleware' => ['is_instructor']], function () {
+    Route::resource('lessons', LessonController::class);
+    Route::resource('exercises', ExerciseController::class);
+    Route::resource('courses', CourseController::class);
+    Route::resource('chapters', ChapterController::class);
+});
