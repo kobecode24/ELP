@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\instructor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreLessonRequest;
+use App\Http\Requests\UpdateLessonRequest;
+use App\Models\Chapter;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
 
@@ -20,9 +23,16 @@ class LessonController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('instructor.lessons.create');
+        $chapterId = $request->input('chapter_id');
+
+        $chapter = null;
+        if ($chapterId) {
+            $chapter = Chapter::find($chapterId);
+        }
+
+        return view('instructor.lessons.create', compact('chapter'));
     }
 
     /**
@@ -30,8 +40,10 @@ class LessonController extends Controller
      */
     public function store(StoreLessonRequest $request)
     {
-        $lesson = Lesson::create($request->validated());
-        return redirect()->route('instructor.lessons.index')->with('success', 'Lesson created successfully.');
+        $chapter = Chapter::findOrFail($request->chapter_id);
+        $courseId = $chapter->course_id;
+        Lesson::create($request->validated());
+        return redirect()->route('courses.show', $courseId)->with('success', 'Lesson created successfully.');
     }
 
     /**
