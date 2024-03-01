@@ -23,7 +23,7 @@ class LessonController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+        public function create(Request $request)
     {
         $chapterId = $request->input('chapter_id');
 
@@ -67,8 +67,10 @@ class LessonController extends Controller
      */
     public function update(UpdateLessonRequest $request, Lesson $lesson)
     {
+        $chapter = Chapter::findOrFail($request->chapter_id);
+        $courseId = $chapter->course_id;
         $lesson->update($request->validated());
-        return redirect()->route('instructor.lessons.index')->with('success', 'Lesson updated successfully.');
+        return redirect()->route('courses.show', $courseId)->with('success', 'Lesson updated successfully.');
     }
 
     /**
