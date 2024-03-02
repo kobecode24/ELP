@@ -43,22 +43,27 @@ class CourseController extends Controller
     public function store(StoreCourseRequest $request)
     {
         $validated = $request->validated();
+        $validated['creator_id'] = Auth::id();
 
-        $response = null;
-        $publicId = null;
+            if ($request->hasFile('course_images')) {
+            $folderPath = 'course_images/';
 
-        if ($request->hasFile('image')) {
-            $response = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
-            $publicId = Cloudinary::getPublicId();
+            $result = Cloudinary::upload($request->file('course_images')->getRealPath(), [
+                'folder' => $folderPath
+            ]);
+
+            $uploadedFileUrl = $result->getSecurePath();
+            $publicId = $result->getPublicId();
+
+            $validated['image_url'] = $uploadedFileUrl;
+            $validated['image_public_id'] = $publicId;
         }
 
-        $validated['creator_id'] = Auth::id();
-        $validated['image_url'] = $response;
-        $validated['image_public_id'] = $publicId;
         Course::create($validated);
 
         return redirect()->route('courses.index')->with('success', 'Course created successfully.');
     }
+
 
     /**
      * Display the specified resource.
@@ -86,17 +91,27 @@ class CourseController extends Controller
      */
     public function update(StoreCourseRequest $request, Course $course)
     {
+        $validated = $request->validated();
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('course_images')) {
+            if (!empty($course->image_public_id)) {
+                Cloudinary::destroy($course->image_public_id);
+            }
 
-            $uploadedFileUrl = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
-            $publicId = Cloudinary::getPublicId();
+            $folderPath = 'course_images/';
+
+            $result = Cloudinary::upload($request->file('course_images')->getRealPath(), [
+                'folder' => $folderPath
+            ]);
+
+            $uploadedFileUrl = $result->getSecurePath();
+            $publicId = $result->getPublicId();
 
             $course->image_url = $uploadedFileUrl;
             $course->image_public_id = $publicId;
         }
 
-        $course->fill($request->validated());
+        $course->fill($validated);
         $course->save();
 
         return redirect()->route('courses.index')->with('success', 'Course updated successfully.');

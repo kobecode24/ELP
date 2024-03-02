@@ -7,7 +7,9 @@ use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
 use App\Models\Chapter;
 use App\Models\Lesson;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LessonController extends Controller
 {
@@ -40,45 +42,64 @@ class LessonController extends Controller
      */
     public function store(StoreLessonRequest $request)
     {
-        $chapter = Chapter::findOrFail($request->chapter_id);
-        $courseId = $chapter->course_id;
-        Lesson::create($request->validated());
-        return redirect()->route('courses.show', $courseId)->with('success', 'Lesson created successfully.');
+        $data = $request->validated();
+
+        // Check if a video URL is provided
+        if (!empty($data['video_url'])) {
+            // If video URL is provided, ignore the video file upload
+            $data['video'] = null;
+        } else if ($request->hasFile('video')) {
+            // If no video URL is provided and a video file is uploaded
+            $uploadResult = Cloudinary::uploadVideo($request->file('video')->getRealPath(), [
+                'folder' => 'course_videos',
+                'resource_type' => 'video'
+            ]);
+
+// Log the upload result to inspect it
+            Log::info('Upload result:', (array)$uploadResult);
+
+            $data['video_url'] = $uploadResult->getSecurePath();
+            $data['video_public_id'] = $uploadResult->getPublicId();
+
+        }
+
+        $data['chapter_id'] = $request->chapter_id;
+
+        // Create the lesson with either video URL or uploaded video
+        $lesson = Lesson::create($data);
+
+        return redirect()->route('courses.show', $lesson->chapter->course_id)->with('success', 'Lesson created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
+    public function update(UpdateLessonRequest $request, Lesson $lesson)
+    {
+        $data = $request->validated();
+
+        // Check if a video URL is provided
+        if (!empty($data['video_url'])) {
+            // If video URL is provided, ignore the video file upload
+            $data['video'] = null;
+        } else if ($request->hasFile('video')) {
+            // If no video URL is provided and a video file is uploaded
+            $uploadedVideo = Cloudinary::uploadVideo($request->file('video')->getRealPath(), [
+                'folder' => 'course_videos',
+                'resource_type' => 'video'
+            ])->getSecurePath();
+
+            // Save the URL of the uploaded video
+            $data['video_url'] = $uploadedVideo;
+        }
+
+        // Update the lesson with either new video URL or uploaded video
+        $lesson->update($data);
+
+        return redirect()->route('courses.show', $lesson->chapter->course_id)->with('success', 'Lesson updated successfully.');
+    }
+
     public function show(Lesson $lesson)
     {
         return view('instructor.lessons.show', compact('lesson'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Lesson $lesson)
-    {
-        return view('instructor.lessons.edit', compact('lesson'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateLessonRequest $request, Lesson $lesson)
-    {
-        $chapter = Chapter::findOrFail($request->chapter_id);
-        $courseId = $chapter->course_id;
-        $lesson->update($request->validated());
-        return redirect()->route('courses.show', $courseId)->with('success', 'Lesson updated successfully.');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Lesson $lesson)
-    {
-        $lesson->delete();
-        return back()->with('success', 'Lesson deleted successfully.');
-    }
 }

@@ -46,9 +46,9 @@ class ExerciseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Exercise $exercise)
     {
-        //
+        return view('exercises.show', compact('exercise'));
     }
 
     /**
