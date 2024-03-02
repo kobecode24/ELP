@@ -23,9 +23,9 @@ class UpdateLessonRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'video_url' => 'required|string',
-            'chapter_id' => 'required|exists:chapters,id',
+            'content' => 'nullable|string',
+            'video_url' => 'nullable|url',
+            'video' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:20000',
         ];
     }
 }
