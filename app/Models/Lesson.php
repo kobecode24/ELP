@@ -13,6 +13,7 @@ class Lesson extends Model
         'content',
         'video_url',
         'chapter_id',
+        'video_public_id',
     ];
 
     public function chapter()
