@@ -36,10 +36,6 @@ class AuthController extends Controller
             'profile_image_public_id' => $defaultImagePublicId,
         ]);
 
-        if ($request->hasFile('image')) {
-            $user->addMediaFromRequest('image')->toMediaCollection('images', 'public');
-        }
-
         $user->assignRole('student');
         Auth::login($user);
 
