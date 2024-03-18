@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="container mx-auto p-4">
-        <!-- Success and Error Messages -->
         @if (session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                 <strong class="font-bold">Success!</strong>
@@ -74,7 +73,7 @@
                                         <li>
                                             <i class="fas fa-dumbbell"></i>
                                             <a href="{{ route('exercises.show', $exercise->id) }}" class="hover:underline">
-                                                {{ $exercise->question }}
+                                                {{ $exercise->title }}
                                             </a>
                                             <a href="{{ route('exercises.edit', $exercise->id) }}" class="px-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">Edit</a>
                                             <form action="{{ route('exercises.destroy', $exercise->id) }}" method="POST" class="inline">
