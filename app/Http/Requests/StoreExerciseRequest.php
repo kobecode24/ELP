@@ -22,12 +22,13 @@ class StoreExerciseRequest extends FormRequest
     public function rules()
     {
         return [
-            'question' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
+            'question' => 'required|string|max:1000',
             'initial_code' => 'nullable|string',
             'test_code' => 'required|string',
             'expected_output' => 'required|string',
             'points_reward' => 'required|integer|min:1|max:10',
-            'chapter_id' => 'required|exists:chapters,id', // Ensure the chapter exists
+            'chapter_id' => 'required|exists:chapters,id',
         ];
     }
 }
