@@ -42,4 +42,6 @@ Route::group(['prefix' => 'instructor', 'middleware' => ['is_instructor']], func
     Route::resource('exercises', ExerciseController::class);
     Route::resource('courses', CourseController::class);
     Route::resource('chapters', ChapterController::class);
+    Route::post('/exercises/{exercise}/execute', [ExerciseController::class,'executeCode'])->name('execute.code');
+
 });
