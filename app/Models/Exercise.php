@@ -10,6 +10,7 @@ class Exercise extends Model
     use HasFactory;
 
     protected $fillable = [
+        'title',
         'question',
         'initial_code',
         'test_code',
