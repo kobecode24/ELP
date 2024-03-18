@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
 use App\Models\Chapter;
+use App\Models\Course;
 use App\Models\Lesson;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
@@ -55,9 +56,6 @@ class LessonController extends Controller
                 'resource_type' => 'video'
             ]);
 
-// Log the upload result to inspect it
-            Log::info('Upload result:', (array)$uploadResult);
-
             $data['video_url'] = $uploadResult->getSecurePath();
             $data['video_public_id'] = $uploadResult->getPublicId();
 
@@ -71,6 +69,10 @@ class LessonController extends Controller
         return redirect()->route('courses.show', $lesson->chapter->course_id)->with('success', 'Lesson created successfully.');
     }
 
+    public function edit(Lesson $lesson)
+    {
+        return view('instructor.lessons.edit', compact('lesson'));
+    }
 
     public function update(UpdateLessonRequest $request, Lesson $lesson)
     {
@@ -102,4 +104,5 @@ class LessonController extends Controller
         return view('instructor.lessons.show', compact('lesson'));
     }
 
+ 
 }
