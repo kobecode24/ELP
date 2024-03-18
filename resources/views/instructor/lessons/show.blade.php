@@ -4,9 +4,7 @@
     <div class="container mx-auto p-4 ">
         <h1 class="text-2xl font-bold mb-4">{{ $lesson->title }}</h1>
 
-        {{-- Check and display video based on source --}}
         @if (!empty($lesson->video_public_id))
-            {{-- Display video from Cloudinary --}}
             <div class="video-container">
                 <video controls class="w-full h-auto">
                     <source src="{{ $lesson->video_url }}" type="video/mp4">
@@ -14,9 +12,7 @@
                 </video>
             </div>
         @elseif (!empty($lesson->video_url))
-            {{-- Display video from YouTube/Vimeo --}}
             <div class="video-container">
-                {{-- Determine whether it's YouTube or Vimeo --}}
                 @php
                     $videoId = null;
                     $isYouTube = preg_match("/(youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/", $lesson->video_url, $matches);
@@ -41,14 +37,14 @@
         @endif
 
         <div class="mb-4">
-            {!! nl2br(e($lesson->content)) !!}
+            {!! $lesson->content !!}
         </div>
     </div>
 
     <style>
         .video-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            padding-bottom: 56.25%;
             height: 0;
         }
         .video-container iframe,
