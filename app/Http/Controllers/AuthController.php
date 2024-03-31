@@ -50,7 +50,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         if (Auth::attempt($request->validated())) {
-            return redirect()->route('profile');
+            return redirect()->route('user.profile');
         }
 
         return redirect()->back()->withInput($request->except('password'))
