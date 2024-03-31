@@ -13,7 +13,7 @@
     <div class="container mx-auto p-4">
         <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
             <h1 class="text-2xl font-semibold mb-6">Edit Course: {{ $course->title }}</h1>
-            <form action="{{ route('courses.update', $course) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('instructor.courses.update', $course) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
