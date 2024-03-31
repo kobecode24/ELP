@@ -46,4 +46,9 @@ class Course extends Model
     {
         return $this->hasMany(Chapter::class);
     }
+
+    public function instructor()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
 }
