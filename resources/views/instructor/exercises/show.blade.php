@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container p-20">
         <h1>{{ $exercise->title }}</h1>
         <p>{!! $exercise->question !!}</p>
 
@@ -11,10 +11,6 @@
             <img id="loadingSpinner" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWs4ZWRkcWc4N2drY2dlaXpqNG50N3Y3ZGZndHlrNmMyaG5hNG9zNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RgzryV9nRCMHPVVXPV/giphy.gif
             " style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px;" alt="Loading...">
         </div>
-
-        {{--<div id="feedback"></div>
-        <div id="generalFeedback"></div>
-        <div id="testCasesFeedback"></div> --}}
 
         @if( ($exercise->test_code))
             <h2>Test Case</h2>
