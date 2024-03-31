@@ -38,7 +38,7 @@ class ChapterController extends Controller
     {
         $chapter = Chapter::create($request->validated());
 
-        return redirect()->route('courses.show', $chapter->course_id)
+        return redirect()->route('instructor.courses.show', $chapter->course_id)
             ->with('success', 'Chapter created successfully.');
     }
 
@@ -69,7 +69,7 @@ class ChapterController extends Controller
         $chapter = Chapter::findOrFail($id);
         $chapter->update($request->validated());
 
-        return redirect()->route('courses.show', $chapter->course_id)
+        return redirect()->route('instructor.courses.show', $chapter->course_id)
             ->with('success', 'Chapter updated successfully.');
     }
 
@@ -82,7 +82,7 @@ class ChapterController extends Controller
         $courseId = $chapter->course_id;
         $chapter->delete();
 
-        return redirect()->route('courses.show', $courseId)
+        return redirect()->route('instructor.courses.show', $courseId)
             ->with('success', 'Chapter deleted successfully.');
     }
 }
