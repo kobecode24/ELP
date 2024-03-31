@@ -13,7 +13,7 @@
         @endif
 
         <h1>Edit Exercise</h1>
-        <form method="POST" action="{{ route('exercises.update', $exercise->id) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('instructor.exercises.update', $exercise->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="mb-4">
