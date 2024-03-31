@@ -13,7 +13,7 @@
         @endif
 
             <h1>Create New Exercise</h1>
-            <form method="POST" action="{{ route('exercises.store') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('instructor.exercises.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-4">
                     <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Title:</label>
