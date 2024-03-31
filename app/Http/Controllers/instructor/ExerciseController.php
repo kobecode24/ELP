@@ -28,6 +28,7 @@ class ExerciseController extends Controller
      */
     public function create(Request $request)
     {
+        $user = auth()->user();
         $chapterId = $request->input('chapter_id');
         $chapter = null;
         $editorMode = 'ace/mode/plain_text';
@@ -39,7 +40,7 @@ class ExerciseController extends Controller
             }
         }
 
-        return view('instructor.exercises.create', compact('chapter', 'editorMode'));
+        return view('instructor.exercises.create', compact('chapter', 'editorMode' , 'user'));
     }
 
     /**
@@ -50,7 +51,7 @@ class ExerciseController extends Controller
         $chapter = Chapter::findOrFail($request->chapter_id);
         $courseId = $chapter->course_id;
         Exercise::create($request->validated());
-        return redirect()->route('courses.show', $courseId)->with('success', 'Exercise created successfully.');
+        return redirect()->route('instructor.courses.show', $courseId)->with('success', 'Exercise created successfully.');
     }
 
     /**
@@ -58,14 +59,13 @@ class ExerciseController extends Controller
      */
     public function show(Exercise $exercise)
     {
-
-        // Determine the editor mode based on the exercise's programming language
+        $user = auth()->user();
         $editorMode = 'ace/mode/plain_text';
         if ($exercise->chapter && $exercise->chapter->course && $exercise->chapter->course->programmingLanguage) {
             $editorMode = $exercise->chapter->course->programmingLanguage->editor_mode;
         }
 
-        return view('instructor.exercises.show', compact('exercise', 'editorMode' ));
+        return view('instructor.exercises.show', compact('exercise', 'editorMode'  , 'user'));
     }
 
 
@@ -77,6 +77,7 @@ class ExerciseController extends Controller
      */
     public function edit($id)
     {
+        $user = auth()->user();
         $exercise = Exercise::findOrFail($id);
         $editorMode = 'ace/mode/plain_text';
 
@@ -86,7 +87,7 @@ class ExerciseController extends Controller
 
         $chapter = $exercise->chapter;
 
-        return view('instructor.exercises.edit', compact('exercise', 'chapter', 'editorMode'));
+        return view('instructor.exercises.edit', compact('exercise', 'chapter', 'editorMode' , 'user'));
     }
 
     public function update(StoreExerciseRequest $request, $id)
@@ -96,7 +97,7 @@ class ExerciseController extends Controller
 
         $courseId = $exercise->chapter->course_id;
 
-        return redirect()->route('courses.show', $courseId)->with('success', 'Exercise updated successfully.');
+        return redirect()->route('instructor.courses.show', $courseId)->with('success', 'Exercise updated successfully.');
     }
 
     /**
