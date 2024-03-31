@@ -13,7 +13,7 @@
         @endif
         <div class="w-full max-w-2xl mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h2 class="text-xl font-bold mb-4">Create a New Lesson</h2>
-            <form action="{{ route('lessons.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('instructor.lessons.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-4">
                     <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Title:</label>
