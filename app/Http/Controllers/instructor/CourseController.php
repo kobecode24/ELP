@@ -18,23 +18,33 @@ class CourseController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         $userId = Auth::id();
 
         $courses = Course::where('creator_id', $userId)->get();
 
-        return view('instructor.courses.index', compact('courses'));
+        return view('instructor.courses.index', compact('courses' , 'user'));
     }
 
+    public function dashboard()
+    {
+        $user = Auth::user();
+        $userId = Auth::id();
+
+        $courses = Course::where('creator_id', $userId)->get();
+
+        return view('instructor.dashboard', compact('courses' , 'user'));
+    }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
+        $user = Auth::user();
         $programmingLanguages = ProgrammingLanguage::all();
         $spokenLanguages = SpokenLanguage::all();
 
-        // Pass program ming and spoken languages to the view for dropdowns
-        return view('instructor.courses.create', compact('programmingLanguages', 'spokenLanguages'));
+        return view('instructor.courses.create', compact('programmingLanguages', 'spokenLanguages' , 'user'));
     }
 
     /**
@@ -61,7 +71,7 @@ class CourseController extends Controller
 
         Course::create($validated);
 
-        return redirect()->route('courses.index')->with('success', 'Course created successfully.');
+        return redirect()->route('instructor.courses.index')->with('success', 'Course created successfully.');
     }
 
 
@@ -70,8 +80,8 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        $course->load('chapters.lessons', 'chapters.exercises');
-        return view('instructor.courses.show', compact('course'));
+        $user = Auth::user();
+        return view('instructor.courses.show', compact('course' , 'user'));
     }
 
 
@@ -80,10 +90,11 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
+        $user = Auth::user();
         $programmingLanguages = ProgrammingLanguage::all();
         $spokenLanguages = SpokenLanguage::all();
 
-        return view('instructor.courses.edit', compact('course', 'programmingLanguages', 'spokenLanguages'));
+        return view('instructor.courses.edit', compact('course', 'programmingLanguages', 'spokenLanguages' , 'user'));
     }
 
     /**
@@ -114,7 +125,7 @@ class CourseController extends Controller
         $course->fill($validated);
         $course->save();
 
-        return redirect()->route('courses.index')->with('success', 'Course updated successfully.');
+        return redirect()->route('instructor.courses.index')->with('success', 'Course updated successfully.');
     }
 
     /**
@@ -128,6 +139,6 @@ class CourseController extends Controller
 
         $course->delete();
 
-        return redirect()->route('courses.index')->with('success', 'Course deleted successfully.');
+        return redirect()->route('instructor.courses.index')->with('success', 'Course deleted successfully.');
     }
 }
