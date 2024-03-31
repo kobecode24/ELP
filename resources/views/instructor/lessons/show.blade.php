@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mx-auto p-4 ">
+    <div class="container mx-auto p-20 ">
         <h1 class="text-2xl font-bold mb-4">{{ $lesson->title }}</h1>
 
         @if (!empty($lesson->video_public_id))
