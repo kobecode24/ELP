@@ -10,6 +10,7 @@ use App\Models\Course;
 use App\Models\Lesson;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class LessonController extends Controller
@@ -28,6 +29,7 @@ class LessonController extends Controller
      */
         public function create(Request $request)
     {
+        $user = Auth::user();
         $chapterId = $request->input('chapter_id');
 
         $chapter = null;
@@ -35,7 +37,7 @@ class LessonController extends Controller
             $chapter = Chapter::find($chapterId);
         }
 
-        return view('instructor.lessons.create', compact('chapter'));
+        return view('instructor.lessons.create', compact('chapter' , 'user'));
     }
 
     /**
@@ -45,12 +47,9 @@ class LessonController extends Controller
     {
         $data = $request->validated();
 
-        // Check if a video URL is provided
         if (!empty($data['video_url'])) {
-            // If video URL is provided, ignore the video file upload
             $data['video'] = null;
         } else if ($request->hasFile('video')) {
-            // If no video URL is provided and a video file is uploaded
             $uploadResult = Cloudinary::uploadVideo($request->file('video')->getRealPath(), [
                 'folder' => 'course_videos',
                 'resource_type' => 'video'
@@ -63,37 +62,32 @@ class LessonController extends Controller
 
         $data['chapter_id'] = $request->chapter_id;
 
-        // Create the lesson with either video URL or uploaded video
         $lesson = Lesson::create($data);
 
-        return redirect()->route('courses.show', $lesson->chapter->course_id)->with('success', 'Lesson created successfully.');
+        return redirect()->route('instructor.courses.show', $lesson->chapter->course_id)->with('success', 'Lesson created successfully.');
     }
 
     public function edit(Lesson $lesson)
     {
-        return view('instructor.lessons.edit', compact('lesson'));
+        $user = Auth::user();
+        return view('instructor.lessons.edit', compact('lesson' , 'user'));
     }
 
     public function update(UpdateLessonRequest $request, Lesson $lesson)
     {
         $data = $request->validated();
 
-        // Check if a video URL is provided
         if (!empty($data['video_url'])) {
-            // If video URL is provided, ignore the video file upload
             $data['video'] = null;
         } else if ($request->hasFile('video')) {
-            // If no video URL is provided and a video file is uploaded
             $uploadedVideo = Cloudinary::uploadVideo($request->file('video')->getRealPath(), [
                 'folder' => 'course_videos',
                 'resource_type' => 'video'
             ])->getSecurePath();
 
-            // Save the URL of the uploaded video
             $data['video_url'] = $uploadedVideo;
         }
 
-        // Update the lesson with either new video URL or uploaded video
         $lesson->update($data);
 
         return redirect()->route('courses.show', $lesson->chapter->course_id)->with('success', 'Lesson updated successfully.');
@@ -101,8 +95,9 @@ class LessonController extends Controller
 
     public function show(Lesson $lesson)
     {
-        return view('instructor.lessons.show', compact('lesson'));
+        $user = Auth::user();
+        return view('instructor.lessons.show', compact('lesson' , 'user'));
     }
 
- 
+
 }
