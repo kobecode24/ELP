@@ -6,15 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
 use App\Models\Chapter;
-use App\Models\Course;
 use App\Models\Lesson;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use App\Services\Education\LessonService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+
 
 class LessonController extends Controller
 {
+    protected $lessonService;
+
+
+    public function __construct(LessonService $lessonService)
+    {
+        $this->lessonService = $lessonService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -46,23 +52,9 @@ class LessonController extends Controller
     public function store(StoreLessonRequest $request)
     {
         $data = $request->validated();
+        $videoFile = $request->file('video');
 
-        if (!empty($data['video_url'])) {
-            $data['video'] = null;
-        } else if ($request->hasFile('video')) {
-            $uploadResult = Cloudinary::uploadVideo($request->file('video')->getRealPath(), [
-                'folder' => 'course_videos',
-                'resource_type' => 'video'
-            ]);
-
-            $data['video_url'] = $uploadResult->getSecurePath();
-            $data['video_public_id'] = $uploadResult->getPublicId();
-
-        }
-
-        $data['chapter_id'] = $request->chapter_id;
-
-        $lesson = Lesson::create($data);
+        $lesson = $this->lessonService->createOrUpdateLesson($data, null, $videoFile);
 
         return redirect()->route('instructor.courses.show', $lesson->chapter->course_id)->with('success', 'Lesson created successfully.');
     }
@@ -76,21 +68,11 @@ class LessonController extends Controller
     public function update(UpdateLessonRequest $request, Lesson $lesson)
     {
         $data = $request->validated();
+        $videoFile = $request->hasFile('video') ? $request->file('video') : null;
 
-        if (!empty($data['video_url'])) {
-            $data['video'] = null;
-        } else if ($request->hasFile('video')) {
-            $uploadedVideo = Cloudinary::uploadVideo($request->file('video')->getRealPath(), [
-                'folder' => 'course_videos',
-                'resource_type' => 'video'
-            ])->getSecurePath();
+        $updatedLesson = $this->lessonService->createOrUpdateLesson($data, $lesson, $videoFile);
 
-            $data['video_url'] = $uploadedVideo;
-        }
-
-        $lesson->update($data);
-
-        return redirect()->route('courses.show', $lesson->chapter->course_id)->with('success', 'Lesson updated successfully.');
+        return redirect()->route('instructor.courses.show', $updatedLesson->chapter->course_id)->with('success', 'Lesson updated successfully.');
     }
 
     public function show(Lesson $lesson)
