@@ -25,7 +25,7 @@ class UpdateLessonRequest extends FormRequest
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
             'video_url' => 'nullable|url',
-            'video' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:20000',
+            'video' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:40000',
         ];
     }
 }

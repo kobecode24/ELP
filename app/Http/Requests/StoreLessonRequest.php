@@ -25,7 +25,7 @@ class StoreLessonRequest extends FormRequest
             'title' => 'required|string|max:255',
             'content' => 'nullable|string',
             'video_url' => 'nullable|url',
-            'video' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:30000', // 20MB Max
+            'video' => 'nullable|file|mimes:mp4,mov,ogg,qt|max:40000',
             'chapter_id' => 'required|exists:chapters,id',
             'video_public_id'=> 'nullable|string',
         ];
