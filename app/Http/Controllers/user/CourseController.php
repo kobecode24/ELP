@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCourseRequest;
 use App\Models\Course;
-use App\Models\ProgrammingLanguage;
-use App\Models\SpokenLanguage;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use App\Services\Education\CourseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,49 +30,52 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($id, CourseService $courseService)
     {
         $user = Auth::user();
-        $course = Course::with([
-            'instructor',
-            'spokenLanguage',
-            'chapters.lessons',
-            'chapters.exercises',
-            'chapters' => function ($query) {
-                $query->withCount(['lessons', 'exercises']);
-            },
-            'creator' => function ($query) {
-                $query->withCount('createdCourses');
-            },
+        $details = $courseService->getCourseDetails($id);
+        $totalDuration = $courseService->getTotalCourseDuration($id);
 
-        ])->findOrFail($id);
+        $course = $details['course'];
+        $moreCoursesByInstructor = $details['moreCoursesByInstructor'];
+        $totalLecturesCount = $course->totalLecturesCount;
+        $coursesCreatedByCreator = $course->coursesCreatedByCreator;
+        $totalEnrolledUsers = $course->users()->count();
+        $totalEnrollments = $courseService->getTotalEnrollmentsByInstructor($course->instructor->id);
 
-            $course->lessons_count = $course->chapters->pluck('lessons')->flatten()->count();
-            $course->exercises_count = $course->chapters->pluck('exercises')->flatten()->count();
+        return view('user.courses.show', compact(
+            'user',
+            'course',
+            'totalLecturesCount',
+            'coursesCreatedByCreator',
+            'moreCoursesByInstructor',
+            'totalDuration',
+            'totalEnrolledUsers',
+            'totalEnrollments'
+        ));
+    }
 
-        $course->chapters->each(function ($chapter) {
-            $mergedItems = $chapter->lessons->merge($chapter->exercises);
-            $sortedItems = $mergedItems->sortBy('created_at');
-            $chapter->sortedItems = $sortedItems;
-        });
 
-        $totalLessonsCount = $course->chapters->sum('lessons_count');
-        $totalExercisesCount = $course->chapters->sum('exercises_count');
+    public function enroll(Request $request, Course $course)
+    {
+        $user = auth()->user();
 
-        $totalLecturesCount = $totalLessonsCount + $totalExercisesCount;
-        $coursesCreatedByCreator = $course->creator->created_courses_count;
+        if ($course->creator_id == $user->id) {
+            return back()->with('error', 'You cannot enroll in your own course.');
+        }
 
-        $moreCoursesByInstructor = Course::where('creator_id', $course->creator_id)
-            ->where('id', '!=', $course->id)
-            ->take(3)
-            ->get();
+        if ($user->courses->contains($course->id)) {
+            return back()->with('error', 'You are already enrolled in this course.');
+        }
 
-        $moreCoursesByInstructor->each(function ($course) {
-            $course->lessons_count = $course->chapters->pluck('lessons')->flatten()->count();
-            $course->exercises_count = $course->chapters->pluck('exercises')->flatten()->count();
-            $course->lectures_count = $course->lessons_count + $course->exercises_count;
-        });
+        if ($user->points < $course->points_required) {
+            return back()->with('error', 'You do not have enough points to enroll in this course.');
+        }
 
-        return view('user.courses.show', compact('course', 'user'  , 'totalLecturesCount' , 'coursesCreatedByCreator' , 'moreCoursesByInstructor'));
+        $user->points -= $course->points_required;
+        $user->courses()->attach($course->id);
+        $user->save();
+
+        return back()->with('success', 'You have been enrolled in the course successfully.');
     }
 }
