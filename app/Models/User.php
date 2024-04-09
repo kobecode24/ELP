@@ -70,6 +70,11 @@ class User extends Authenticatable implements HasMedia
             ->withTimestamps();
     }
 
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
     public function assignRole($role)
     {
         if (is_string($role)) {
