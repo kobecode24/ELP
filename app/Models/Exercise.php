@@ -31,4 +31,8 @@ class Exercise extends Model
             ->withTimestamps();
     }
 
+    public function getImageAttribute() {
+        return 'images/faq.jpg';
+    }
+
 }
