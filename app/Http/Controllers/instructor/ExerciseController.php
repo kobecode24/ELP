@@ -6,10 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExerciseRequest;
 use App\Models\Chapter;
 use App\Models\Exercise;
-use App\Services\CodeExecutionService;
-use App\Services\FetchResultService;
+use App\Services\CodeExecution\CodeExecutionService;
+use App\Services\CodeExecution\FetchResultService;
 use Illuminate\Http\Request;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 
 class ExerciseController extends Controller
