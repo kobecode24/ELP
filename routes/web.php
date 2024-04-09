@@ -1,12 +1,13 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\instructor\ChapterController;
+use App\Http\Controllers\instructor\ChapterController as InstructorChapterController;
 use App\Http\Controllers\instructor\CourseController As InstructorCourseController;
 use App\Http\Controllers\user\CourseController As UserCourseController;
 use App\Http\Controllers\instructor\ExerciseController As InstructorExerciseController;
 use App\Http\Controllers\user\ExerciseController As UserExerciseController;
-use App\Http\Controllers\instructor\LessonController;
+use App\Http\Controllers\instructor\LessonController As InstructorLessonController;
+use App\Http\Controllers\user\LessonController As UserLessonController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,10 +43,10 @@ Route::post('/user/become-instructor', [UserController::class, 'becomeInstructor
 
 Route::prefix('instructor')->name('instructor.')->middleware(['is_instructor'])->group(function () {
     Route::get('/dashboard', [InstructorCourseController::class, 'dashboard'])->name('dashboard');
-    Route::resource('lessons', LessonController::class)->names('lessons');
+    Route::resource('lessons', InstructorLessonController::class)->names('lessons');
     Route::resource('exercises', InstructorExerciseController::class)->names('exercises');
     Route::resource('courses', InstructorCourseController::class)->names('courses');
-    Route::resource('chapters', ChapterController::class)->names('chapters');
+    Route::resource('chapters', InstructorChapterController::class)->names('chapters');
     Route::post('/exercises/{exercise}/execute', [InstructorExerciseController::class, 'executeCode'])->name('exercises.execute');
 });
 
@@ -57,4 +58,10 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
     Route::get('/courses', [UserCourseController::class, 'index'])->name('courses');
     Route::get('/courses/{course}', [UserCourseController::class, 'show'])->name('courses.show');
+    Route::post('/courses/{course}/enroll', [UserCourseController::class, 'enroll'])->name('courses.enroll');
+    Route::get('/lessons/{lesson}', [UserLessonController::class, 'show'])->name('lessons.show');
+    Route::get('/exercises/{exercise}', [UserExerciseController::class, 'show'])->name('exercises.show');
+    Route::post('/exercises/{exercise}/execute', [UserExerciseController::class, 'executeCode'])->name('exercises.execute');
+
+
 });
