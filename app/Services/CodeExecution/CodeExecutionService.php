@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\CodeExecution;
 
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 
 class CodeExecutionService
