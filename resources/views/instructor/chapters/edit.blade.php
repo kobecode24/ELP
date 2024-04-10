@@ -12,7 +12,7 @@
     @endif
     <div class="container mx-auto p-4">
         <h1 class="text-xl font-bold mb-4">Edit Chapter</h1>
-        <form action="{{ route('chapters.update', $chapter->id) }}" method="POST">
+        <form action="{{ route('instructor.chapters.update', $chapter->id) }}" method="POST">
             @csrf
             @method('PUT')
 
