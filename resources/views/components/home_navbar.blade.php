@@ -341,34 +341,34 @@
               </svg>
             </button>
           </div>
-        <div class="fixed w-full z-30 mt-16 pt-1">
+        {{--<div class="fixed w-full z-30 mt-16 pt-1">
             <div class="grid grid-cols-8 justify-items-center bg-[#282A35] py-2">
                 <div class="font-normal text-base text-[#F1F1F1]">
-                    <a href="{{--{{route('allCourses')}}--}}">RUST</a>
+                    <a href="--}}{{--{{route('allCourses')}}--}}{{--">RUST</a>
                 </div>
                 <div class="font-normal text-base text-[#F1F1F1]">
-                    <a href="{{--{{route('allCourses')}}--}}">JAVASCRIPT</a>
+                    <a href="--}}{{--{{route('allCourses')}}--}}{{--">JAVASCRIPT</a>
                 </div>
                 <div class="font-normal text-base text-[#F1F1F1]">
-                    <a href="{{--{{route('allCourses')}}--}}">Bash</a>
+                    <a href="--}}{{--{{route('allCourses')}}--}}{{--">Bash</a>
                 </div>
                 <div class="font-normal text-base text-[#F1F1F1]">
-                    <a href="{{--{{route('allCourses')}}--}}">PHP</a>
+                    <a href="--}}{{--{{route('allCourses')}}--}}{{--">PHP</a>
                 </div>
                 <div class="font-normal text-base text-[#F1F1F1]">
-                    <a href="{{--{{route('allCourses')}}--}}">PYTHON</a>
+                    <a href="--}}{{--{{route('allCourses')}}--}}{{--">PYTHON</a>
                 </div>
                 <div class="font-normal text-base text-[#F1F1F1]">
-                    <a href="{{--{{route('allCourses')}}--}}">C</a>
+                    <a href="--}}{{--{{route('allCourses')}}--}}{{--">C</a>
                 </div>
                 <div class="font-normal text-base text-[#F1F1F1]">
-                    <a href="{{--{{route('allCourses')}}--}}">JAVA</a>
+                    <a href="--}}{{--{{route('allCourses')}}--}}{{--">JAVA</a>
                 </div>
                 <div class="font-normal text-base text-[#F1F1F1]">
-                    <a href="{{--{{route('allCourses')}}--}}">GO</a>
+                    <a href="--}}{{--{{route('allCourses')}}--}}{{--">GO</a>
                 </div>
             </div>
-        </div>
+        </div>--}}
         <!-- banner -->
     </div>
 
