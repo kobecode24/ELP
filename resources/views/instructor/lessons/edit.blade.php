@@ -14,7 +14,7 @@
 
         <div class="w-full max-w-2xl mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h2 class="text-xl font-bold mb-4">Edit Lesson</h2>
-            <form action="{{ route('lessons.update', $lesson->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('instructor.lessons.update', $lesson->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
