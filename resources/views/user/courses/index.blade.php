@@ -13,6 +13,18 @@
                 </div>
             </div>
         </section>
+        @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Success!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Error!</strong>
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
         <section class="container mx-auto  p-5 lg:p-8">
             <section class="container mx-auto mt-20"></section>
             <h3 class="pl-6 font-bold text-4xl text-black dark:text-white pb-8">
@@ -47,11 +59,12 @@
         <section class="container mx-auto grid justify-center mt-6 md:mt-10 p-5">
             @foreach($courses as $course)
             <div>
-                <a href="{{ route('user.courses.show', $course->id) }}" >
                     <div class="flex gap-5 pl-3 lg:pl-32">
+                        <a href="{{ route('user.courses.show', $course->id) }}" >
                         <div>
                             <img src="{{ $course->image_url ?? 'https://res.cloudinary.com/hkjp5o9bu/image/upload/v1708551498/default_images/ofztxhwstxzvgchzthoi.png' }}" alt="{{ $course->title }}"   style="width: 400px; height: 200px; object-fit: cover;">
                         </div>
+                        </a>
                         <div class="flex justify-between gap-5 md:gap-20 lg:gap-56">
                             <div>
                                 <h3 class="font-bold text-sm md:text-base text-black dark:text-white">
@@ -70,17 +83,18 @@
                                 </ul>
                             </div>
                             <div class="">
-                                <div
-                                    class="flex gap-0 md:gap-1 justify-center items-center border border-black dark:border-white rounded-full py-1 px-2">
-                                    <h3 class="font-bold text-xs md:text-sm lg:text-base text-black dark:text-white">
-                                        {{ $course->points_required ?? '0' }}
-                                    </h3>
-                                    <img class="w-3 lg:w-4" src="{{ asset('images/money2.svg') }}" alt="" />
-                                </div>
+                                <form method="POST" action="{{ route('user.courses.enroll', $course->id) }}">
+                                    @csrf
+                                    <button type="submit" class="flex gap-0 md:gap-1 justify-center items-center border border-black dark:border-white rounded-full py-1 px-2">
+                                        <h3 class="font-bold text-xs md:text-sm lg:text-base text-black dark:text-white">
+                                            {{ $course->points_required ?? '0' }}
+                                        </h3>
+                                        <img class="w-3 lg:w-4" src="{{ asset('images/money2.svg') }}" alt="" />
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </a>
                 <!-- hr -->
                 <hr class="h-px my-6 ml-3 lg:ml-32 bg-[#D1D7DC] border-0 dark:bg-gray-700" />
             </div>
