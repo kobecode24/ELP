@@ -67,6 +67,6 @@ chartVersion.innerText = Chart.version;
             selector: '#requirements',
         });
     </script>
-
+    @stack('scripts')
  </body>
 </html>
