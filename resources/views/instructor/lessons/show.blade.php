@@ -3,57 +3,44 @@
 @section('content')
     <div class="container mx-auto p-20 ">
         <h1 class="text-2xl font-bold mb-4">{{ $lesson->title }}</h1>
-
-        @if (!empty($lesson->video_public_id))
+        @if ($lesson->is_video_processing)
+            <div class="alert alert-warning">
+                The video is still uploading and will be available soon.
+            </div>
+        @elseif (!empty($lesson->video_public_id))
             <div class="video-container">
-                <video controls class="w-full h-auto">
+                <video id="player" playsinline controls data-plyr-provider="html5" data-plyr-embed-id="player">
                     <source src="{{ $lesson->video_url }}" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
         @elseif (!empty($lesson->video_url))
-            <div class="video-container">
-                @php
-                    $videoId = null;
-                    $isYouTube = preg_match("/(youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/", $lesson->video_url, $matches);
-                    if ($isYouTube) {
-                        $videoId = $matches[2] ?? null;
-                    } else {
-                        $isVimeo = preg_match("/vimeo\.com\/(\d+)/", $lesson->video_url, $matches);
-                        if ($isVimeo) {
-                            $videoId = $matches[1] ?? null;
-                        }
-                    }
-                @endphp
+            @php
+                $videoId = null;
+                $provider = null;
+                if (preg_match("/(youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/", $lesson->video_url, $matches)) {
+                    $videoId = $matches[2];
+                    $provider = 'youtube';
+                } elseif (preg_match("/vimeo\.com\/(\d+)/", $lesson->video_url, $matches)) {
+                    $videoId = $matches[1];
+                    $provider = 'vimeo';
+                }
+            @endphp
 
-                @if ($videoId && $isYouTube)
-                    <iframe src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allowfullscreen class="w-full h-auto"></iframe>
-                @elseif ($videoId && $isVimeo)
-                    <iframe src="https://player.vimeo.com/video/{{ $videoId }}" frameborder="0" allowfullscreen class="w-full h-auto"></iframe>
-                @else
-                    <p>Invalid video URL</p>
-                @endif
-            </div>
+            @if ($videoId && $provider)
+                <div id="player" data-plyr-provider="{{ $provider }}" data-plyr-embed-id="{{ $videoId }}"></div>
+            @else
+                <p>Invalid video URL</p>
+            @endif
         @endif
-
-        <div class="mb-4">
-            {!! $lesson->content !!}
-        </div>
     </div>
 
-    <style>
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-        }
-        .video-container iframe,
-        .video-container video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-    </style>
+    @push('scripts')
+        <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+        <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+        <script>
+            const player = new Plyr('#player');
+        </script>
+    @endpush
+
 @endsection
