@@ -9,6 +9,18 @@
                 class="container mx-auto flex frex flex-col-reverse xl:flex-row justify-start px-3 md:px-10 lg:px-48 xl:px-8 mt-20 xl:mt-14 items-center pb-0 min-h-[calc(100vh-270px)]">
                 <div class="w-full xl:w-3/5 grid space-y-5 lg:space-y-10 p-4 ml-0 xl:ml-5">
                     <div class="space-y-1 md:space-y-3 pt-8 md:pt-0">
+                        @if (session('success'))
+                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                                <strong class="font-bold">Success!</strong>
+                                <span class="block sm:inline">{{ session('success') }}</span>
+                            </div>
+                        @endif
+                        @if (session('error'))
+                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                                <strong class="font-bold">Error!</strong>
+                                <span class="block sm:inline">{{ session('error') }}</span>
+                            </div>
+                        @endif
                         <h3 class="font-bold text-2xl md:text-4xl text-black xl:text-white dark:text-white pb-1">
                             {{ $course->title }}
                         </h3>
@@ -16,7 +28,7 @@
                             {!! $course->description !!}
                         </p>
                         <p class="font-normal text-xs md:text-sm text-black xl:text-white dark:text-white pt-5">
-                            1,159,467 students
+                            {{ number_format($totalEnrolledUsers) }} students
                         </p>
                         <p class="font-normal text-xs md:text-sm text-black xl:text-white dark:text-white">
                             Created by
@@ -56,10 +68,13 @@
                         </div>
 
                         <div class="w-full">
-                            <button
-                                class="w-full text-lg font-semibold text-white transition-all duration-300 bg-[#A435F0] hover:bg-purple-500 py-3">
-                                Get now
-                            </button>
+                            <form method="POST" action="{{ route('user.courses.enroll', $course->id) }}" style="width: 100%;">
+                                @csrf
+                                <button
+                                    class="w-full text-lg font-semibold text-white transition-all duration-300 bg-[#A435F0] hover:bg-purple-500 py-3">
+                                    Get now
+                                </button>
+                            </form>
                             <div class="px-2 py-3 space-y-1">
                                 <h3 class="font-bold text-lg text-black dark:text-white">
                                     This course includes:
@@ -94,10 +109,13 @@
                             </div>
 
                             <div class="w-full">
-                                <button
-                                    class="w-full text-lg font-semibold text-white transition-all duration-300 bg-[#A435F0] hover:bg-purple-500 py-3">
-                                    Get now
-                                </button>
+                                <form method="POST" action="{{ route('user.courses.enroll', $course->id) }}" style="width: 100%;">
+                                    @csrf
+                                    <button
+                                        class="w-full text-lg font-semibold text-white transition-all duration-300 bg-[#A435F0] hover:bg-purple-500 py-3">
+                                        Get now
+                                    </button>
+                                </form>
                                 <div class="px-2 py-3 space-y-1">
                                     <h3 class="font-bold text-lg text-black dark:text-white">
                                         This course includes:
@@ -105,7 +123,7 @@
                                     <div class="flex gap-2 items-center">
                                         <img src="{{ asset('images/play.svg') }}" alt="" />
                                         <h3 class="font-normal text-base">
-                                            54 hours on-demand video
+                                            {{ $totalDuration }} on-demand video
                                         </h3>
                                     </div>
                                     <div class="flex gap-2 items-center">
@@ -162,17 +180,17 @@
                             <li class="pb-2 pt-3">
                                 <div class="flex items-center space-x-4 rtl:space-x-reverse">
                                     <div class="flex-shrink-0">
-                                        <img src="{{ asset($item instanceof \App\Models\Lesson ? 'images/play.svg' : 'images/faq.jpg') }}" alt="" />
+                                        <img src="{{ asset($item->image) }}" alt="" />
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p
-                                            class="text-xs md:text-sm font-normal text-[#5624D0] truncate dark:text-white underline">
+                                        <a href="{{ $item instanceof \App\Models\Lesson ? route('user.lessons.show', $item) : route('user.exercises.show', $item) }}"
+                                           class="text-xs md:text-sm font-normal text-[#5624D0] truncate dark:text-white underline">
                                             {{ $item->title }}
-                                        </p>
+                                        </a>
                                     </div>
                                     <div
-                                        class="inline-flex items-center text-xs md:text-sm font-normal text-[#6A6F73] truncate dark:text-white">
-                                        03:27
+                                        class="inline-flex items-center text-xs m   d:text-sm font-normal text-[#6A6F73] truncate dark:text-white">
+                                        {{ $item->formatted_video_duration ?? ''}}
                                     </div>
                                 </div>
                             </li>
@@ -205,7 +223,7 @@
                     <div class="flex gap-3">
                         <img src="{{ asset('images/people.svg') }}" alt="" />
                         <h3 class="font-normal text-sm text-black dark:text-white">
-                            2,519,153 Students
+                            {{ number_format($totalEnrollments) }} Students
                         </h3>
                     </div>
                     <div class="flex gap-3">
