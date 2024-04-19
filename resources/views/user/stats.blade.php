@@ -10,7 +10,7 @@
                 <div class="flex items-center space-x-4 rtl:space-x-reverse pb-0 lg:pb-5">
                     <div class="flex-1 min-w-0">
                         <p class="text-2xl md:text-4xl font-semibold text-[#565656] truncate">
-                            Welcome, KOBE 👋
+                            Welcome,  {{ auth()->user()->name }} 👋
                         </p>
                     </div>
                     <div class="">
@@ -20,7 +20,7 @@
                                 <img class="w-3 lg:w-4" src="{{ asset('images/money2.svg') }}" alt="" />
                             </div>
                             <h3 class="font-bold text-xs md:text-sm lg:text-base text-black">
-                                500
+                                {{ auth()->user()->points }}
                             </h3>
                         </div>
                     </div>
@@ -42,51 +42,24 @@
                         <h3 class="font-bold text-xl text-black px-4 py-5">
                             Last Activities
                         </h3>
-
                         <div class="space-y-4 px-2 py-3 mx-0 md:mx-2 xl:mx-10">
+                            @foreach($lastCourses as $progress)
                             <div
                                 class="inline-block pr-0 md:pr-[13.5rem] lg:pr-[15.5rem] xl:pr-[25.3rem] 2xl:pr-[41.0rem]">
                                 <div class="flex gap-2 md:gap-5 xl:gap-12 border border-gray-200 rounded-md items-center">
                                     <h3 class="font-bold text-xs xl:text-base text-black px-2">
-                                        PHP MySQL Database - MySQL Get Last ID
+                                        {{ $progress->course->title }}
                                     </h3>
-                                    <button
-                                        class="flex gap-1 md:gap-2 font-bold text-xs xl:text-base text-black items-center border border-gray-200 rounded-full m-2 px-4 py-1">
+                                    <a href="{{ route('user.items.next', ['courseId' => $progress->course_id, 'type' => $progress->last_item_type, 'currentItemId' => $progress->last_item_id]) }}"
+                                       class="flex gap-1 md:gap-2 font-bold text-xs xl:text-base text-black items-center border border-gray-200 rounded-full m-2 px-4 py-1">
                                         Continue
-
                                         <img src="{{ asset('images/ar.svg') }}" alt="" />
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                             <br />
-                            <div class="inline-block">
-                                <div class="flex gap-2 md:gap-5 xl:gap-12 border border-gray-200 rounded-md items-center">
-                                    <h3 class="font-bold text-xs xl:text-base text-black px-2">
-                                        PHP Loops - Foreach Loop
-                                    </h3>
-                                    <button
-                                        class="flex gap-1 md:gap-2 font-bold text-xs xl:text-base text-black items-center border border-gray-200 rounded-full m-2 px-4 py-1">
-                                        Continue
+                            @endforeach
 
-                                        <img src="{{ asset('images/ar.svg') }}" alt="" />
-                                    </button>
-                                </div>
-                            </div>
-                            <br />
-
-                            <div class="inline-block">
-                                <div class="flex gap-2 md:gap-5 xl:gap-12 border border-gray-200 rounded-md items-center">
-                                    <h3 class="font-bold text-xs xl:text-base text-black px-2">
-                                        SQL Constraints and keys - Not Null
-                                    </h3>
-                                    <button
-                                        class="flex gap-1 md:gap-2 font-bold text-xs xl:text-base text-black items-center border border-gray-200 rounded-full m-2 px-4 py-1">
-                                        Continue
-
-                                        <img src="{{ asset('images/ar.svg') }}" alt="" />
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
