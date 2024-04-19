@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
     <header>
         @include('components.head')
     </header>
   <body>
     @include('components.home_navbar')
 
-<main>
+<main >
     @yield('content')
 </main>
 
@@ -22,6 +22,13 @@ src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"
             position: sticky;
             top: 0;
             z-index: 50;
+        }
+    </style>
+
+    <style>
+        .scrollable-content {
+            max-height: 465px !important;
+            overflow-y: scroll;
         }
     </style>
 <script>
