@@ -28,4 +28,17 @@ class Chapter extends Model
     {
         return $this->hasMany(Exercise::class);
     }
+
+    public function getTotalDurationAttribute()
+    {
+        $totalSeconds = $this->lessons->sum('video_duration');
+        $hours = floor($totalSeconds / 3600);
+        $minutes = floor(($totalSeconds % 3600) / 60);
+
+        if ($hours > 0) {
+            return sprintf("%d hr %02d min", $hours, $minutes);
+        } else {
+            return sprintf("%d min", $minutes);
+        }
+    }
 }
