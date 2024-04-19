@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateProfileImageRequest;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\UserProgress;
 use Auth;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -54,7 +55,27 @@ class UserController extends Controller
 
     public function getStats()
     {
+        $userId = auth()->id();
+
+        $lastCourses = UserProgress::where('user_id', $userId)
+            ->with(['course', 'lesson', 'exercise'])
+            ->latest('updated_at')
+            ->get()
+            ->unique('course_id')
+            ->take(3)
+            ->map(function ($progress) {
+                if ($progress->lesson_id) {
+                    $progress->last_item_type = 'lesson';
+                    $progress->last_item_id = $progress->lesson_id;
+                } elseif ($progress->exercise_id) {
+                    $progress->last_item_type = 'exercise';
+                    $progress->last_item_id = $progress->exercise_id;
+                }
+                return $progress;
+            });
+
         $user = auth()->user();
-        return view('user.stats', compact('user'));
+        return view('user.stats', compact('user', 'lastCourses'));
     }
+
 }
