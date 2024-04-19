@@ -1,4 +1,4 @@
-<header class="px-7 flex w-full items-center justify-between border-b-2 border-gray-200 bg-white p-2">
+<header class="fixed z-50 px-7 flex w-full items-center justify-between border-b-2 border-gray-200 bg-white p-2">
     <!-- logo -->
 
     <div class="flex items-center space-x-2">
@@ -10,7 +10,7 @@
     <!-- button profile -->
     <div class="flex justify-center items-center gap-5">
         <div class="">
-            <h3 class="font-normal text-base">Student</h3>
+            <h3 class="font-normal text-base"></h3>
         </div>
         <div class="relative">
             <!-- User Avatar -->
