@@ -1,5 +1,5 @@
 <aside
-    class="z-10 h-full fixed group-hover:overflow-hidden group flex-col space-y-2 bg-white inline-block group-hover:grid group-hover:justify-center group-hover:items-center transition-transform duration-3000 ease-in-out transform group-hover:translate-x-24"
+    class="z-10 h-full fixed group-hover:overflow-hidden group flex-col space-y-2 bg-white inline-block group-hover:grid group-hover:justify-center group-hover:items-center transition-transform duration-3000 ease-in-out transform group-hover:translate-x-24 shadow-right"
     x-show="asideOpen"
         >
 
