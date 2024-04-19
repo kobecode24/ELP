@@ -7,6 +7,7 @@ use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
 use App\Models\Chapter;
 use App\Models\Lesson;
+use App\Services\Education\CourseService;
 use App\Services\Education\LessonService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -75,10 +76,19 @@ class LessonController extends Controller
         return redirect()->route('instructor.courses.show', $updatedLesson->chapter->course_id)->with('success', 'Lesson updated successfully.');
     }
 
-    public function show(Lesson $lesson)
+    public function show(Lesson $lesson , CourseService $courseService)
     {
         $user = Auth::user();
-        return view('instructor.lessons.show', compact('lesson' , 'user'));
+        $courseId = $lesson->chapter->course_id;
+        $details = $courseService->getCourseDetails($courseId);
+        $course = $details['course'];
+
+
+        return view('instructor.lessons.show', [
+            'user' => $user,
+            'course' => $course,
+            'lesson' => $lesson,
+        ]);
     }
 
 
