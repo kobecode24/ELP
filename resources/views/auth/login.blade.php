@@ -4,6 +4,18 @@
 
 
     <main class="container mx-auto py-10 px-4">
+        <div class="container mx-auto p-4">
+            @if ($errors->any())
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <strong class="font-bold">Oops!</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </div>
         <!-- component -->
         <div class="flex items-center justify-center w-full">
             <div
