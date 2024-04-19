@@ -9,6 +9,7 @@ use App\Http\Controllers\user\ExerciseController As UserExerciseController;
 use App\Http\Controllers\instructor\LessonController As InstructorLessonController;
 use App\Http\Controllers\user\LessonController As UserLessonController;
 use App\Http\Controllers\UserController;
+use App\Services\Education\CourseService;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,13 +56,18 @@ Route::prefix('instructor')->name('instructor.')->middleware(['is_instructor'])-
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('/profile', [UserController::class, 'showProfile'])->name('profile');
     Route::get('/profile/stats' , [UserController::class, 'getStats'])->name('profile.stats');
-        Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
     Route::get('/courses', [UserCourseController::class, 'index'])->name('courses');
     Route::get('/courses/{course}', [UserCourseController::class, 'show'])->name('courses.show');
     Route::post('/courses/{course}/enroll', [UserCourseController::class, 'enroll'])->name('courses.enroll');
     Route::get('/lessons/{lesson}', [UserLessonController::class, 'show'])->name('lessons.show');
     Route::get('/exercises/{exercise}', [UserExerciseController::class, 'show'])->name('exercises.show');
     Route::post('/exercises/{exercise}/execute', [UserExerciseController::class, 'executeCode'])->name('exercises.execute');
+    Route::post('/lessons/{lesson}/complete', [UserLessonController::class, 'markAsCompleted'])->name('lessons.complete');
+    Route::get('/courses/{courseId}/items/{type}/{currentItemId}/next',  [CourseService::class , 'next'])->name('items.next');
+    Route::get('/courses/{courseId}/items/{type}/{currentItemId}/prev', [CourseService::class , 'prev'])->name('items.prev');
+
+
 
 
 });
