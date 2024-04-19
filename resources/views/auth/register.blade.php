@@ -65,13 +65,14 @@
                                 class="block text-base font-semibold leading-6 text-black"
                             >Password</label
                             >
-                            <div class="flex text-sm">
-                                <p class="text-sm font-normal">Show</p>
+                            <div class="flex text-sm cursor-pointer" id="togglePassword">
+                                <p class="text-sm font-normal mr-2">Show</p>
+                                <i class="pt-1 fa-solid fa-eye-slash" id="toggleIcon" style="color: #000000;"></i>
                             </div>
                         </div>
                         <div class="mt-2">
                             <input
-                                type="password" name="password" required
+                                id="passwordInput"  type="password" name="password" required
                                 class="w-full rounded-md py-2 px-4 border text-sm md:text-lg ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset focus:ring-balck"
                             />
                             @error('password')
@@ -80,23 +81,21 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2 mt-5 mb-16">
-                        <div>
-                            <ul class="marker:text-[#04AA6D] marker:text-xl px-8">
-                                <li class="list-disc text-sm">One lowercase character</li>
-                                <li class="list-disc text-sm">One uppercase character</li>
-                                <li class="list-disc text-sm">One number</li>
-                            </ul>
+                        <div class="mb-4">
+                            <div class="grid grid-cols-2 gap-2 mt-2">
+                                <ul id="passwordCriteriaList1" class="px-4">
+                                    <li class="list-disc marker:text-gray-500" data-criteria="lowercase">One lowercase character</li>
+                                    <li class="list-disc marker:text-gray-500" data-criteria="uppercase">One uppercase character</li>
+                                    <li class="list-disc marker:text-gray-500" data-criteria="number">One number</li>
+                                </ul>
+                                <ul id="passwordCriteriaList2" class="px-4">
+                                    <li class="list-disc marker:text-gray-500" data-criteria="special">One special character</li>
+                                    <li class="list-disc marker:text-gray-500" data-criteria="minLength">6 characters minimum</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div>
-                            <ul class="marker:text-[#04AA6D] marker:text-xl px-8">
-                                <li class="list-disc text-sm">One special character</li>
-                                <li class="list-disc text-sm">8 characters minimum</li>
-                            </ul>
-                        </div>
-                    </div>
 
-                    <!-- login btn -->
+                        <!-- login btn -->
                     <div class="block mt-6">
                         <button type="submit"
                                 class="h-12 w-full rounded-3xl text-lg font-semibold text-white transition-all duration-300 bg-[#A435F0] hover:bg-purple-500"
@@ -145,4 +144,8 @@
             </div>
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+    <script src="{{asset('js/passwordValidation.js')}}"></script>
+    <script src="{{asset('js/togglePasswordVisibility.js')}}"></script>
+
 @endsection
