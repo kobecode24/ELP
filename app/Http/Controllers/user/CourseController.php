@@ -30,7 +30,7 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id, CourseService $courseService)
+    /*public function show($id, CourseService $courseService)
     {
         $user = Auth::user();
         $details = $courseService->getCourseDetails($id);
@@ -53,6 +53,24 @@ class CourseController extends Controller
             'totalEnrolledUsers',
             'totalEnrollments'
         ));
+    }*/
+
+    public function show($courseId, CourseService  $courseService)
+    {
+        $user=Auth::user();
+        $details = $courseService->getCourseDetails($courseId);
+        $course = $details['course'];
+
+        return view('user.courses.show', [
+            'user' => $user,
+            'course' => $course,
+            'totalLecturesCount' => $course->totalLecturesCount,
+            'coursesCreatedByCreator' => $course->coursesCreatedByCreator,
+            'moreCoursesByInstructor' => $details['moreCoursesByInstructor'],
+            'totalDuration' => $courseService->getTotalCourseDuration($courseId),
+            'totalEnrolledUsers' => $course->users()->count(),
+            'totalEnrollments' => $courseService->getTotalEnrollmentsByInstructor($course->instructor->id)
+        ]);
     }
 
 
