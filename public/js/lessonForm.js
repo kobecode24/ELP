@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const videoUrlInput = document.getElementById('video_url');
     const videoFileInput = document.getElementById('video');
     const errorMessage = document.getElementById('videoError');
-    const form = document.querySelector('form');
+    const form = document.querySelector('#myForm');
 
     function checkVideoUrlAndAdjustFileInput() {
         const videoUrl = videoUrlInput.value.trim();
@@ -38,4 +38,5 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     });
+
 });
