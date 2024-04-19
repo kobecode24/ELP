@@ -351,20 +351,6 @@
 
 
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggleDropdown = (buttonId, menuId) => {
-                const button = document.getElementById(buttonId);
-                const menu = document.getElementById(menuId);
-
-                button.addEventListener('click', function () {
-                    menu.classList.toggle('hidden');
-                });
-            };
-
-            // Initialize dropdowns
-            toggleDropdown('exerciseDropdownButton2', 'exerciseDropdownMenu');
-            toggleDropdown('exerciseDropdownButton', 'exerciseDropdownMenu');
-        });
 
 
 
