@@ -27,7 +27,7 @@
         @endif
         <section class="container mx-auto  p-5 lg:p-8">
             <section class="container mx-auto mt-20"></section>
-            <h3 class="pl-6 font-bold text-4xl text-black dark:text-white pb-8">
+            <h3 id="our_courses" class="pl-6 font-bold text-4xl text-black dark:text-white pb-8">
                 Our Courses
             </h3>
             <p class="pl-6 font-bold text-2xl text-black dark:text-white">
@@ -83,15 +83,26 @@
                                 </ul>
                             </div>
                             <div class="">
-                                <form method="POST" action="{{ route('user.courses.enroll', $course->id) }}">
-                                    @csrf
-                                    <button type="submit" class="flex gap-0 md:gap-1 justify-center items-center border border-black dark:border-white rounded-full py-1 px-2">
-                                        <h3 class="font-bold text-xs md:text-sm lg:text-base text-black dark:text-white">
-                                            {{ $course->points_required ?? '0' }}
-                                        </h3>
-                                        <img class="w-3 lg:w-4" src="{{ asset('images/money2.svg') }}" alt="" />
-                                    </button>
-                                </form>
+                                @if($user->courses->contains($course->id))
+                                    <a href="{{ route('user.courses.show', $course->id) }}">
+                                        <button type="button" class="flex gap-0 md:gap-1 justify-center items-center border border-black dark:border-white rounded-full py-1 px-2">
+                                            <h3 class="hidden sm:block sm:font-bold text-xs md:text-sm lg:text-base text-black dark:text-white">
+                                                Play
+                                            </h3>
+                                            <i class="pl-px fa-solid fa-play"></i>
+                                        </button>
+                                    </a>
+                                @else
+                                    <form method="POST" action="{{ route('user.courses.enroll', $course->id) }}">
+                                        @csrf
+                                        <button type="submit" class="flex gap-0 md:gap-1 justify-center items-center border border-black dark:border-white rounded-full py-1 px-2">
+                                            <h3 class="font-bold text-xs md:text-sm lg:text-base text-black dark:text-white">
+                                                {{ $course->points_required ?? '0' }}
+                                            </h3>
+                                            <img class="w-3 lg:w-4" src="{{ asset('images/money2.svg') }}" alt="" />
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                     </div>
