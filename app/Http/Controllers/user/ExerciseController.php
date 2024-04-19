@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\Exercise;
 use App\Services\CodeExecution\CodeExecutionManagerService;
+use App\Services\Education\CourseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -15,15 +16,19 @@ class ExerciseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Exercise $exercise)
+    public function show(Exercise $exercise, CourseService $courseService)
     {
         $user= Auth::user();
+        $courseId = $exercise->chapter->course_id;
+        $details = $courseService->getCourseDetails($courseId);
+        $course = $details['course'];
+
         $editorMode = 'ace/mode/plain_text';
         if ($exercise->chapter && $exercise->chapter->course && $exercise->chapter->course->programmingLanguage) {
             $editorMode = $exercise->chapter->course->programmingLanguage->editor_mode;
         }
 
-        return view('user.exercises.show', compact('exercise', 'editorMode' , 'user'));
+        return view('user.exercises.show', compact('exercise', 'editorMode' , 'user', 'course'));
     }
 
 
