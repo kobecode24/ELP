@@ -4,6 +4,7 @@ namespace App\Services\CodeExecution;
 
 use App\Models\Exercise;
 use App\Models\UserExercise;
+use App\Models\UserProgress;
 use Illuminate\Support\Facades\Auth;
 
 class CodeExecutionManagerService
@@ -20,7 +21,7 @@ class CodeExecutionManagerService
         $exercise = Exercise::with('chapter.course')->findOrFail($exerciseId);
         $user = Auth::user();
 
-        $notExerciseCreator = $exercise->chapter->course->creator_id != $user->id;
+        $isCourseCreator = $exercise->chapter->course->creator_id == $user->id;
         $testResults = $this->codeExecutionWorkflowService->executeAndCheck($userCode, $exercise);
         $isCorrect = collect($testResults)->every('passed');
 
@@ -37,10 +38,26 @@ class CodeExecutionManagerService
             'is_correct' => $isCorrect,
         ]);
 
-        if (!$previousCorrectAttemptExists && $isCorrect && $notExerciseCreator) {
+        $pointsRewarded = false;
+        if (!$previousCorrectAttemptExists && $isCorrect && !$isCourseCreator) {
             $user->increment('points', $exercise->points_reward);
+            $this->completeExercise($exercise->chapter->course->id , $exerciseId,$user->id);
+            $pointsRewarded = true;
+            $points = $exercise->points_reward;
         }
 
-        return ['testResults' => $testResults, 'firstCorrectAttempt' => !$previousCorrectAttemptExists && $isCorrect];
+        return ['testResults' => $testResults, 'firstCorrectAttempt' => !$previousCorrectAttemptExists && $isCorrect , 'pointsRewarded' => $pointsRewarded ,         'isCourseCreator' => $isCourseCreator , 'points' => $points ?? 0];
     }
+
+    public function completeExercise($courseId, $exerciseId , $userId) {
+
+        UserProgress::create([
+            'user_id' => $userId,
+            'course_id' => $courseId,
+            'lesson_id' => null,
+            'exercise_id' => $exerciseId,
+            'completed_at' => now()
+        ]);
+    }
+
 }
