@@ -23,6 +23,10 @@ class Lesson extends Model
         return $this->belongsTo(Chapter::class);
     }
 
+    public function userProgress() {
+        return $this->hasOne(UserProgress::class);
+    }
+
     public function getImageAttribute() {
         return 'images/play.svg';
     }
