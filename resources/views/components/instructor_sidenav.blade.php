@@ -1,6 +1,6 @@
 <aside
 
-    class="z-10 pt-10 h-full fixed group-hover:overflow-hidden group flex-col space-y-2 bg-[#2D2F31] inline-block group-hover:grid group-hover:justify-center group-hover:items-center"
+    class="z-10 pt-24 h-full fixed group-hover:overflow-hidden group flex-col space-y-2 bg-[#2D2F31] inline-block group-hover:grid group-hover:justify-center group-hover:items-center"
     x-show="asideOpen"
         >
 
