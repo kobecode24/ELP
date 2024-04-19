@@ -39,14 +39,14 @@
 <body>
 <main>
     <div class="min-h-screen w-full text-gray-700" x-data="layout">
-        <div class="sticky-container">
+        <div class="sticky-container z-50">
             <!-- navbar -->
             <div class="navbar">
             @include('components.profile_navbar')
             </div>
 
             <!-- aside -->
-            <div class="sidebar">
+            <div class="sidebar z-50">
                 @include('components.profile_sidenav')
             </div>
         </div>
