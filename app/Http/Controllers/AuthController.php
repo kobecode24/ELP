@@ -26,7 +26,7 @@ class AuthController extends Controller
     {
         $cloudName = config('services.cloudinary.cloud_name');
         $defaultImagePublicId = config('services.cloudinary.default_image');
-        $defaultImageUrl = "https://res.cloudinary.com/{$cloudName}/image/upload/{$defaultImagePublicId}.png";
+        $defaultImageUrl = 'https://res.cloudinary.com/hxwhau759/image/upload/v1713822899/default_images/jlkamkirtzmtuiruyiwo.png';
 
             $user = User::create([
             'name' => $request->name,
