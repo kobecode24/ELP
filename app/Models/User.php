@@ -91,20 +91,13 @@ class User extends Authenticatable implements HasMedia
         $this->roles()->detach($role->id);
     }
 
-    public function points()
+    public function isEnrolledInCourse($courseId)
     {
-        return $this->points;
+        return $this->enrollments()->where('course_id', $courseId)->exists();
     }
 
-    public function addPoints($points)
+    public function isCourseCreator($courseId)
     {
-        $this->points += $points;
-        $this->save();
-    }
-
-    public function removePoints($points)
-    {
-        $this->points -= $points;
-        $this->save();
+        return $this->createdCourses()->where('id' , $courseId)->exists();
     }
 }
