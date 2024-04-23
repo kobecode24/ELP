@@ -77,7 +77,7 @@
                 </div>
 
                 <button type="submit"
-                        class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">
+                        class="btn btn-primary">
                     Update Course
                 </button>
                 </div>
