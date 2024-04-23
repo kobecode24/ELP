@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a08bf0bec8f69f415ea277cefefb834",
+    "content-hash": "4bb20b19671d8a2349dd3af214ba731d",
     "packages": [
         {
             "name": "ankitpokhrel/tus-php",
@@ -201,28 +201,28 @@
         },
         {
             "name": "cloudinary-labs/cloudinary-laravel",
-            "version": "2.0.3",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/cloudinary-devs/cloudinary-laravel.git",
-                "reference": "f331b770b277a75dbde3c61bf1e50096b3e68104"
+                "url": "https://github.com/cloudinary-community/cloudinary-laravel.git",
+                "reference": "2dc18d89898198b983f3fc300b4c893c539182a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cloudinary-devs/cloudinary-laravel/zipball/f331b770b277a75dbde3c61bf1e50096b3e68104",
-                "reference": "f331b770b277a75dbde3c61bf1e50096b3e68104",
+                "url": "https://api.github.com/repos/cloudinary-community/cloudinary-laravel/zipball/2dc18d89898198b983f3fc300b4c893c539182a6",
+                "reference": "2dc18d89898198b983f3fc300b4c893c539182a6",
                 "shasum": ""
             },
             "require": {
                 "cloudinary/cloudinary_php": "^2.0",
                 "ext-json": "*",
-                "illuminate/support": "~6|~7|~8|^9.0|^10.0",
-                "php": "^8.0.2"
+                "illuminate/support": "~6|~7|~8|^9.0|^10.0|^11.0",
+                "php": ">=7.2"
             },
             "require-dev": {
                 "mockery/mockery": "^1.1",
-                "orchestra/testbench": "~4|~5|~6|^7.0",
-                "phpunit/phpunit": "^8.0|^9.5.10",
+                "orchestra/testbench": "~4|~5|~6|^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^8.0|^9.5.10|^10.0|^11.0",
                 "sempro/phpunit-pretty-print": "^1.0"
             },
             "type": "library",
@@ -266,10 +266,10 @@
                 "laravel"
             ],
             "support": {
-                "issues": "https://github.com/cloudinary-devs/cloudinary-laravel/issues",
-                "source": "https://github.com/cloudinary-devs/cloudinary-laravel/tree/2.0.3"
+                "issues": "https://github.com/cloudinary-community/cloudinary-laravel/issues",
+                "source": "https://github.com/cloudinary-community/cloudinary-laravel/tree/2.1.0"
             },
-            "time": "2023-03-01T15:07:23+00:00"
+            "time": "2024-03-18T07:55:29+00:00"
         },
         {
             "name": "cloudinary/cloudinary_php",
