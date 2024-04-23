@@ -25,11 +25,11 @@ class LessonController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    /*public function index()
     {
         $lessons = Lesson::all();
         return view('instructor.lessons.index', compact('lessons'));
-    }
+    }*/
 
     /**
      * Show the form for creating a new resource.
@@ -63,11 +63,20 @@ class LessonController extends Controller
     public function edit(Lesson $lesson)
     {
         $user = Auth::user();
+        $courseId = $lesson->chapter->course_id;
+        if (!$user->isCourseCreator($courseId) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
         return view('instructor.lessons.edit', compact('lesson' , 'user'));
     }
 
     public function update(UpdateLessonRequest $request, Lesson $lesson)
     {
+        $user = Auth::user();
+        $courseId = $lesson->chapter->course_id;
+        if (!$user->isCourseCreator($courseId) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
         $data = $request->validated();
         $videoFile = $request->hasFile('video') ? $request->file('video') : null;
 
@@ -80,6 +89,11 @@ class LessonController extends Controller
     {
         $user = Auth::user();
         $courseId = $lesson->chapter->course_id;
+
+        if (!$user->isCourseCreator($courseId) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
+
         $details = $courseService->getCourseDetails($courseId);
         $course = $details['course'];
 
@@ -89,6 +103,17 @@ class LessonController extends Controller
             'course' => $course,
             'lesson' => $lesson,
         ]);
+    }
+
+    public function destroy(Lesson $lesson)
+    {
+        $user = Auth::user();
+        $courseId = $lesson->chapter->course_id;
+        if (!$user->isCourseCreator($courseId) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
+        $lesson->delete();
+        return redirect()->back()->with('success', 'Lesson deleted successfully.');
     }
 
 
