@@ -47,6 +47,14 @@
                       >
                   </li>
 
+                  <li>
+                      <a
+                          href="{{route('admin.dashboard')}}"
+                          class="block px-4 py-2 text-black dark:text-white hover:bg-gray-100"
+                      >Admin Panel</a
+                      >
+                  </li>
+
                   @if(!Auth::id())
                       <li>
                           <div class="flex gap-3 p-2">
@@ -139,8 +147,8 @@
         </div>
         <div class=" navbar-center hidden lg:flex">
           <!-- search -->
-
-          <div class="relative mx-auto text-[#757575]">
+            <form action="{{ route('user.courses') }}" method="GET">
+                <div class="relative mx-auto text-[#757575]">
             <input
               class="bg-white italic h-10 px-5 pr-16 rounded-full text-base focus:outline-none"
               type="search"
@@ -168,7 +176,9 @@
               </svg>
             </button>
           </div>
+            </form>
         </div>
+
         @if(!Auth::id())
 
 
