@@ -31,6 +31,14 @@ src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"
             overflow-y: scroll;
         }
     </style>
+
+    <style>
+       @media (max-width: 1279px) {
+    .noblock {
+        display: none;
+            }
+       }
+    </style>
 <script>
 
 const data = {
