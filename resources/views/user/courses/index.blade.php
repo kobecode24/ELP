@@ -25,6 +25,15 @@
                 <span class="block sm:inline">{{ session('error') }}</span>
             </div>
         @endif
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <section class="container mx-auto  p-5 lg:p-8">
             <section class="container mx-auto mt-20"></section>
             <h3 id="our_courses" class="pl-6 font-bold text-4xl text-black dark:text-white pb-8">
@@ -41,19 +50,21 @@
                         Filter
                     </h3>
                 </div>
-                <div class="flex p-2 border-2 shadow-lg w-56 justify-between items-center">
-                    <div>
-                        <h3 class="font-bold text-sm text-black dark:text-white">
-                            Sort by
-                        </h3>
-                        <h3 class="font-normal text-base text-black dark:text-white">
-                            Most Popular
-                        </h3>
-                    </div>
-                    <div>
-                        <img src="{{ asset('images/arrow.svg') }}" alt="" />
-                    </div>
-                </div>
+                <form action="{{ route('user.courses') }}" method="GET">
+                    <label class="flex p-2 border-2 shadow-lg w-56 justify-between items-center hover:bg-gray-100 cursor-pointer">
+                        <div>
+                            <h3 class="font-bold text-sm text-black dark:text-white ">Sort by:</h3>
+                            <select name="sort" onchange="this.form.submit()">
+                                <option value="updated_at"{{ request('sort') === 'updated_at' ? ' selected' : '' }}>Last Updated</option>
+                                <option value="popular"{{ request('sort') === 'popular' ? ' selected' : '' }}>Most Popular</option>
+                                <option value="price"{{ request('sort') === 'price' ? ' selected' : '' }}>Price</option>
+                                <option value="newest"{{ request('sort') === 'newest' ? ' selected' : '' }}>Newest</option>
+                                <option value="title"{{ request('sort') === 'title' ? ' selected' : '' }}>Course Title</option>
+                            </select>
+                        </div>
+                    </label>
+                </form>
+
             </div>
         </section>
         <section class="container mx-auto grid justify-center mt-6 md:mt-10 p-5">
@@ -62,7 +73,11 @@
                     <div class="flex gap-5 pl-3 lg:pl-32">
                         <a href="{{ route('user.courses.show', $course->id) }}" >
                         <div>
-                            <img src="{{ $course->image_url ?? 'https://res.cloudinary.com/hkjp5o9bu/image/upload/v1708551498/default_images/ofztxhwstxzvgchzthoi.png' }}" alt="{{ $course->title }}"   style="width: 400px; height: 200px; object-fit: cover;">
+                            @if($course->image_public_id)
+                            <img src="https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_auto,h_200,w_300/{{$course->image_public_id}}.jpg" alt="{{ $course->title }}"    class="cld-responsive">
+                            @else
+                                <img src="https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_south,h_200,w_300/default_images/ofztxhwstxzvgchzthoi.jpg" alt="{{ $course->title }}" >
+                            @endif
                         </div>
                         </a>
                         <div class="flex justify-between gap-5 md:gap-20 lg:gap-56">
@@ -76,9 +91,9 @@
                                 <p class="font-normal pt-px text-xs text-[#6A6F73] dark:text-slate-50">
                                     {{ $course->instructor->name ?? 'N/A' }}
                                 </p>
-                                <ul class="list-disc pl-4 pt-4 lg:pt-8">
+                                <ul class="list-none pl-4 pt-4 lg:pt-8">
                                     <li class="font-normal text-xs text-[#6A6F73] dark:text-slate-50">
-                                        {{ $course->lessons_count }} lessons • {{ $course->exercises_count }} exercises
+                                        •  {{ $course->lessons_count }} lessons • {{ $course->exercises_count }} exercises
                                     </li>
                                 </ul>
                             </div>

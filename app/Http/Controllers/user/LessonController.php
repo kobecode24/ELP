@@ -31,6 +31,11 @@ class LessonController extends Controller
     {
         $user = Auth::user();
         $courseId = $lesson->chapter->course_id;
+
+        if (!$user->isEnrolledInCourse($courseId)) {
+            return redirect()->back()->withErrors('You are not enrolled in this course.');
+        }
+
         $details = $courseService->getCourseDetails($courseId);
         $course = $details['course'];
 

@@ -21,15 +21,17 @@
                                 <span class="block sm:inline">{{ session('error') }}</span>
                             </div>
                         @endif
-                            @if ($errors->any())
-                                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
+                            <div class="  text-[#C0C4FC] w-full  overflow-hidden flex flex-row flex-wrap items-end justify-start px-1 pb-[7.8px] box-border gap-[4px] leading-[normal] tracking-[normal] text-left text-xl ">
+                                <div class="flex flex-col items-start justify-start py-0 pr-[6.3px] pl-0 bg-[#401B9C[">
+                                    <a href="{{route('instructor.dashboard')}}#yourcourses"><b class=" leading-[17px] inline-block min-w-[83px]">Your Courses</b></a>
                                 </div>
-                            @endif
+                                <i class="pb-[5px] fas fa-greater-than noblock text-xs text-white"></i>
+                                <img class="xl:hidden h-4 w-4  overflow-hidden shrink-0" loading="lazy" alt="" src="{{ asset('images/right_svg.svg') }}">
+                                <div class="flex flex-col items-start justify-start py-0 pr-[8.5px] pl-0">
+                                    <a href="{{route('instructor.courses.show' , $course->id)}}"><b>{{ $course->title }}</b></a>
+                                </div>
+                            </div>
+
                         <h3 class="font-bold text-2xl md:text-4xl text-[#2D2F31] xl:text-white dark:text-white pb-1">
                             {{ $course->title }}
                         </h3>
@@ -45,12 +47,12 @@
                             {{ $course->instructor->name }} </span>
                         </p>
                         <div class="flex flex-col xl:flex-row gap-4">
-                             <div class="flex gap-2 lg:gap-2">
+                            <div class="flex gap-2 lg:gap-2">
                                 <img class="bg-black xl:bg-[#2D2F31] hidden xl:block" src="{{ asset('images/ex.svg') }}" alt="" />
                                 <img class="bg-white xl:bg-[#2D2F31] block xl:hidden" src="{{ asset('images/ex_small.svg') }}" alt="" />
-                                 <h3
+                                <h3
                                     class="w-50 font-normal text-sm md:text-sm text-[#2D2F31] xl:text-white dark:text-white text-center">
-                                   Creation date {{ $course->created_at->format('d/m/Y') }}
+                                    Creation date {{ $course->created_at->format('d/m/Y') }}
                                 </h3>
                             </div>
                             <div class="flex gap-2 lg:gap-2">
@@ -84,22 +86,13 @@
                         </div>
 
                         <div class="w-full">
-                            @if($user->courses->contains($course->id))
-                                <a href="#accordion-collapse">
+
+                                <a href="{{route('instructor.courses.edit', $course->id)}}">
                                     <button
                                         class="rounded-lg w-full text-lg font-semibold text-white transition-all duration-300 bg-[#A435F0] hover:bg-purple-500 py-3 ">
-                                        Continue
+                                        EDIT COURSE
                                     </button>
                                 </a>
-                            @else
-                            <form method="POST" action="{{ route('user.courses.enroll', $course->id) }}" style="width: 100%;">
-                                @csrf
-                                <button
-                                    class="rounded-lg w-full text-lg font-semibold text-white transition-all duration-300 bg-[#A435F0] hover:bg-purple-500 py-3 ">
-                                    Get now
-                                </button>
-                            </form>
-                            @endif
                             <div class=" py-3 space-y-1">
                                 <h3 class="font-semibold md:font-bold text-base md:2xl text-[#2D2F31] dark:text-white">
                                     This course includes:
@@ -134,22 +127,12 @@
                             </div>
 
                             <div class="w-full">
-                                @if($user->courses->contains($course->id))
-                                    <a href="#accordion-collapse">
+                                    <a href="{{route('instructor.courses.edit', $course->id)}}">
                                         <button
                                             class="rounded-lg w-full text-lg font-semibold text-white transition-all duration-300 bg-[#A435F0] hover:bg-purple-500 py-3">
-                                            Continue
+                                            EDIT COURSE
                                         </button>
                                     </a>
-                                @else
-                                <form method="POST" action="{{ route('user.courses.enroll', $course->id) }}" style="width: 100%;">
-                                    @csrf
-                                    <button
-                                        class="rounded-lg w-full text-lg font-semibold text-white transition-all duration-300 bg-[#A435F0] hover:bg-purple-500 py-3">
-                                        Get now
-                                    </button>
-                                </form>
-                                @endif
                                 <div class="px-2 py-3 space-y-1">
                                     <h3 class="font-bold text-lg text-[#2D2F31] dark:text-white">
                                         This course includes:
@@ -206,6 +189,16 @@
                             </div>
                             <p class="hidden md:block font-normal text-sm">{{ $chapter->lessons->count() + $chapter->exercises->count() }} lectures</p>
                         </button>
+                        <div class="pl-6 flex gap-4">
+                            <a href="{{ route("instructor.chapters.edit", $chapter->id) }}">
+                                <i class="fas fa-edit" style="color: #000000;"></i>
+                            </a>
+                            <form class="cursor-pointer" action="{{ route("instructor.chapters.destroy", $chapter->id) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"><i class="fa-solid fa-trash" style="color: #000000;"></i></button>
+                            </form>
+                        </div>
                     </h2>
                     <div id="accordion-collapse-body-{{ $chapter->id }}" class="hidden" aria-labelledby="accordion-collapse-heading-{{ $chapter->id }}">
                         <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
@@ -217,8 +210,8 @@
                                                 <img src="{{ asset($item->image) }}" alt="" />
                                             </div>
                                             <div class="flex-1 min-w-0">
-                                                <a href="{{ $item instanceof \App\Models\Lesson ? route('user.lessons.show', $item) : route('user.exercises.show', $item) }}"
-                                                   class="{{ $item->is_completed ? "text-xs md:text-sm font-normal text-[#5624D0] truncate dark:text-white underline" : "text-xs md:text-sm font-normal text-[#2D2F31] truncate dark:text-white" }}" >
+                                                <a href="{{ $item instanceof \App\Models\Lesson ? route('instructor.lessons.show', $item) : route('instructor.exercises.show', $item) }}"
+                                                   class="text-xs md:text-sm font-normal text-[#2D2F31] truncate dark:text-white" >
                                                     {{ $item->title }}
                                                 </a>
                                             </div>
@@ -226,13 +219,37 @@
                                                 class="hidden md:block items-center text-[.868rem] md:text-sm font-normal text-[#6A6F73] truncate dark:text-white">
                                                 {{ $item->formatted_video_duration ?? ''}}
                                             </div>
+                                            <a href="{{ $item instanceof \App\Models\Lesson ? route("instructor.lessons.edit", $item->id) : route('instructor.exercises.edit' , $item->id)}}">
+                                                <i class="fas fa-edit" style="color: #000000;"></i>
+                                            </a>
+                                            <form class="cursor-pointer" action="{{ $item instanceof \App\Models\Lesson ? route("instructor.lessons.destroy", $item->id) : route('instructor.exercises.destroy' , $item->id)}}" method="POST" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"><i class="fa-solid fa-trash" style="color: #000000;"></i></button>
+                                            </form>
                                         </div>
                                     </li>
                                 @endforeach
                             </ul>
+                            <div class="flex justify-center gap-2">
+                                <a href="{{ route('instructor.lessons.create', ['chapter_id' => $chapter->id]) }}" class="btn btn-primary">Add Lesson</a>
+                                <a href="{{ route('instructor.exercises.create', ['chapter_id' => $chapter->id]) }}" class="btn-primary btn">Add Exercise</a>
+                            </div>
                         </div>
                     </div>
-              @endforeach
+                @endforeach
+                <div class="flex items-center justify-around">
+                    <div x-data="{ open: false }">
+                        <button @click="open = true" class="mt-4 px-4 py-2 text-white rounded btn btn-primary block  m-auto">Add Chapter</button>
+
+                        <div x-show="open" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center" >
+                            <div class="bg-white rounded-lg p-5">
+                                @include('instructor.chapters._addModal')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
         <!-- requirement -->
@@ -286,7 +303,7 @@
                         <img class="responsive-img" src="{{$moreCourse->image_url ?? 'https://res.cloudinary.com/hkjp5o9bu/image/upload/v1708551498/default_images/ofztxhwstxzvgchzthoi.png'}}" alt=""/>
                         <div class="space-y-2">
                             <h3 class="font-medium md:font-bold text-base text-[#2D2F31] dark:text-white pt-2">
-                                <a href="{{ route('user.courses.show', $moreCourse->id) }}"> {{$moreCourse->title}}
+                                <a href="{{ route('instructor.courses.show', $moreCourse->id) }}"> {{$moreCourse->title}}
                                 </a>
                             </h3>
                             <p class="font-normal text-[.738rem] text-[#6A6F73] dark:text-gray-100">

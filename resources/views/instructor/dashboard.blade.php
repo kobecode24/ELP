@@ -23,9 +23,9 @@
                         </a>
                     </div>
                 </div>
-                <h3 class="font-normal text-base text-black text-center py-10 md:py-14 lg:py-20">
-                    Based on your experience, we think these resources will be helpful.
-                </h3>
+
+
+                    @if($user->createdCourses->count() == 0)
                 <!-- 2 -->
                 <div
                     class="flex flex-col lg:flex-row w-11/12 mx-5 lg:mx-16 bg-[#F5F5F5] border-2 shadow-xl rounded-lg py-12 px-4 sm:px-6 lg:max-w-7xl lg:px-8 gap-6 items-center justify-between">
@@ -111,6 +111,110 @@
                         </p>
                     </div>
                 </div>
+                @endif
+
+
+                    @if (session('success'))
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                            <strong class="font-bold">Success!</strong>
+                            <span class="block sm:inline">{{ session('success') }}</span>
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                            <strong class="font-bold">Error!</strong>
+                            <span class="block sm:inline">{{ session('error') }}</span>
+                        </div>
+                    @endif
+                    <section  id="our_courses"  class="container mx-auto  p-5 lg:p-8">
+                        <section class="container mx-auto mt-20"></section>
+                        <h3 class="pl-6 font-bold text-4xl text-black  text text-center dark:text-white pb-8">
+                            Your Courses
+                        </h3>
+                    </section>
+                    <section id="yourcourses" class="container mx-auto grid justify-center mt-6 md:mt-10 p-5">
+                        @foreach($courses as $course)
+                            <div>
+                                <div class="flex gap-5 pl-3 lg:pl-32">
+                                    <a href="{{ route('instructor.courses.show', $course->id) }}" >
+                                        <div>
+                                            @if($course->image_public_id)
+                                                <img src="https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_auto,h_200,w_300/{{$course->image_public_id}}.jpg" alt="{{ $course->title }}"    class="cld-responsive">
+                                            @else
+                                                <img src="https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_south,h_200,w_300/default_images/ofztxhwstxzvgchzthoi.jpg" alt="{{ $course->title }}" >
+                                            @endif
+                                        </div>
+                                    </a>
+                                    <div class="flex justify-between gap-5 md:gap-20 lg:gap-56">
+                                        <div>
+                                            <h3 class="font-bold text-sm md:text-base text-black dark:text-white">
+                                                {{ $course->title }}
+                                            </h3>
+                                            <p class="font-normal text-xs md:text-sm text-black dark:text-white">
+                                                {{ $course->description }}
+                                            </p>
+                                            <p class="font-normal pt-px text-xs text-[#6A6F73] dark:text-slate-50">
+                                                {{ $course->instructor->name ?? 'N/A' }}
+                                            </p>
+                                            <ul class="list-none pl-4 pt-4 lg:pt-8">
+                                                <li class="font-normal text-xs text-[#6A6F73] dark:text-slate-50">
+                                                    •  {{ $course->lessons_count }} lessons • {{ $course->exercises_count }} exercises
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="grid justify-center items-center justify-around	">
+                                            <a href="{{ route('instructor.courses.edit', $course->id) }}" >
+                                                    <button type="submit" class="flex gap-0 md:gap-1 justify-center items-center border border-black dark:border-white rounded-full py-1 px-2">
+                                                        <i class="fas fa-edit" style="color: #000000;"></i>
+                                                    </button>
+                                                </a>
+
+                                                <form action="{{ route('instructor.courses.destroy', $course->id) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="flex gap-0 md:gap-1 justify-center items-center border border-black dark:border-white rounded-full py-1 px-2">
+                                                        <i class="fa-solid fa-trash" style="color: #000000;"></i>
+                                                    </button>
+                                                </form>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- hr -->
+                                <hr class="h-px my-6 ml-3 lg:ml-32 bg-[#D1D7DC] border-0 dark:bg-gray-700" />
+                            </div>
+                        @endforeach
+                    </section>
+                    <section class="container mx-auto">
+                        <div class="flex justify-center items-center gap-10">
+                            @if ($courses->onFirstPage())
+                                <button class="w-5 h-5 border border-black rounded-full p-4 flex items-center justify-center" disabled>
+                                    <i class="fa-solid fa-angle-left"></i>
+                                </button>
+                            @else
+                                <a href="{{ $courses->previousPageUrl() }}" class="w-5 h-5 border border-black rounded-full p-4 flex items-center justify-center">
+                                    <i class="fa-solid fa-angle-left"></i>
+                                </a>
+                            @endif
+
+                            <div class="border-b border-black p-2 w-3 grid justify-center items-center">
+                                <h3 class="font-bold text-sm text-[#5624D0]">{{ $courses->currentPage() }}</h3>
+                            </div>
+
+                            @if ($courses->hasMorePages())
+                                <a href="{{ $courses->nextPageUrl() }}" class="w-5 h-5 border border-black rounded-full p-4 flex items-center justify-center">
+                                    <i class="fa-solid fa-angle-right"></i>
+                                </a>
+                            @else
+                                <button class="w-5 h-5 border border-black rounded-full p-4 flex items-center justify-center" disabled>
+                                    <i class="fa-solid fa-angle-right"></i>
+                                </button>
+                            @endif
+                        </div>
+                    </section>
+
+
                 <div class="grid justify-center my-36 space-y-7 pb-10">
                     <h3 class="font-normal text-base text-black text-center">
                         Are You Ready to Begin?

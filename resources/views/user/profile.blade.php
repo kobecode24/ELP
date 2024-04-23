@@ -60,7 +60,7 @@
                                         @csrf
                                         <input type="file" name="profile_image" id="profile_image" class="hidden" onchange="this.form.submit()">
                                         <label for="profile_image" class="cursor-pointer">
-                                            <img class="h-32 w-32 rounded-full" src="{{ auth()->user()->profile_image_url ?? 'https://res.cloudinary.com/hkjp5o9bu/image/upload/v1708089267/default_images/jlkamkirtzmtuiruyiwo.png' }}" alt="Profile picture">
+                                            <img class="h-32 w-32 rounded-full" src="{{ auth()->user()->profile_image_url ?? 'https://res.cloudinary.com/hxwhau759/image/upload/v1713822899/default_images/jlkamkirtzmtuiruyiwo.png' }}" alt="Profile picture">
                                             <span class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 bg-gray-800 bg-opacity-50 text-white text-sm font-semibold rounded-full transition-opacity h-32 w-32">
                             Upload
                         </span>
@@ -146,7 +146,7 @@
                                             <!-- Create a New Course Button -->
                                             <div>
                                                 @if(auth()->user()->hasRole('instructor'))
-                                                <a href="{{ route('instructor.dashboard') }}" class="px-10 md:px-32 py-2 rounded-full text-lg font-semibold text-white transition-all duration-300 bg-[#A435F0] hover:bg-purple-500">
+                                                <a href="{{ route('instructor.dashboard') }}" class="ml-8 text px-10 md:px-32 py-2 rounded-full text-lg font-semibold text-white transition-all duration-300 bg-[#A435F0] hover:bg-purple-500">
                                                     My Courses
                                                 </a>
                                                 @endif

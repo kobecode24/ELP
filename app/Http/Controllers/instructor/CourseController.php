@@ -7,6 +7,7 @@ use App\Http\Requests\StoreCourseRequest;
 use App\Models\Course;
 use App\Models\ProgrammingLanguage;
 use App\Models\SpokenLanguage;
+use App\Services\Education\CourseService;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,9 +22,16 @@ class CourseController extends Controller
         $user = Auth::user();
         $userId = Auth::id();
 
-        $courses = Course::where('creator_id', $userId)->get();
+        $courses = Course::with(['instructor', 'chapters.lessons', 'chapters.exercises'])
+            ->where('creator_id', $userId)
+            ->paginate(10);
 
-        return view('instructor.courses.index', compact('courses' , 'user'));
+        $courses->each(function ($course) {
+            $course->lessons_count = $course->chapters->pluck('lessons')->flatten()->count();
+            $course->exercises_count = $course->chapters->pluck('exercises')->flatten()->count();
+        });
+
+        return view('instructor.courses.index', compact('courses', 'user'));
     }
 
     public function dashboard()
@@ -31,10 +39,18 @@ class CourseController extends Controller
         $user = Auth::user();
         $userId = Auth::id();
 
-        $courses = Course::where('creator_id', $userId)->get();
+        $courses = Course::with(['instructor', 'chapters.lessons', 'chapters.exercises'])
+            ->where('creator_id', $userId)
+            ->paginate(5);
 
-        return view('instructor.dashboard', compact('courses' , 'user'));
+        $courses->each(function ($course) {
+            $course->lessons_count = $course->chapters->pluck('lessons')->flatten()->count();
+            $course->exercises_count = $course->chapters->pluck('exercises')->flatten()->count();
+        });
+
+        return view('instructor.dashboard', compact('courses', 'user'));
     }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -44,7 +60,7 @@ class CourseController extends Controller
         $programmingLanguages = ProgrammingLanguage::all();
         $spokenLanguages = SpokenLanguage::all();
 
-        return view('instructor.courses.create', compact('programmingLanguages', 'spokenLanguages' , 'user'));
+        return view('instructor.courses.create', compact('programmingLanguages', 'spokenLanguages', 'user'));
     }
 
     /**
@@ -55,7 +71,7 @@ class CourseController extends Controller
         $validated = $request->validated();
         $validated['creator_id'] = Auth::id();
 
-            if ($request->hasFile('course_images')) {
+        if ($request->hasFile('course_images')) {
             $folderPath = 'course_images/';
 
             $result = Cloudinary::upload($request->file('course_images')->getRealPath(), [
@@ -78,10 +94,27 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Course $course)
+    public function show($courseId, CourseService  $courseService)
     {
         $user = Auth::user();
-        return view('instructor.courses.show', compact('course' , 'user'));
+        $details = $courseService->getCourseDetails($courseId);
+        $course = $details['course'];
+
+        if (!$user->isCourseCreator($courseId) ){
+           return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
+
+        return view('instructor.courses.show2', [
+            'user' => $user,
+            'course' => $course,
+            'totalLecturesCount' => $course->totalLecturesCount,
+            'coursesCreatedByCreator' => $course->coursesCreatedByCreator,
+            'moreCoursesByInstructor' => $details['moreCoursesByInstructor'],
+            'totalDuration' => $courseService->getTotalCourseDuration($courseId),
+            'totalEnrolledUsers' => $course->users()->count(),
+            'totalEnrollments' => $courseService->getTotalEnrollmentsByInstructor($course->instructor->id)
+        ]);
+
     }
 
 
@@ -91,10 +124,13 @@ class CourseController extends Controller
     public function edit(Course $course)
     {
         $user = Auth::user();
+        if (!$user->isCourseCreator($course->id) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
         $programmingLanguages = ProgrammingLanguage::all();
         $spokenLanguages = SpokenLanguage::all();
 
-        return view('instructor.courses.edit', compact('course', 'programmingLanguages', 'spokenLanguages' , 'user'));
+        return view('instructor.courses.edit', compact('course', 'programmingLanguages', 'spokenLanguages', 'user'));
     }
 
     /**
@@ -102,8 +138,12 @@ class CourseController extends Controller
      */
     public function update(StoreCourseRequest $request, Course $course)
     {
+        $user=Auth::user();
+        $courseId=$course->id;
         $validated = $request->validated();
-
+        if (!$user->isCourseCreator($courseId) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
         if ($request->hasFile('course_images')) {
             if (!empty($course->image_public_id)) {
                 Cloudinary::destroy($course->image_public_id);
@@ -133,6 +173,10 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
+        $user=Auth::user();
+        if (!$user->isCourseCreator($course->id) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
         if ($course->image_public_id) {
             Cloudinary::destroy($course->image_public_id);
         }

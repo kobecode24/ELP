@@ -7,6 +7,7 @@ use App\Http\Requests\StoreChapterRequest;
 use App\Models\Chapter;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChapterController extends Controller
 {
@@ -49,7 +50,12 @@ class ChapterController extends Controller
     {
         $chapter = Chapter::findOrFail($id);
         $lesson = $chapter->lessons;
+        $user=Auth::user();
+        $courseId=$chapter->course->id;
 
+        if (!$user->isCourseCreator($courseId) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
         return view('instructor.chapters.show', compact('chapter', 'lesson'));
     }
 
@@ -59,7 +65,13 @@ class ChapterController extends Controller
     public function edit(string $id)
     {
         $chapter = Chapter::findOrFail($id);
-        return view('instructor.chapters.edit', compact('chapter'));
+        $courseId=$chapter->course->id;
+        $user = Auth::user();
+
+        if (!$user->isCourseCreator($courseId) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
+        return view('instructor.chapters.edit', compact('chapter' , 'user'));
     }
 
     /**
@@ -69,6 +81,13 @@ class ChapterController extends Controller
     {
         $chapter = Chapter::findOrFail($id);
         $chapter->update($request->validated());
+
+        $courseId=$chapter->course->id;
+        $user = Auth::user();
+
+        if (!$user->isCourseCreator($courseId) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
 
         return redirect()->route('instructor.courses.show', $chapter->course_id)
             ->with('success', 'Chapter updated successfully.');
@@ -81,6 +100,11 @@ class ChapterController extends Controller
     {
         $chapter = Chapter::findOrFail($id);
         $courseId = $chapter->course_id;
+        $user = Auth::user();
+
+        if (!$user->isCourseCreator($courseId) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
         $chapter->delete();
 
         return redirect()->route('instructor.courses.show', $courseId)

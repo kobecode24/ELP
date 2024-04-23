@@ -61,6 +61,99 @@
                             @endforeach
 
                         </div>
+
+                        <section class="container mx-auto  p-5 lg:p-8">
+                            <section class="container mx-auto mt-20"></section>
+                            <h3 id="our_courses" class="pl-6 font-bold text-4xl text-black dark:text-white pb-8">
+                                Enrolled Courses
+                            </h3>
+                        </section>
+                        <section class="container mx-auto grid justify-center mt-6 md:mt-10 p-5">
+                            @foreach($courses as $course)
+                                <div>
+                                    <div class="flex gap-5 pl-3 lg:pl-32">
+                                        <a href="{{ route('user.courses.show', $course->id) }}" >
+                                            <div>
+                                                @if($course->image_public_id)
+                                                    <img src="https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_auto,h_200,w_300/{{$course->image_public_id}}.jpg" alt="{{ $course->title }}"    class="cld-responsive">
+                                                @else
+                                                    <img src="https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_south,h_200,w_300/default_images/ofztxhwstxzvgchzthoi.jpg" alt="{{ $course->title }}" >
+                                                @endif
+                                            </div>
+                                        </a>
+                                        <div class="flex justify-between gap-5 md:gap-20 lg:gap-56">
+                                            <div>
+                                                <h3 class="font-bold text-sm md:text-base text-black dark:text-white">
+                                                    {{ $course->title }}
+                                                </h3>
+                                                <p class="font-normal text-xs md:text-sm text-black dark:text-white">
+                                                    {{ $course->description }}
+                                                </p>
+                                                <p class="font-normal pt-px text-xs text-[#6A6F73] dark:text-slate-50">
+                                                    {{ $course->instructor->name ?? 'N/A' }}
+                                                </p>
+                                                <ul class="list-none pl-4 pt-4 lg:pt-8">
+                                                    <li class="font-normal text-xs text-[#6A6F73] dark:text-slate-50">
+                                                        •  {{ $course->lessons_count }} lessons • {{ $course->exercises_count }} exercises
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="">
+                                                @if($user->courses->contains($course->id))
+                                                    <a href="{{ route('user.courses.show', $course->id) }}">
+                                                        <button type="button" class="flex gap-0 md:gap-1 justify-center items-center border border-black dark:border-white rounded-full py-1 px-2">
+                                                            <h3 class="hidden sm:block sm:font-bold text-xs md:text-sm lg:text-base text-black dark:text-white">
+                                                                Play
+                                                            </h3>
+                                                            <i class="pl-px fa-solid fa-play"></i>
+                                                        </button>
+                                                    </a>
+                                                @else
+                                                    <form method="POST" action="{{ route('user.courses.enroll', $course->id) }}">
+                                                        @csrf
+                                                        <button type="submit" class="flex gap-0 md:gap-1 justify-center items-center border border-black dark:border-white rounded-full py-1 px-2">
+                                                            <h3 class="font-bold text-xs md:text-sm lg:text-base text-black dark:text-white">
+                                                                {{ $course->points_required ?? '0' }}
+                                                            </h3>
+                                                            <img class="w-3 lg:w-4" src="{{ asset('images/money2.svg') }}" alt="" />
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- hr -->
+                                    <hr class="h-px my-6 ml-3 lg:ml-32 bg-[#D1D7DC] border-0 dark:bg-gray-700" />
+                                </div>
+                            @endforeach
+                        </section>
+                        <section class="container mx-auto">
+                            <div class="flex justify-center items-center gap-10 pb-16">
+                                @if ($courses->onFirstPage())
+                                    <button class="w-5 h-5 border border-black rounded-full p-4 flex items-center justify-center" disabled>
+                                        <i class="fa-solid fa-angle-left"></i>
+                                    </button>
+                                @else
+                                    <a href="{{ $courses->previousPageUrl() }}" class="w-5 h-5 border border-black rounded-full p-4 flex items-center justify-center">
+                                        <i class="fa-solid fa-angle-left"></i>
+                                    </a>
+                                @endif
+
+                                <div class="border-b border-black p-2 w-3 grid justify-center items-center">
+                                    <h3 class="font-bold text-sm text-[#5624D0]">{{ $courses->currentPage() }}</h3>
+                                </div>
+
+                                @if ($courses->hasMorePages())
+                                    <a href="{{ $courses->nextPageUrl() }}" class="w-5 h-5 border border-black rounded-full p-4 flex items-center justify-center">
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </a>
+                                @else
+                                    <button class="w-5 h-5 border border-black rounded-full p-4 flex items-center justify-center" disabled>
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </button>
+                                @endif
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>

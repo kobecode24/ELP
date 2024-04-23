@@ -55,6 +55,7 @@ class UserController extends Controller
 
     public function getStats()
     {
+        $courses = auth()->user()->courses()->paginate(5);
         $userId = auth()->id();
 
         $lastCourses = UserProgress::where('user_id', $userId)
@@ -75,7 +76,7 @@ class UserController extends Controller
             });
 
         $user = auth()->user();
-        return view('user.stats', compact('user', 'lastCourses'));
+        return view('user.stats', compact('user', 'lastCourses' , 'courses'));
     }
 
 }

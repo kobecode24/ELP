@@ -136,7 +136,7 @@
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("{{ $editorMode }}");
-
+        console.log( "{{$editorMode}}")
         @if(!empty($exercise->test_code))
         var testCaseEditor = ace.edit("testCaseEditor");
         testCaseEditor.setTheme("ace/theme/monokai");
