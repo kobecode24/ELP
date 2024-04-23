@@ -8,7 +8,9 @@ use App\Models\Chapter;
 use App\Models\Exercise;
 use App\Services\CodeExecution\CodeExecutionService;
 use App\Services\CodeExecution\FetchResultService;
+use App\Services\Education\CourseService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ExerciseController extends Controller
@@ -56,17 +58,25 @@ class ExerciseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Exercise $exercise)
+
+    public function show(Exercise $exercise, CourseService $courseService)
     {
-        $user = auth()->user();
+        $user= Auth::user();
+        $courseId = $exercise->chapter->course_id;
+        $details = $courseService->getCourseDetails($courseId);
+        $course = $details['course'];
+
+        if (!$user->isCourseCreator($courseId) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
+
         $editorMode = 'ace/mode/plain_text';
         if ($exercise->chapter && $exercise->chapter->course && $exercise->chapter->course->programmingLanguage) {
             $editorMode = $exercise->chapter->course->programmingLanguage->editor_mode;
         }
 
-        return view('instructor.exercises.show', compact('exercise', 'editorMode'  , 'user'));
+        return view('instructor.exercises.show', compact('exercise', 'editorMode' , 'user', 'course'));
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -78,6 +88,13 @@ class ExerciseController extends Controller
     {
         $user = auth()->user();
         $exercise = Exercise::findOrFail($id);
+
+        $courseId = $exercise->chapter->course_id;
+
+        if (!$user->isCourseCreator($courseId) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
+
         $editorMode = 'ace/mode/plain_text';
 
         if ($exercise->chapter && $exercise->chapter->course && $exercise->chapter->course->programmingLanguage) {
@@ -91,10 +108,14 @@ class ExerciseController extends Controller
 
     public function update(StoreExerciseRequest $request, $id)
     {
+        $user=Auth::user();
         $exercise = Exercise::findOrFail($id);
         $exercise->update($request->validated());
 
         $courseId = $exercise->chapter->course_id;
+        if (!$user->isCourseCreator($courseId) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
 
         return redirect()->route('instructor.courses.show', $courseId)->with('success', 'Exercise updated successfully.');
     }
@@ -104,7 +125,15 @@ class ExerciseController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $exercise = Exercise::findOrFail($id);
+        $courseId = $exercise->chapter->course_id;
+        $user = Auth::user();
+        if (!$user->isCourseCreator($courseId) ){
+            return redirect()->back()->withErrors('you are not allowed to see this content');
+        }
+        $exercise->delete();
+
+        return redirect()->back()->with('success', 'Exercise deleted successfully.');
     }
 
     public function executeCode(Request $request, $exerciseId, CodeExecutionService $codeExecutionService, FetchResultService $fetchResultService) {
