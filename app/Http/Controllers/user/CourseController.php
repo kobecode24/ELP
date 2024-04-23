@@ -13,18 +13,40 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
-        $userId = Auth::id();
+        $query = Course::with(['instructor', 'chapters.lessons', 'chapters.exercises']);
 
-        $courses = Course::with(['instructor', 'chapters.lessons', 'chapters.exercises'])->paginate(10);
+        if ($search = $request->input('search')) {
+            $query->where('title', 'ILIKE', "%{$search}%");
+        }
+
+        $sortType = $request->input('sort');
+        switch ($sortType) {
+            case 'popular':
+                $query->withCount('users')->orderBy('users_count', 'desc');
+                break;
+            case 'price':
+                $query->orderBy('points_required', 'desc');
+                break;
+            case 'newest':
+                $query->orderBy('created_at', 'desc');
+                break;
+            case 'title':
+                $query->orderBy('title');
+                break;
+            default:
+                $query->orderBy('updated_at', 'desc');
+        }
+
+        $courses = $query->where('is_approved', true)->paginate(10);
 
         $courses->each(function ($course) {
             $course->lessons_count = $course->chapters->pluck('lessons')->flatten()->count();
             $course->exercises_count = $course->chapters->pluck('exercises')->flatten()->count();
         });
-        return view('user.courses.index', compact('courses' , 'user'));
+        return view('user.courses.index', compact('courses', 'user'));
     }
 
     /**
