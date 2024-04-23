@@ -23,7 +23,7 @@ class StoreExerciseRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'question' => 'required|string|max:1000',
+            'question' => 'required|string',
             'initial_code' => 'nullable|string',
             'test_code' => 'required|string',
             'expected_output' => 'required|string',
