@@ -8,6 +8,7 @@ use App\Http\Controllers\instructor\ExerciseController As InstructorExerciseCont
 use App\Http\Controllers\user\ExerciseController As UserExerciseController;
 use App\Http\Controllers\instructor\LessonController As InstructorLessonController;
 use App\Http\Controllers\user\LessonController As UserLessonController;
+use App\Http\Controllers\admin\CourseController As AdminCourseController;
 use App\Http\Controllers\UserController;
 use App\Services\Education\CourseService;
 use Illuminate\Support\Facades\Route;
@@ -42,7 +43,7 @@ Route::post('/user/profile-image', [UserController::class, 'uploadProfileImage']
 Route::post('/user/become-instructor', [UserController::class, 'becomeInstructor'])->name('user.become-instructor');
 
 
-Route::prefix('instructor')->name('instructor.')->middleware(['is_instructor'])->group(function () {
+Route::prefix('instructor')->name('instructor.')->middleware(['auth' , 'role:instructor'])->group(function () {
     Route::get('/dashboard', [InstructorCourseController::class, 'dashboard'])->name('dashboard');
     Route::resource('lessons', InstructorLessonController::class)->names('lessons');
     Route::resource('exercises', InstructorExerciseController::class)->names('exercises');
@@ -53,7 +54,7 @@ Route::prefix('instructor')->name('instructor.')->middleware(['is_instructor'])-
 
 
 
-Route::prefix('user')->name('user.')->group(function () {
+Route::prefix('user')->name('user.')->middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'showProfile'])->name('profile');
     Route::get('/profile/stats' , [UserController::class, 'getStats'])->name('profile.stats');
     Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
@@ -66,8 +67,10 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::post('/lessons/{lesson}/complete', [UserLessonController::class, 'markAsCompleted'])->name('lessons.complete');
     Route::get('/courses/{courseId}/items/{type}/{currentItemId}/next',  [CourseService::class , 'next'])->name('items.next');
     Route::get('/courses/{courseId}/items/{type}/{currentItemId}/prev', [CourseService::class , 'prev'])->name('items.prev');
+});
 
-
-
-
+Route::prefix('admin')->name('admin.')->middleware(['auth' , 'role:admin'])->group(function () {
+    Route::get('/dashboard',[AdminCourseController::class, 'dashboard'])->name('dashboard');
+    Route::get('/blacklist',[AdminCourseController::class, 'blacklist'])->name('blacklist');
+    Route::post('/courses/{course}/approve', [AdminCourseController::class, 'approve'])->name('courses.approve');
 });
