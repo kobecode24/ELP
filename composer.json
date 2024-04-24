@@ -15,7 +15,6 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "spatie/laravel-backup": "^8.6",
-        "spatie/laravel-medialibrary": "11.0.0",
         "vimeo/vimeo-api": "^3.0"
     },
     "require-dev": {
