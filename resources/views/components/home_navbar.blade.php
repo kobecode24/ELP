@@ -292,8 +292,8 @@
 
 <!-- languages menu -->
     @if(request()->is('/'))
-    <div class="fixed w-full z-10 mt-4  md:mt-16 pt-1 sm:hidden xl:block lg:block @guest pt-6  navhidden @endguest"  >
-        <div class="lg-mt-negative-50 grid grid-cols-8 justify-items-center bg-[#282A35] py-2 ">
+    <div class="fixed w-full z-10  mt-4  md:mt-16 pt-1 sm:hidden xl:block lg:block @guest pt-6  navhidden @endguest"  >
+        <div class="lg-mt-negative-50 relative right-2 grid grid-cols-8 justify-items-center bg-[#282A35] py-2 ">
             <div class="font-normal text-base text-[#F1F1F1]">
                 <a href="">RUST</a>
             </div>
@@ -321,7 +321,7 @@
         </div>
     </div>
     <div class="fixed w-full z-30 mt-4  md:mt-16 pt-1 xl:hidden lg:hidden sm:block @guest  pt-20 w-full block @endguest"  >
-        <div class="lg-mt-negative-50 padding-right grid grid-cols-5 justify-items-center bg-[#282A35] py-2 ">
+        <div class="lg-mt-negative-50 relative right-2 padding-right grid grid-cols-5 justify-items-center bg-[#282A35] py-2 ">
             {{--<div class="font-normal text-base text-[#F1F1F1]">
                 <a href="">RUST</a>
             </div>--}}
