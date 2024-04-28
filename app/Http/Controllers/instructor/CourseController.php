@@ -87,7 +87,7 @@ class CourseController extends Controller
 
         Course::create($validated);
 
-        return redirect()->route('instructor.courses.index')->with('success', 'Course created successfully.');
+        return redirect()->route('instructor.dashboard')->with('success', 'Course created successfully.');
     }
 
 

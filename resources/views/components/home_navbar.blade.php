@@ -43,7 +43,7 @@
                       <a
                           href="#"
                           class="block px-4 py-2 text-black dark:text-white hover:bg-gray-100"
-                      >Teach on ELC</a
+                      >Teach on ELP</a
                       >
                   </li>
 
@@ -188,7 +188,7 @@
                 <button
                   class="text-base font-normal text-[#DDDDDD] dark:text-white lg:hover:bg-transparent"
                 >
-                  Teach on ELC
+                  Teach on ELP
                 </button>
               </div>
               <div class="relative hidden lg:block">
@@ -222,7 +222,7 @@
                 <div class="grid grid-cols-2 items-center justify-center gap-10">
                   <div class="hidden lg:block">
                     <button class="text-base font-normal text-[#DDDDDD] dark:text-white lg:hover:bg-transparent">
-                      Teach on ELC
+                      Teach on ELP
                     </button>
                   </div>
                   <div class="hidden lg:block">

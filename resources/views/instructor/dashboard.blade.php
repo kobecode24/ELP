@@ -115,17 +115,26 @@
 
 
                     @if (session('success'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                        <div class="ml-12 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded " role="alert">
                             <strong class="font-bold">Success!</strong>
                             <span class="block sm:inline">{{ session('success') }}</span>
                         </div>
                     @endif
                     @if (session('error'))
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <div class="ml-12 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
                             <strong class="font-bold">Error!</strong>
                             <span class="block sm:inline">{{ session('error') }}</span>
                         </div>
                     @endif
+                @if ($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded ml-12" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                     <section  id="our_courses"  class="container mx-auto  p-5 lg:p-8">
                         <section class="container mx-auto mt-20"></section>
                         <h3 class="pl-6 font-bold text-4xl text-black  text text-center dark:text-white pb-8">
