@@ -17,7 +17,7 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    /*public function index()
     {
         $user = Auth::user();
         $userId = Auth::id();
@@ -32,7 +32,7 @@ class CourseController extends Controller
         });
 
         return view('instructor.courses.index', compact('courses', 'user'));
-    }
+    }*/
 
     public function dashboard()
     {
@@ -165,7 +165,7 @@ class CourseController extends Controller
         $course->fill($validated);
         $course->save();
 
-        return redirect()->route('instructor.courses.index')->with('success', 'Course updated successfully.');
+        return redirect()->route('instructor.dashboard')->with('success', 'Course updated successfully.');
     }
 
     /**
@@ -183,6 +183,6 @@ class CourseController extends Controller
 
         $course->delete();
 
-        return redirect()->route('instructor.courses.index')->with('success', 'Course deleted successfully.');
+        return redirect()->route('instructor.dashboard')->with('success', 'Course deleted successfully.');
     }
 }

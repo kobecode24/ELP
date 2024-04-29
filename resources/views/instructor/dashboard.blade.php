@@ -17,7 +17,7 @@
                         <span class="block">Jump Into Course Creation</span>
                     </h2>
                     <div class="space-y-4 sm:space-y-0 sm:flex sm:space-x-5">
-                        <a href="{{route('instructor.courses.index') }}"
+                        <a href="{{route('user.courses') }}"
                            class="w-full flex items-center justify-center px-6 md:px-10 lg:px-20 py-2 border border-transparent rounded-none text-sm md:text-lg font-semibold text-white transition-all duration-300 bg-[#A435F0] hover:bg-purple-500">
                             All Courses
                         </a>
@@ -178,13 +178,16 @@
                                                     </button>
                                                 </a>
 
-                                                <form action="{{ route('instructor.courses.destroy', $course->id) }}">
+                                            <div class="grid justify-center items-center justify-around">
+                                                <form action="{{ route('instructor.courses.destroy', $course->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="flex gap-0 md:gap-1 justify-center items-center border border-black dark:border-white rounded-full py-1 px-2">
                                                         <i class="fa-solid fa-trash" style="color: #000000;"></i>
                                                     </button>
                                                 </form>
+                                            </div>
+
 
 
                                         </div>

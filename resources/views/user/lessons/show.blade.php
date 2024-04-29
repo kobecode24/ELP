@@ -90,7 +90,7 @@
                                             <div class="flex flex-col">
                                                 <label><a href="{{ $item instanceof \App\Models\Lesson ? route('user.lessons.show', $item) : route('user.exercises.show', $item) }}"
                                                           class="text-xs md:text-sm font-normal text-[#2D2F31] truncate dark:text-white">
-                                                        {{ substr($item->title, 0, 30) . '...' }}
+                                                        {{ substr($item->title, 0, 10) . '...' }}
                                                     </a></label>
                                                 <div class="flex items-center space-x-2">
                                                     <img class="flex-shrink-0" src="{{ asset($item->image) }}" alt="" />

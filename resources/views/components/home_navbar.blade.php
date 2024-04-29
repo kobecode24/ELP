@@ -41,7 +41,7 @@
 
                   <li>
                       <a
-                          href="#"
+                          href="{{route('instructor.dashboard')}}"
                           class="block px-4 py-2 text-black dark:text-white hover:bg-gray-100"
                       >Teach on ELP</a
                       >
@@ -220,11 +220,14 @@
 
             <div class="navbar-end">
                 <div class="grid grid-cols-2 items-center justify-center gap-10">
+                    <a href="{{route('instructor.dashboard')}}">
                   <div class="hidden lg:block">
                     <button class="text-base font-normal text-[#DDDDDD] dark:text-white lg:hover:bg-transparent">
                       Teach on ELP
                     </button>
                   </div>
+                    </a>
+
                   <div class="hidden lg:block">
                     <a href="{{--{{route('userProfile')}}--}}">
                       <div class="inline-block">

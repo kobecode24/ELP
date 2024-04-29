@@ -80,6 +80,11 @@ class CourseController extends Controller
     public function show($courseId, CourseService  $courseService)
     {
         $user=Auth::user();
+
+        $check=Course::findOrFail($courseId);
+        if (!$check->is_approved){
+            return back()->withErrors('this is a private content');
+        }
         $details = $courseService->getCourseDetails($courseId);
         $course = $details['course'];
 
