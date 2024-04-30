@@ -28,8 +28,10 @@ class CourseService
         $this->sortChapterItems($course);
 
         $completedItems = UserProgress::where('user_id', $userId)
-            ->whereIn('lesson_id', $course->chapters->pluck('lessons.*.id')->collapse()->unique())
-            ->orWhereIn('exercise_id', $course->chapters->pluck('exercises.*.id')->collapse()->unique())
+            ->where(function ($query) use ($course) {
+                $query->whereIn('lesson_id', $course->chapters->pluck('lessons.*.id')->collapse()->unique())
+                    ->orWhereIn('exercise_id', $course->chapters->pluck('exercises.*.id')->collapse()->unique());
+            })
             ->get();
 
         $completedLessons = $completedItems->whereNotNull('lesson_id')->pluck('lesson_id')->all();

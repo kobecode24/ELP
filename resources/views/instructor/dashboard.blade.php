@@ -17,7 +17,7 @@
                         <span class="block">Jump Into Course Creation</span>
                     </h2>
                     <div class="space-y-4 sm:space-y-0 sm:flex sm:space-x-5">
-                        <a href="{{route('instructor.courses.index') }}"
+                        <a href="{{route('user.courses') }}"
                            class="w-full flex items-center justify-center px-6 md:px-10 lg:px-20 py-2 border border-transparent rounded-none text-sm md:text-lg font-semibold text-white transition-all duration-300 bg-[#A435F0] hover:bg-purple-500">
                             All Courses
                         </a>
@@ -115,17 +115,26 @@
 
 
                     @if (session('success'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                        <div class="ml-12 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded " role="alert">
                             <strong class="font-bold">Success!</strong>
                             <span class="block sm:inline">{{ session('success') }}</span>
                         </div>
                     @endif
                     @if (session('error'))
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <div class="ml-12 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
                             <strong class="font-bold">Error!</strong>
                             <span class="block sm:inline">{{ session('error') }}</span>
                         </div>
                     @endif
+                @if ($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded ml-12" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                     <section  id="our_courses"  class="container mx-auto  p-5 lg:p-8">
                         <section class="container mx-auto mt-20"></section>
                         <h3 class="pl-6 font-bold text-4xl text-black  text text-center dark:text-white pb-8">
@@ -169,13 +178,16 @@
                                                     </button>
                                                 </a>
 
-                                                <form action="{{ route('instructor.courses.destroy', $course->id) }}">
+                                            <div class="grid justify-center items-center justify-around">
+                                                <form action="{{ route('instructor.courses.destroy', $course->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="flex gap-0 md:gap-1 justify-center items-center border border-black dark:border-white rounded-full py-1 px-2">
                                                         <i class="fa-solid fa-trash" style="color: #000000;"></i>
                                                     </button>
                                                 </form>
+                                            </div>
+
 
 
                                         </div>

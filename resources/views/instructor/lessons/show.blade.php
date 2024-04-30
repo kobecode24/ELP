@@ -147,7 +147,7 @@
                     window.lessonCompleted = true;
 
                     try {
-                        const lessonId = "{{ $lesson->id }}"; // Ensure this variable is accessible here
+                        const lessonId = "{{ $lesson->id }}";
                         const url = `/user/lessons/${lessonId}/complete`;
                         const response = await fetch(url, {
                             method: 'POST',
@@ -164,7 +164,7 @@
                         }
 
                         const data = await response.json();
-                        console.log(data.message); // Success message from the server
+                        console.log(data.message);
                     } catch (error) {
                         console.error('Error marking lesson as completed', error);
                     }
