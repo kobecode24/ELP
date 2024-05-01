@@ -12,15 +12,8 @@ class CloudinaryService
 
     public function __construct()
     {
-        $config = Configuration::instance([
-            'cloud' => [
-                'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                'api_key' => env('CLOUDINARY_API_KEY'),
-                'api_secret' => env('CLOUDINARY_API_SECRET')
-            ]
-        ]);
-
-        $this->cloudinary = new Cloudinary($config);
+        $cloudinaryUrl = config('cloudinary.cloud_url');
+        $this->cloudinary = new Cloudinary($cloudinaryUrl);
     }
 
     public function getVideoDuration($publicId)
