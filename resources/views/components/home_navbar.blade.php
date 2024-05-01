@@ -90,7 +90,7 @@
             <div class="inline-block">
               <button type="button" class="transform hover:scale-110 duration-2 00 ease-in-out" >
                 <div>
-                  <img class="w-10 md:w-12" src="https://res.cloudinary.com/hkjp5o9bu/image/upload/v1710910639/default_images/hlayp34ieplhtduyhlo9.png" alt="" />
+                  <img class="w-10 md:w-12" src="https://res.cloudinary.com/{{ config('services.cloudinary.cloud_name') }}/image/upload/v1710910639/default_images/hlayp34ieplhtduyhlo9.png" alt="" />
                 </div>
               </button>
             </div>

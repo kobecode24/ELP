@@ -2,7 +2,7 @@
     <div class="flex items-center px-4 md:px-10 py-5">
       <div class="w-full h-full">
           <a href="{{route('home')}}">
-        <img class="w-16 transform transition duration-300 ease-in-out hover:scale-110" src="https://res.cloudinary.com/hkjp5o9bu/image/upload/v1710910639/default_images/hlayp34ieplhtduyhlo9.png" alt="" />
+        <img class="w-16 transform transition duration-300 ease-in-out hover:scale-110" src="https://res.cloudinary.com/{{ config('services.cloudinary.cloud_name') }}/image/upload/v1710910639/default_images/hlayp34ieplhtduyhlo9.png" alt="" />
           </a>
       </div>
       <div>

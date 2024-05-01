@@ -37,7 +37,7 @@
                                 @if($course->image_url)
                                     <img src="{{ $course->image_url }}" alt="Course Image" class="w-16 h-16 mr-4 rounded">
                                 @else
-                                    <img src="https://res.cloudinary.com/hkjp5o9bu/image/upload/v1708551498/default_images/ofztxhwstxzvgchzthoi.png" alt="Default Image" class="w-16 h-16 mr-4 rounded">
+                                    <img src="https://res.cloudinary.com/{{ config('services.cloudinary.cloud_name') }}/image/upload/v1708551498/default_images/ofztxhwstxzvgchzthoi.png" alt="Default Image" class="w-16 h-16 mr-4 rounded">
                                 @endif
                                     <div>
                                         <a href="{{ route('instructor.courses.show', $course->id) }}" class="text-lg font-semibold text-gray-800 hover:text-gray-600 transition-colors duration-200">{{ $course->title }}</a>

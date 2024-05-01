@@ -3,7 +3,7 @@
       <div class="flex flex-col justify-center items-center md:flex-row md:justify-between md: items-center border border-back">
         <div class="flex flex-col   ">
             <img
-              src="https://res.cloudinary.com/hkjp5o9bu/image/upload/v1710910639/default_images/hlayp34ieplhtduyhlo9.png"
+              src="https://res.cloudinary.com/{{ config('services.cloudinary.cloud_name') }}/image/upload/v1710910639/default_images/hlayp34ieplhtduyhlo9.png"
               class="mx-auto block w-[60px]"
               alt="Logo"
             />

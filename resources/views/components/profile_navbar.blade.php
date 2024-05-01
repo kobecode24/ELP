@@ -3,7 +3,7 @@
 
     <div class="flex items-center space-x-2">
         <a href="{{ route('home') }}" class="transform hover:scale-110">
-            <img class="w-10 md:w-12" src="https://res.cloudinary.com/hkjp5o9bu/image/upload/v1710910639/default_images/hlayp34ieplhtduyhlo9.png" alt="" />
+            <img class="w-10 md:w-12" src="https://res.cloudinary.com/{{ config('services.cloudinary.cloud_name') }}/image/upload/v1710910639/default_images/hlayp34ieplhtduyhlo9.png" alt="" />
         </a>
     </div>
 

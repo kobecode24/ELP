@@ -74,9 +74,9 @@
                         <a href="{{ route('user.courses.show', $course->id) }}" >
                         <div>
                             @if($course->image_public_id)
-                            <img src="https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_auto,h_200,w_300/{{$course->image_public_id}}.jpg" alt="{{ $course->title }}"    class="cld-responsive">
+                            <img src="https://res.cloudinary.com/{{ config('services.cloudinary.cloud_name') }}/image/upload/c_crop,g_auto,h_200,w_300/{{$course->image_public_id}}.jpg" alt="{{ $course->title }}"    class="cld-responsive">
                             @else
-                                <img src="https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_south,h_200,w_300/default_images/ofztxhwstxzvgchzthoi.jpg" alt="{{ $course->title }}" >
+                                <img src="https://res.cloudinary.com/{{ config('services.cloudinary.cloud_name') }}/image/upload/c_crop,g_south,h_200,w_300/default_images/ofztxhwstxzvgchzthoi.jpg" alt="{{ $course->title }}" >
                             @endif
                         </div>
                         </a>
