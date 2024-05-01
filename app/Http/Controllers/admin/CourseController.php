@@ -43,5 +43,9 @@ class CourseController extends Controller
         return redirect()->back()->with('success', 'Course approval status updated successfully!');
     }
 
+    public function pulse()
+    {
+        return view('vendor.pulse.dashboard');
+    }
 
 }
