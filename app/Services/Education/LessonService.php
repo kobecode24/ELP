@@ -37,14 +37,14 @@ class LessonService
         }
 
         if ($videoFile) {
-            $destinationPath = 'uploads/videos';
+            /*$destinationPath = 'uploads/videos';
             $fileName = $videoFile->getClientOriginalName();
             $videoFile->move(public_path($destinationPath), $fileName);
-            $tempVideoPath = public_path("$destinationPath/$fileName");
+            $tempVideoPath = public_path("$destinationPath/$fileName");*/
             $lesson->update(['is_video_processing' => true]);
-            UploadVideoToCloudinary::dispatch($lesson->id, $tempVideoPath);
+            /*UploadVideoToCloudinary::dispatch($lesson->id, $tempVideoPath);*/
 
-//            UploadVideoToCloudinary::dispatch($lesson->id, $videoFile->getRealPath());
+            UploadVideoToCloudinary::dispatch($lesson->id, $videoFile->getRealPath());
         }
 
         return $lesson;
