@@ -73,4 +73,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth' , 'role:admin'])->gro
     Route::get('/dashboard',[AdminCourseController::class, 'dashboard'])->name('dashboard');
     Route::get('/blacklist',[AdminCourseController::class, 'blacklist'])->name('blacklist');
     Route::post('/courses/{course}/approve', [AdminCourseController::class, 'approve'])->name('courses.approve');
+    // pluse dahsboard
+    Route::get('/pulse', [AdminCourseController::class, 'pulse'])->name('pulse');
 });

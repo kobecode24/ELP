@@ -11,9 +11,12 @@
         "cloudinary/cloudinary_php": "^2.12",
         "doctrine/dbal": "^3.8",
         "guzzlehttp/guzzle": "^7.8",
-        "laravel/framework": "^10.10",
+        "illuminate/auth": "10.48.4",
+        "laravel/framework": "10.48.4",
+        "laravel/pulse": "^1.0",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "livewire/livewire": "^3.4",
         "spatie/laravel-backup": "^8.6",
         "vimeo/vimeo-api": "^3.0"
     },
