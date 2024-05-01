@@ -103,6 +103,7 @@ return [
                 'stream' => 'php://stderr',
             ],
             'processors' => [PsrLogMessageProcessor::class],
+            \Monolog\Processor\WebProcessor::class,
         ],
 
         'syslog' => [
