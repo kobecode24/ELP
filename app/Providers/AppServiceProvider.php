@@ -8,6 +8,7 @@ use App\Models\Lesson;
 use App\Observers\ChapterObserver;
 use App\Observers\ExerciseObserver;
 use App\Observers\LessonObserver;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,5 +29,9 @@ class AppServiceProvider extends ServiceProvider
         Lesson::observe(LessonObserver::class);
         Exercise::observe(ExerciseObserver::class);
         Chapter::observe(ChapterObserver::class);
+
+        Gate::define('viewPulse', function ($user) {
+            return $user->isAdmin();
+        });
     }
 }
