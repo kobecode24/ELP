@@ -110,6 +110,7 @@ class LessonService
         $data['video_url'] = $uploadResult->getSecurePath();
         $data['video_public_id'] = $uploadResult->getPublicId();
         $data['video_duration'] = round($this->cloudinaryService->getVideoDuration($data['video_public_id']));
+        $data['is_video_processing'] = false;
 
         return $data;
     }
