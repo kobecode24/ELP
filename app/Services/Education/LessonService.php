@@ -60,7 +60,7 @@ class LessonService
             }
             unset($data['video']);
         } elseif ($videoFile) {
-            $uploadResult = Cloudinary::uploadVideo($videoFile->getRealPaath(), [
+            $uploadResult = Cloudinary::uploadVideo($videoFile->getRealPath(), [
                 'folder' => 'course_videos',
                 'resource_type' => 'video',
             ]);
