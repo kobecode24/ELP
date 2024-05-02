@@ -19,7 +19,7 @@ class LessonService
         $this->cloudinaryService = $cloudinaryService;
     }
 
-    public function createOrUpdateLesson($data, $lesson = null, $videoFile = null)
+    /*public function createOrUpdateLesson($data, $lesson = null, $videoFile = null)
     {
         if (!empty($data['video_url'])) {
             $urlData = $this->getDurationFromUrl($data['video_url']);
@@ -37,20 +37,20 @@ class LessonService
         }
 
         if ($videoFile) {
-            /*$destinationPath = 'uploads/videos';
+            $destinationPath = 'uploads/videos';
             $fileName = $videoFile->getClientOriginalName();
             $videoFile->move(public_path($destinationPath), $fileName);
-            $tempVideoPath = public_path("$destinationPath/$fileName");*/
+            $tempVideoPath = public_path("$destinationPath/$fileName");
             $lesson->update(['is_video_processing' => true]);
-            /*UploadVideoToCloudinary::dispatch($lesson->id, $tempVideoPath);*/
+            UploadVideoToCloudinary::dispatch($lesson->id, $tempVideoPath);
 
-            UploadVideoToCloudinary::dispatch($lesson->id, $videoFile->getRealPath());
+//            UploadVideoToCloudinary::dispatch($lesson->id, $videoFile->getRealPath());
         }
 
         return $lesson;
-    }
+    }*/
 
-    /*public function createOrUpdateLesson($data, $lesson = null, $videoFile = null)
+    public function createOrUpdateLesson($data, $lesson = null, $videoFile = null)
     {
         if (!empty($data['video_url'])) {
             $urlData = $this->getDurationFromUrl($data['video_url']);
@@ -73,7 +73,7 @@ class LessonService
         } else {
             return Lesson::create($data);
         }
-    }*/
+    }
 
 
     protected function getDurationFromUrl($url)
