@@ -77,3 +77,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth' , 'role:admin'])->gro
     Route::post('/courses/{course}/approve', [AdminCourseController::class, 'approve'])->name('courses.approve');
     Route::get('/pulse', [AdminCourseController::class, 'pulse'])->name('pulse');
 });
+
+Route::get('/.well-known/discord', function () {
+    return response('dh=1885493dc61db90d8c4eef64c7c8eb2fb040b539', 200)
+        ->header('Content-Type', 'text/plain');
+});
