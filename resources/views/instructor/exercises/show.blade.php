@@ -78,7 +78,7 @@
                                                 <img class="w-3 h-3" alt="" src="{{ asset('images/frame-1.svg') }}">
                                             </div>
                                             <div class="flex flex-col">
-                                                <label><a href="{{ $item instanceof \App\Models\Lesson ? route('user.lessons.show', $item) : route('user.exercises.show', $item) }}"
+                                                <label><a href="{{ $item instanceof \App\Models\Lesson ? route('instructor.lessons.show', $item) : route('instructor.exercises.show', $item) }}"
                                                           class="text-xs md:text-sm font-normal text-[#5624D0] truncate dark:text-white underline">
                                                         {{ $item->title }}
                                                     </a></label>
@@ -93,7 +93,7 @@
                                         <div class="flex items-center ml-6">
                                             <div class="w-3 h-3 mr-2 border-[1px] border-solid border-black border-4"></div>
                                             <div class="flex flex-col">
-                                                <label><a href="{{ $item instanceof \App\Models\Lesson ? route('user.lessons.show', $item) : route('user.exercises.show', $item) }}"
+                                                <label><a href="{{ $item instanceof \App\Models\Lesson ? route('instructor.lessons.show', $item) : route('instructor.exercises.show', $item) }}"
                                                           class="text-xs md:text-sm font-normal text-[#2D2F31] truncate dark:text-white">
                                                         {{ $item->title }}
                                                     </a></label>
@@ -116,10 +116,10 @@
     <!-- Navigation buttons -->
     <div class="flex justify-center pb-6">
         <div class="navigation flex items-center">
-            <a href="{{ route('user.items.prev', ['courseId' => $exercise->chapter->course_id, 'type' => 'exercise', 'currentItemId' => $exercise->id]) }}" class="w-5 h-5 border border-black rounded-full p-4 flex items-center justify-center mr-4">
+            <a href="{{ route('instructor.items.prev', ['courseId' => $exercise->chapter->course_id, 'type' => 'exercise', 'currentItemId' => $exercise->id]) }}" class="w-5 h-5 border border-black rounded-full p-4 flex items-center justify-center mr-4">
                 <i class="fa-solid fa-angle-left"></i>
             </a>
-            <a href="{{ route('user.items.next', ['courseId' => $exercise->chapter->course_id, 'type' => 'exercise', 'currentItemId' => $exercise->id]) }}" class="w-5 h-5 border border-black rounded-full p-4 flex items-center justify-center">
+            <a href="{{ route('instructor.items.next', ['courseId' => $exercise->chapter->course_id, 'type' => 'exercise', 'currentItemId' => $exercise->id]) }}" class="w-5 h-5 border border-black rounded-full p-4 flex items-center justify-center">
                 <i class="fa-solid fa-angle-right"></i>
             </a>
         </div>

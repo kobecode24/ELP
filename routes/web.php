@@ -50,6 +50,8 @@ Route::prefix('instructor')->name('instructor.')->middleware(['auth' , 'role:ins
     Route::resource('courses', InstructorCourseController::class)->names('courses');
     Route::resource('chapters', InstructorChapterController::class)->names('chapters');
     Route::post('/exercises/{exercise}/execute', [InstructorExerciseController::class, 'executeCode'])->name('exercises.execute');
+    Route::get('/courses/{courseId}/items/{type}/{currentItemId}/next',  [CourseService::class , 'next'])->name('items.next');
+    Route::get('/courses/{courseId}/items/{type}/{currentItemId}/prev', [CourseService::class , 'prev'])->name('items.prev');
 });
 
 
@@ -73,6 +75,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth' , 'role:admin'])->gro
     Route::get('/dashboard',[AdminCourseController::class, 'dashboard'])->name('dashboard');
     Route::get('/blacklist',[AdminCourseController::class, 'blacklist'])->name('blacklist');
     Route::post('/courses/{course}/approve', [AdminCourseController::class, 'approve'])->name('courses.approve');
-    // pluse dahsboard
     Route::get('/pulse', [AdminCourseController::class, 'pulse'])->name('pulse');
 });
