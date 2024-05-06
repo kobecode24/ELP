@@ -49,6 +49,11 @@ class User extends Authenticatable
         return false;
     }
 
+    public function hasAnyRole(array $roles)
+    {
+        return $this->roles()->whereIn('name', $roles)->exists();
+    }
+
     public function courses()
     {
         return $this->belongsToMany(Course::class, 'enrollments')

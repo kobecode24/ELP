@@ -43,7 +43,7 @@ Route::post('/user/profile-image', [UserController::class, 'uploadProfileImage']
 Route::post('/user/become-instructor', [UserController::class, 'becomeInstructor'])->name('user.become-instructor');
 
 
-Route::prefix('instructor')->name('instructor.')->middleware(['auth' , 'role:instructor'])->group(function () {
+Route::prefix('instructor')->name('instructor.')->middleware(['auth' , 'role:instructor,admin'])->group(function () {
     Route::get('/dashboard', [InstructorCourseController::class, 'dashboard'])->name('dashboard');
     Route::resource('lessons', InstructorLessonController::class)->names('lessons');
     Route::resource('exercises', InstructorExerciseController::class)->names('exercises');

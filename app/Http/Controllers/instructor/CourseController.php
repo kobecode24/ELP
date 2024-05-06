@@ -100,7 +100,7 @@ class CourseController extends Controller
         $details = $courseService->getCourseDetails($courseId);
         $course = $details['course'];
 
-        if (!$user->isCourseCreator($courseId) ){
+        if (!$user->isCourseCreator($courseId) && !$user->hasRole('admin') ){
            return redirect()->back()->withErrors('you are not allowed to see this content');
         }
 
@@ -124,7 +124,7 @@ class CourseController extends Controller
     public function edit(Course $course)
     {
         $user = Auth::user();
-        if (!$user->isCourseCreator($course->id) ){
+        if (!$user->isCourseCreator($course->id) && !$user->hasRole('admin') ){
             return redirect()->back()->withErrors('you are not allowed to see this content');
         }
         $programmingLanguages = ProgrammingLanguage::all();
@@ -141,7 +141,7 @@ class CourseController extends Controller
         $user=Auth::user();
         $courseId=$course->id;
         $validated = $request->validated();
-        if (!$user->isCourseCreator($courseId) ){
+        if (!$user->isCourseCreator($courseId) && !$user->hasRole('admin')){
             return redirect()->back()->withErrors('you are not allowed to see this content');
         }
         if ($request->hasFile('course_images')) {
@@ -174,7 +174,7 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         $user=Auth::user();
-        if (!$user->isCourseCreator($course->id) ){
+        if (!$user->isCourseCreator($course->id) && !$user->hasRole('admin')){
             return redirect()->back()->withErrors('you are not allowed to see this content');
         }
         if ($course->image_public_id) {

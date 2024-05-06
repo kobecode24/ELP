@@ -53,7 +53,7 @@ class ChapterController extends Controller
         $user=Auth::user();
         $courseId=$chapter->course->id;
 
-        if (!$user->isCourseCreator($courseId) ){
+        if (!$user->isCourseCreator($courseId) && !$user->hasRole('admin')){
             return redirect()->back()->withErrors('you are not allowed to see this content');
         }
         return view('instructor.chapters.show', compact('chapter', 'lesson'));
@@ -68,7 +68,7 @@ class ChapterController extends Controller
         $courseId=$chapter->course->id;
         $user = Auth::user();
 
-        if (!$user->isCourseCreator($courseId) ){
+        if (!$user->isCourseCreator($courseId) && !$user->hasRole('admin')){
             return redirect()->back()->withErrors('you are not allowed to see this content');
         }
         return view('instructor.chapters.edit', compact('chapter' , 'user'));
@@ -85,7 +85,7 @@ class ChapterController extends Controller
         $courseId=$chapter->course->id;
         $user = Auth::user();
 
-        if (!$user->isCourseCreator($courseId) ){
+        if (!$user->isCourseCreator($courseId) && !$user->hasRole('admin')){
             return redirect()->back()->withErrors('you are not allowed to see this content');
         }
 
@@ -102,7 +102,7 @@ class ChapterController extends Controller
         $courseId = $chapter->course_id;
         $user = Auth::user();
 
-        if (!$user->isCourseCreator($courseId) ){
+        if (!$user->isCourseCreator($courseId) && !$user->hasRole('admin')){
             return redirect()->back()->withErrors('you are not allowed to see this content');
         }
         $chapter->delete();

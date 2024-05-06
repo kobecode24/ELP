@@ -66,7 +66,7 @@ class ExerciseController extends Controller
         $details = $courseService->getCourseDetails($courseId);
         $course = $details['course'];
 
-        if (!$user->isCourseCreator($courseId) ){
+        if (!$user->isCourseCreator($courseId) && !$user->hasRole('admin')){
             return redirect()->back()->withErrors('you are not allowed to see this content');
         }
 
@@ -91,7 +91,7 @@ class ExerciseController extends Controller
 
         $courseId = $exercise->chapter->course_id;
 
-        if (!$user->isCourseCreator($courseId) ){
+        if (!$user->isCourseCreator($courseId) && !$user->hasRole('admin')){
             return redirect()->back()->withErrors('you are not allowed to see this content');
         }
 
@@ -113,7 +113,7 @@ class ExerciseController extends Controller
         $exercise->update($request->validated());
 
         $courseId = $exercise->chapter->course_id;
-        if (!$user->isCourseCreator($courseId) ){
+        if (!$user->isCourseCreator($courseId) && !$user->hasRole('admin')){
             return redirect()->back()->withErrors('you are not allowed to see this content');
         }
 
@@ -128,7 +128,7 @@ class ExerciseController extends Controller
         $exercise = Exercise::findOrFail($id);
         $courseId = $exercise->chapter->course_id;
         $user = Auth::user();
-        if (!$user->isCourseCreator($courseId) ){
+        if (!$user->isCourseCreator($courseId) && !$user->hasRole('admin')){
             return redirect()->back()->withErrors('you are not allowed to see this content');
         }
         $exercise->delete();

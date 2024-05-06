@@ -168,9 +168,11 @@ class CourseService
             return $item['item']->id == $currentItemId && $item['type'] == $type;
         });
 
+        $routePrefix = str_replace('/', '.', ltrim(request()->route()->getPrefix(), '/'));
+
         if ($currentIndex !== false && $currentIndex + 1 < $items->count()) {
             $nextItem = $items[$currentIndex + 1];
-            return redirect()->route("user.{$nextItem['type']}s.show", $nextItem['item']);
+            return redirect()->route("{$routePrefix}.{$nextItem['type']}s.show", $nextItem['item']);
         }
 
         return redirect()->route("user.{$type}s.show", $currentItemId);
@@ -185,9 +187,11 @@ class CourseService
             return $item['item']->id == $currentItemId && $item['type'] == $type;
         });
 
+        $routePrefix = str_replace('/', '.', ltrim(request()->route()->getPrefix(), '/'));
+
         if ($currentIndex !== false && $currentIndex > 0) {
             $prevItem = $items[$currentIndex - 1];
-            return redirect()->route("user.{$prevItem['type']}s.show", $prevItem['item']);
+            return redirect()->route("{$routePrefix}.{$prevItem['type']}s.show", $prevItem['item']);
         }
 
         return redirect()->back()->with('error', 'No previous item available.');
