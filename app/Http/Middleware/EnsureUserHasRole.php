@@ -14,9 +14,9 @@ class EnsureUserHasRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role)
+    public function handle(Request $request, Closure $next, ...$role)
     {
-        if (!Auth::check() || !Auth::user()->hasRole($role)) {
+        if (!Auth::check() || !Auth::user()->hasAnyRole($role)) {
             return redirect()->back()->with('error', 'You are not authorized to access this page');
         }
 
