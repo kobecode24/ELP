@@ -46,16 +46,13 @@
                       >Teach on ELP</a
                       >
                   </li>
+                  @if(Auth::check() && Auth::user()->hasRole('admin'))
+                      <li>
+                          <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-black dark:text-white hover:bg-gray-100">Admin Panel</a>
+                      </li>
+                  @endif
 
-                  <li>
-                      <a
-                          href="{{route('admin.dashboard')}}"
-                          class="block px-4 py-2 text-black dark:text-white hover:bg-gray-100"
-                      >Admin Panel</a
-                      >
-                  </li>
-
-                  @if(!Auth::id())
+              @if(!Auth::id())
                       <li>
                           <div class="flex gap-3 p-2">
                               <a  class="px-4 py-2 w-28 rounded-3xl text-base font-normal text-white transition-all duration-300 bg-[#A435F0]" href="{{route('register')}}">
