@@ -9,6 +9,11 @@
                 class="container mx-auto flex frex flex-col-reverse xl:flex-row justify-start px-0 md:px-20 lg:px-52 xl:px-8 mt-14 md:mt-20 lg:mt-24 xl:mt-14 items-center pb-0 min-h-[calc(100vh-270px)]">
                 <div class="w-full xl:w-3/5 grid space-y-5 lg:space-y-10 px-5 md:px-0 xl:px-4 pt-0 md:pt-6 ml-0 xl:ml-5">
                     <div class="space-y-1 md:space-y-3 pt-4 md:pt-0">
+                        @if (!$course->is_approved)
+                            <div class="alert alert-warning">
+                                Your course is not approved by the admins yet. You can add content meanwhile.
+                            </div>
+                        @endif
                         @if (session('success'))
                             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                                 <strong class="font-bold">Success!</strong>
@@ -100,7 +105,7 @@
                                 <div class="flex gap-4 items-center">
                                     <img src="{{ asset('images/play.svg') }}" alt="" />
                                     <h3 class="font-normal text-[.868] md:text-[.992rem] dark:text-white">
-                                        54 hours on-demand video
+                                        {{ $totalDuration }} on-demand video
                                     </h3>
                                 </div>
                                 <div class="flex gap-4 items-center">
