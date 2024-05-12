@@ -1,3 +1,4 @@
+@if(!request()->is('instructor/exercises/*') && !request()->is('user/exercises/*'))
 <div class="bg-[#1D2A35] z-50">
     <footer  class="container mx-auto px-20 py-12">
       <div class="flex flex-col justify-center items-center md:flex-row md:justify-between md: items-center border border-back">
@@ -141,3 +142,4 @@
       </div>
     </footer>
   </div>
+@endif
