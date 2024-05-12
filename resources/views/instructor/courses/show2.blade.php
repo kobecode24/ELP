@@ -105,7 +105,7 @@
                                 <div class="flex gap-4 items-center">
                                     <img src="{{ asset('images/play.svg') }}" alt="" />
                                     <h3 class="font-normal text-[.868] md:text-[.992rem] dark:text-white">
-                                        54 hours on-demand video
+                                        {{ $totalDuration }} on-demand video
                                     </h3>
                                 </div>
                                 <div class="flex gap-4 items-center">
