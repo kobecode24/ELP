@@ -18,13 +18,14 @@
         </p>
       </div>
       <!-- search -->
-
+        <form action="{{ route('user.courses') }}" method="GET">
       <div
         class="flex justify-items-center justify-center w-60 md:w-[35rem] bg-white rounded-full ml-16 md:ml-0"
       >
         <div class="w-full">
           <input
             type="search"
+            name="search"
             class="w-full px-8 font-normal text-lg py-1 text-[#757575] rounded-full focus:outline-none"
             placeholder="Search our tutorials, e.g. HTML"
           />
@@ -51,6 +52,7 @@
           </button>
         </div>
       </div>
+        </form>
       <div>
           <a href="{{route( 'user.courses')}}" class="font-bold text-lg md:text-2xl underline text-white text-center block">
               Not Sure Where To Begin?
