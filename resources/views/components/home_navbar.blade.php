@@ -321,7 +321,8 @@
         </div>
     </div>
     <div class="fixed w-full z-30 mt-4  md:mt-16 pt-1 xl:hidden lg:hidden sm:block @guest  pt-20 w-full block @endguest"  >
-        <div class="lg-mt-negative-50 padding-right grid grid-cols-5 justify-items-center bg-[#282A35] py-2 @guest relative right-2 @endguest">
+        <div class="lg-mt-negative-50 grid grid-cols-4
+         justify-items-center bg-[#282A35] py-2 @guest relative right-2 @endguest">
             {{--<div class="font-normal text-base text-[#F1F1F1]">
                 <a href="">RUST</a>
             </div>--}}
@@ -337,9 +338,9 @@
             <div class="font-normal text-base text-[#F1F1F1]">
                 <a href="">PYTHON</a>
             </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
+            {{--<div class="font-normal text-base text-[#F1F1F1]">
                 <a href="">C</a>
-            </div>
+            </div>--}}
             <div class="font-normal text-base text-[#F1F1F1]">
                 <a href="">JAVA</a>
             </div>
