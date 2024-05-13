@@ -34,17 +34,26 @@ class LessonController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-        public function create(Request $request)
+    public function create(Request $request)
     {
         $user = Auth::user();
         $chapterId = $request->input('chapter_id');
 
-        $chapter = null;
-        if ($chapterId) {
-            $chapter = Chapter::find($chapterId);
+        if (empty($chapterId)) {
+            return redirect()->back()->withErrors('Chapter ID is required.');
         }
 
-        return view('instructor.lessons.create', compact('chapter' , 'user'));
+        $chapter = Chapter::find($chapterId);
+
+        if (null === $chapter) {
+            return redirect()->back()->withErrors('Chapter not found.');
+        }
+
+        if (!$user->isCourseCreator($chapter->course_id) && !$user->hasRole('admin')) {
+            return redirect()->back()->withErrors('You are not authorized to access this page.');
+        }
+
+        return view('instructor.lessons.create', compact('chapter', 'user'));
     }
 
     /**
@@ -52,13 +61,30 @@ class LessonController extends Controller
      */
     public function store(StoreLessonRequest $request)
     {
+        $user = Auth::user();
         $data = $request->validated();
-        $videoFile = $request->file('video');
 
+        $chapterId = $data['chapter_id'] ?? null;
+        if (!$chapterId) {
+            return redirect()->back()->withErrors('Chapter ID is required.');
+        }
+
+        $chapter = Chapter::find($chapterId);
+        if (!$chapter) {
+            return redirect()->back()->withErrors('Chapter not found.');
+        }
+
+        if (!$user->isCourseCreator($chapter->course_id) && !$user->hasRole('admin')) {
+            return redirect()->back()->withErrors('You are not authorized to access this page.');
+        }
+
+        $videoFile = $request->file('video');
         $lesson = $this->lessonService->createOrUpdateLesson($data, null, $videoFile);
 
-        return redirect()->route('instructor.courses.show', $lesson->chapter->course_id)->with('success', 'Lesson created successfully.');
+        return redirect()->route('instructor.courses.show', $lesson->chapter->course_id)
+            ->with('success', 'Lesson created successfully.');
     }
+
 
     public function edit(Lesson $lesson)
     {

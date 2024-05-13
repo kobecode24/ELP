@@ -17,31 +17,29 @@ class ExerciseController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create(Request $request)
     {
         $user = auth()->user();
         $chapterId = $request->input('chapter_id');
-        $chapter = null;
         $editorMode = 'ace/mode/plain_text';
 
-        if ($chapterId) {
-            $chapter = Chapter::with('course.programmingLanguage')->find($chapterId);
-            if ($chapter && $chapter->course && $chapter->course->programmingLanguage) {
-                $editorMode = $chapter->course->programmingLanguage->editor_mode;
-            }
+        $chapter = Chapter::with('course.programmingLanguage')->find($chapterId);
+
+        if (!$chapter || !$chapter->course) {
+            return redirect()->back()->withErrors('Invalid chapter or course not found.');
         }
 
-        return view('instructor.exercises.create', compact('chapter', 'editorMode' , 'user'));
+        if ($chapter->course->programmingLanguage) {
+            $editorMode = $chapter->course->programmingLanguage->editor_mode;
+        }
+
+        if (!$user->isCourseCreator($chapter->course_id) && !$user->hasRole('admin')) {
+            return redirect()->back()->withErrors('You are not authorized to access this page.');
+        }
+
+        return view('instructor.exercises.create', compact('chapter', 'editorMode', 'user'));
     }
 
     /**
@@ -49,11 +47,20 @@ class ExerciseController extends Controller
      */
     public function store(StoreExerciseRequest $request)
     {
-        $chapter = Chapter::findOrFail($request->chapter_id);
+        $user = Auth::user();
+        $chapter = Chapter::with('course')->findOrFail($request->input('chapter_id'));
         $courseId = $chapter->course_id;
+
+        if (!$user->isCourseCreator($courseId) && !$user->hasRole('admin')) {
+            return redirect()->back()->withErrors('You are not authorized to create exercises for this course.');
+        }
+
         Exercise::create($request->validated());
-        return redirect()->route('instructor.courses.show', $courseId)->with('success', 'Exercise created successfully.');
+
+        return redirect()->route('instructor.courses.show', $courseId)
+            ->with('success', 'Exercise created successfully.');
     }
+
 
     /**
      * Display the specified resource.
