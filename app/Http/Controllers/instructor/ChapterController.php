@@ -12,31 +12,17 @@ use Illuminate\Support\Facades\Auth;
 class ChapterController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $courseId = request('course_id');
-        $chapters = Chapter::where('course_id', $courseId)->get();
-
-        return view('instructor.chapters.index', compact('chapters'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $courses = Course::all();
-
-        return view('instructor.chapters.create', compact('courses'));
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreChapterRequest $request)
     {
+        $courseId = $request->input('course_id');
+        $user = auth()->user();
+
+        if (!$user->isCourseCreator($courseId) && !$user->hasRole('admin')) {
+            return redirect()->back()->withErrors('You are not authorized to add chapters to this course.');
+        }
+
         $chapter = Chapter::create($request->validated());
 
         return redirect()->route('instructor.courses.show', $chapter->course_id)

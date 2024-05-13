@@ -97,6 +97,8 @@ class CourseService
     {
         return Course::where('creator_id', $creatorId)
             ->where('id', '!=', $excludeCourseId)
+            ->inRandomOrder()
+            ->where('is_approved', true)
             ->take(3)
             ->get()
             ->each(function ($course) {
