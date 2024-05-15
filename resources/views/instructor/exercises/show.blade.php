@@ -133,21 +133,28 @@
             return doc.documentElement.textContent;
         }
 
-        var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/monokai");
-        editor.session.setMode("{{ $editorMode }}");
-        console.log( "{{$editorMode}}")
+        function initializeAceEditor(editorId, content) {
+            var editor = ace.edit(editorId);
+            editor.setTheme("ace/theme/monokai");
+            editor.session.setMode("{{ $editorMode }}");
+            editor.setValue(content, 1);
+            editor.setOptions({
+                maxLines: Infinity
+            });
+            return editor;
+        }
+
+        var initialCodeContent = htmlDecode(`{!! addslashes($exercise->initial_code) !!}`);
+        var editor = initializeAceEditor("editor", initialCodeContent);
+
         @if(!empty($exercise->test_code))
-        var testCaseEditor = ace.edit("testCaseEditor");
-        testCaseEditor.setTheme("ace/theme/monokai");
-        testCaseEditor.session.setMode("{{ $editorMode }}");
-        testCaseEditor.setValue(htmlDecode(`{{ trim($exercise->test_code) }}`));
+        var testCodeContent = htmlDecode(`{!! addslashes($exercise->test_code) !!}`);
+        var expectedOutputContent = htmlDecode(`{!! addslashes($exercise->expected_output) !!}`);
+
+        var testCaseEditor = initializeAceEditor("testCaseEditor", testCodeContent);
         testCaseEditor.setReadOnly(true);
 
-        var expectedOutputEditor = ace.edit("expectedOutputEditor");
-        expectedOutputEditor.setTheme("ace/theme/monokai");
-        expectedOutputEditor.session.setMode("ace/mode/plain_text");
-        expectedOutputEditor.setValue(htmlDecode(`{{ trim($exercise->expected_output) }}`));
+        var expectedOutputEditor = initializeAceEditor("expectedOutputEditor", expectedOutputContent);
         expectedOutputEditor.setReadOnly(true);
         @endif
 
@@ -187,8 +194,6 @@
                 overlay.style.display = 'none';
             }
         }
-
-
 
         function displayFeedback(data) {
             const annotations = [];
@@ -260,7 +265,6 @@
                 });
             }
         }
-
 
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('button[data-accordion-target]').forEach(button => {
