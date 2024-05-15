@@ -133,6 +133,10 @@
             return doc.documentElement.textContent;
         }
 
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("{{ $editorMode }}");
+
         function initializeAceEditor(editorId, content) {
             var editor = ace.edit(editorId);
             editor.setTheme("ace/theme/monokai");
@@ -144,12 +148,9 @@
             return editor;
         }
 
-        var initialCodeContent = htmlDecode(`{!! addslashes($exercise->initial_code) !!}`);
-        var editor = initializeAceEditor("editor", initialCodeContent);
-
         @if(!empty($exercise->test_code))
-        var testCodeContent = htmlDecode(`{!! addslashes($exercise->test_code) !!}`);
-        var expectedOutputContent = htmlDecode(`{!! addslashes($exercise->expected_output) !!}`);
+        var testCodeContent = htmlDecode(`{{ addslashes($exercise->test_code) }}`);
+        var expectedOutputContent = htmlDecode(`{{ addslashes($exercise->expected_output) }}`);
 
         var testCaseEditor = initializeAceEditor("testCaseEditor", testCodeContent);
         testCaseEditor.setReadOnly(true);
