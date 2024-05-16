@@ -161,7 +161,7 @@
                             <div class="pb-5">
                                 <button
                                     class="px-10 py-2 rounded-3xl text-base font-normal text-white transition-all duration-300 bg-[#0D1721]">
-                                    Learn Java
+                                     Learn Python
                                 </button>
                             </div>
                         </div>
