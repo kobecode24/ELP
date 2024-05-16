@@ -25,7 +25,8 @@ class User extends Authenticatable
         'description',
         'profile_image_url',
         'profile_image_public_id',
-        'points'
+        'points',
+        'github_id',
     ];
 
     protected $casts = [

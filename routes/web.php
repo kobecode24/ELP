@@ -37,6 +37,8 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('login/github', [AuthController::class, 'redirectToGithub'])->name('login.github');
+Route::get('login/github/callback', [AuthController::class, 'handleGithubCallback'])->name('login.github.callback');
 
 Route::post('/user/profile-image', [UserController::class, 'uploadProfileImage'])->name('user.upload-profile-image');
 

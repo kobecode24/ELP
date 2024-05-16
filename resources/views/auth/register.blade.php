@@ -35,7 +35,7 @@
 
                                    class="w-full rounded-md py-2 px-4 border text-sm md:text-lg ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset focus:ring-balck"
                             />
-                            @error('name')
+                            @error('email')
                             <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                             @enderror
                         </div>
@@ -72,7 +72,7 @@
                         </div>
                         <div class="mt-2">
                             <input
-                                id="passwordInput"  type="password" name="password" required
+                                id="passwordInput"  type="password" name="password" required value="{{ old('password') }}"
                                 class="w-full rounded-md py-2 px-4 border text-sm md:text-lg ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset focus:ring-balck"
                             />
                             @error('password')
@@ -118,7 +118,7 @@
                     <!-- github -->
                     <div class="block mt-6">
                         <a
-                            href="#"
+                            href="{{route('login.github')}}"
                             class="border-black group m-auto my-0 inline-flex h-12 w-full items-center justify-center space-x-2 rounded-3xl border px-4 py-2 transition-colors duration-300 focus:outline-none"
                         >
                   <span>

@@ -92,7 +92,7 @@
                     </div>
                     <div class="block mt-6">
                         <a
-                            href="#"
+                            href="{{route('login.github')}}"
                             class="border-black group m-auto my-0 inline-flex h-12 w-full items-center justify-center space-x-2 rounded-3xl border px-4 py-2 transition-colors duration-300 focus:outline-none"
                         >
                   <span>
