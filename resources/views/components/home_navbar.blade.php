@@ -290,65 +290,64 @@
             </button>
           </div>
 
-<!-- languages menu -->
+    <!-- languages menu -->
     @if(request()->is('/'))
-    <div class="fixed w-full z-10  mt-4  md:mt-16 pt-1 sm:hidden xl:block lg:block @guest pt-6  navhidden @endguest"  >
-        <div class="lg-mt-negative-50  grid grid-cols-8 justify-items-center bg-[#282A35] py-2 @guest relative right-2 @endguest">
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">RUST</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">JAVASCRIPT</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">Bash</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">PHP</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">PYTHON</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">C</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">JAVA</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">GO</a>
+        <div class="fixed w-full z-10 mt-4 md:mt-16 pt-1 sm:hidden xl:block lg:block @guest pt-6 navhidden @endguest">
+            <div class="lg-mt-negative-50 grid grid-cols-8 justify-items-center bg-[#282A35] py-2 @guest relative right-2 @endguest">
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">RUST</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">JAVASCRIPT</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">Bash</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">PHP</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">PYTHON</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">C</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">JAVA</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">GO</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="fixed w-full z-30 mt-4  md:mt-16 pt-1 xl:hidden lg:hidden sm:block @guest  pt-20 w-full block @endguest"  >
-        <div class="lg-mt-negative-50 grid grid-cols-4
-         justify-items-center bg-[#282A35] py-2 @guest relative right-2 @endguest">
-            {{--<div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">RUST</a>
-            </div>--}}
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">JAVASCRIPT</a>
+        <div class="fixed w-full z-30 mt-4 md:mt-16 pt-1 xl:hidden lg:hidden sm:block @guest pt-20 w-full block @endguest">
+            <div class="lg-mt-negative-50 grid grid-cols-4 justify-items-center bg-[#282A35] py-2 @guest relative right-2 @endguest">
+                {{--<div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">RUST</a>
+                </div>--}}
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">JAVASCRIPT</a>
+                </div>
+                {{--<div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">Bash</a>
+                </div>--}}
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">PHP</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">PYTHON</a>
+                </div>
+                {{--<div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">C</a>
+                </div>--}}
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">JAVA</a>
+                </div>
+                {{--<div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">GO</a>
+                </div>--}}
             </div>
-            {{--<div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">Bash</a>
-            </div>--}}
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">PHP</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">PYTHON</a>
-            </div>
-            {{--<div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">C</a>
-            </div>--}}
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">JAVA</a>
-            </div>
-            {{--<div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">GO</a>
-            </div>--}}
         </div>
-    </div>
     @endif
         <!-- banner -->
     </div>

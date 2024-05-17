@@ -9,6 +9,11 @@
 
     <!-- button profile -->
     <div class="flex justify-center items-center gap-5">
+            <a
+                href="{{route('user.courses')}}#our_courses"
+                class="block px-4 py-2 text-black dark:text-white hover:bg-gray-100"
+            >All courses</a
+            >
         <div class="">
             <h3 class="font-normal text-base"></h3>
         </div>
