@@ -124,7 +124,19 @@
                 </form>
             </div>
         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                @if(session('warning'))
+                iziToast.info({
+                    title: 'Info',
+                    message: '{{ session('warning') }}',
+                    position: 'topRight'
+                });
+                @endif
+            });
+        </script>
     </main>
-
 @endsection
 

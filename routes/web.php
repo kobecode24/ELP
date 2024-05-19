@@ -58,19 +58,21 @@ Route::prefix('instructor')->name('instructor.')->middleware(['auth' , 'role:ins
 
 
 
-Route::prefix('user')->name('user.')->middleware(['auth'])->group(function () {
-    Route::get('/profile', [UserController::class, 'showProfile'])->name('profile');
-    Route::get('/profile/stats' , [UserController::class, 'getStats'])->name('profile.stats');
-    Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
-    Route::get('/courses', [UserCourseController::class, 'index'])->name('courses');
-    Route::get('/courses/{course}', [UserCourseController::class, 'show'])->name('courses.show');
-    Route::post('/courses/{course}/enroll', [UserCourseController::class, 'enroll'])->name('courses.enroll');
-    Route::get('/lessons/{lesson}', [UserLessonController::class, 'show'])->name('lessons.show');
-    Route::get('/exercises/{exercise}', [UserExerciseController::class, 'show'])->name('exercises.show');
-    Route::post('/exercises/{exercise}/execute', [UserExerciseController::class, 'executeCode'])->name('exercises.execute');
-    Route::post('/lessons/{lesson}/complete', [UserLessonController::class, 'markAsCompleted'])->name('lessons.complete');
-    Route::get('/courses/{courseId}/items/{type}/{currentItemId}/next',  [CourseService::class , 'next'])->name('items.next');
-    Route::get('/courses/{courseId}/items/{type}/{currentItemId}/prev', [CourseService::class , 'prev'])->name('items.prev');
+Route::prefix('user')->name('user.')->group(function () {
+    Route::get('/profile', [UserController::class, 'showProfile'])->name('profile')->middleware('auth');
+    Route::get('/profile/stats', [UserController::class, 'getStats'])->name('profile.stats')->middleware('auth');
+    Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update')->middleware('auth');
+
+    Route::get('/courses', [UserCourseController::class, 'index'])->name('courses')->middleware(['auth.custom']);
+
+    Route::get('/courses/{course}', [UserCourseController::class, 'show'])->name('courses.show')->middleware('auth');
+    Route::post('/courses/{course}/enroll', [UserCourseController::class, 'enroll'])->name('courses.enroll')->middleware('auth');
+    Route::get('/lessons/{lesson}', [UserLessonController::class, 'show'])->name('lessons.show')->middleware('auth');
+    Route::get('/exercises/{exercise}', [UserExerciseController::class, 'show'])->name('exercises.show')->middleware('auth');
+    Route::post('/exercises/{exercise}/execute', [UserExerciseController::class, 'executeCode'])->name('exercises.execute')->middleware('auth');
+    Route::post('/lessons/{lesson}/complete', [UserLessonController::class, 'markAsCompleted'])->name('lessons.complete')->middleware('auth');
+    Route::get('/courses/{courseId}/items/{type}/{currentItemId}/next', [CourseService::class, 'next'])->name('items.next')->middleware('auth');
+    Route::get('/courses/{courseId}/items/{type}/{currentItemId}/prev', [CourseService::class, 'prev'])->name('items.prev')->middleware('auth');
 });
 
 Route::prefix('admin')->name('admin.')->middleware(['auth' , 'role:admin'])->group(function () {
