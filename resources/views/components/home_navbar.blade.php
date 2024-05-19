@@ -104,6 +104,7 @@
                 <div class="relative inline-block text-left">
                   <div class="group">
                     <button
+                      onclick="window.location.href='{{ route('user.courses') }}'"
                       type="button"
                       class="inline-flex justify-center items-center py-2 pl-3 pr-4 text-base font-normal text-[#DDDDDD] dark:text-white lg:hover:bg-transparent lg:border-0 lg:p-0"
                     >
