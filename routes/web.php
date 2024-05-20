@@ -47,10 +47,10 @@ Route::post('/user/become-instructor', [UserController::class, 'becomeInstructor
 
 Route::prefix('instructor')->name('instructor.')->middleware(['auth' , 'role:instructor,admin'])->group(function () {
     Route::get('/dashboard', [InstructorCourseController::class, 'dashboard'])->name('dashboard');
-    Route::resource('lessons', InstructorLessonController::class)->names('lessons');
-    Route::resource('exercises', InstructorExerciseController::class)->names('exercises');
+    Route::resource('lessons', InstructorLessonController::class)->names('lessons')->except(['index']);;
+    Route::resource('exercises', InstructorExerciseController::class)->names('exercises')->except(['index']);;
     Route::resource('courses', InstructorCourseController::class)->names('courses');
-    Route::resource('chapters', InstructorChapterController::class)->names('chapters');
+    Route::resource('chapters', InstructorChapterController::class)->names('chapters')->except(['index']);;
     Route::post('/exercises/{exercise}/execute', [InstructorExerciseController::class, 'executeCode'])->name('exercises.execute');
     Route::get('/courses/{courseId}/items/{type}/{currentItemId}/next',  [CourseService::class , 'next'])->name('items.next');
     Route::get('/courses/{courseId}/items/{type}/{currentItemId}/prev', [CourseService::class , 'prev'])->name('items.prev');
