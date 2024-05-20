@@ -186,11 +186,12 @@
         <div class="navbar-end">
             <div class="grid grid-cols-3 items-center justify-center pr-3">
               <div class="hidden lg:block">
-                <button
-                  class="text-base font-normal text-[#DDDDDD] dark:text-white lg:hover:bg-transparent"
-                >
-                  Teach on ELP
-                </button>
+                  <form action="{{ route('user.become-instructor') }}" method="POST">
+                      @csrf
+                      <button class="text-base font-normal text-[#DDDDDD] dark:text-white lg:hover:bg-transparent">
+                          Teach on ELP
+                      </button>
+                  </form>
               </div>
               <div class="relative hidden lg:block">
                 <div class="absolute z-10 -top-5 left-5 right-0 ml-1.5">
