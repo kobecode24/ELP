@@ -75,7 +75,7 @@
                                             <div class="flex flex-col">
                                                 <label><a href="{{ $item instanceof \App\Models\Lesson ? route('user.lessons.show', $item) : route('user.exercises.show', $item) }}"
                                                           class="text-xs md:text-sm font-normal text-[#5624D0] truncate dark:text-white underline">
-                                                        {{ $item->title }}
+                                                        {{ strlen($item->title) > 20 ? substr($item->title, 0, 20).'...' : $item->title }}
                                                     </a></label>
                                                 <div class="flex items-center space-x-2">
                                                     <img class="flex-shrink-0" src="{{ asset($item->image) }}" alt="" />
@@ -90,7 +90,7 @@
                                             <div class="flex flex-col">
                                                 <label><a href="{{ $item instanceof \App\Models\Lesson ? route('user.lessons.show', $item) : route('user.exercises.show', $item) }}"
                                                           class="text-xs md:text-sm font-normal text-[#2D2F31] truncate dark:text-white">
-                                                        {{ substr($item->title, 0, 10) . '...' }}
+                                                        {{ strlen($item->title) > 20 ? substr($item->title, 0, 20).'...' : $item->title }}
                                                     </a></label>
                                                 <div class="flex items-center space-x-2">
                                                     <img class="flex-shrink-0" src="{{ asset($item->image) }}" alt="" />

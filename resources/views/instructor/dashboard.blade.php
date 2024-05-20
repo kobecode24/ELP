@@ -23,109 +23,18 @@
                         </a>
                     </div>
                 </div>
-
-
-                    @if($user->createdCourses->count() == 0)
-                <!-- 2 -->
-                <div
-                    class="flex flex-col lg:flex-row w-11/12 mx-5 lg:mx-16 bg-[#F5F5F5] border-2 shadow-xl rounded-lg py-12 px-4 sm:px-6 lg:max-w-7xl lg:px-8 gap-6 items-center justify-between">
-                    <div class="w-2/5 flex items-center justify-center">
-                        <img src="{{ asset('images/image1.jpg') }}" alt="" />
+                @if (session('success'))
+                    <div class="ml-12 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded " role="alert">
+                        <strong class="font-bold">Success!</strong>
+                        <span class="block sm:inline">{{ session('success') }}</span>
                     </div>
-                    <div class="w-full lg:w-3/5 space-y-4">
-                        <h3 class="font-normal text-xl md:text-2xl text-black text-center lg:text-start">
-                            Create an Engaging Course
-                        </h3>
-                        <p class="font-normal text-sm md:text-base text-black pt-3 text-center lg:text-start">
-                            Whether you've been teaching for years or are teaching for the
-                            first time, you can make an engaging course. We've compiled
-                            resources and best practices to help you get to the next level,
-                            no matter where you're starting.
-                        </p>
-                        <p
-                            class="font-normal text-sm md:text-base text-[#5624D0] underline pt-2 text-center lg:text-start">
-                            Get Started
-                        </p>
-                    </div>
-                </div>
-                <!-- 3 -->
-                <div
-                    class="flex flex-col md:flex-row my-6 w-11/12 mx-5 lg:mx-16 bg-[#F5F5F5] lg:max-w-7xl gap-6 items-center justify-between">
-                    <!-- 3.1 -->
-                    <div
-                        class="flex flex-col lg:flex-row w-11/12 bg-[#F5F5F5] border-2 shadow-xl rounded-lg py-12 px-4 sm:px-6 lg:max-w-7xl lg:px-8 gap-5 lg:gap-2 items-center justify-between">
-                        <div class="w-2/5 flex items-center justify-center">
-                            <img src="{{ asset('images/image2.jpg') }}" alt="" />
-                        </div>
-                        <div class="w-full lg:w-3/5 space-y-4">
-                            <h3 class="font-normal text-xl text-black text-center lg:text-start">
-                                Get Started with Video
-                            </h3>
-                            <p class="font-normal text-sm text-black pt-3 text-center lg:text-start">
-                                Quality video lectures can set your course apart. Use our
-                                resources to learn the basics.
-                            </p>
-                            <p class="font-normal text-sm text-[#5624D0] underline pt-2 text-center lg:text-start">
-                                Get Started
-                            </p>
-                        </div>
-                    </div>
-                    <!-- 3.2 -->
-                    <div
-                        class="flex flex-col lg:flex-row w-11/12 bg-[#F5F5F5] border-2 shadow-xl rounded-lg py-14 lg:py-12 px-4 sm:px-6 lg:max-w-7xl lg:px-8 gap-5 lg:gap-2 items-center justify-between">
-                        <div class="w-2/5 flex items-center justify-center">
-                            <img src="{{ asset('images/image3.jpg') }}" alt="" />
-                        </div>
-                        <div class="w-full lg:w-3/5 space-y-4">
-                            <h3 class="font-normal text-xl text-black text-center lg:text-start">
-                                Build Your Audience
-                            </h3>
-                            <p class="font-normal text-sm text-black pt-3 text-center lg:text-start">
-                                Set your course up for success by building your audience.
-                            </p>
-                            <p class="font-normal text-sm text-[#5624D0] underline pt-2 text-center lg:text-start">
-                                Get Started
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <!-- 4 -->
-                <div
-                    class="flex flex-col lg:flex-row w-11/12 mx-5 lg:mx-16 bg-[#F5F5F5] border-2 shadow-xl rounded-lg py-12 px-4 sm:px-6 lg:max-w-7xl lg:px-8 gap-6 items-center justify-between">
-                    <div class="w-2/5 flex items-center justify-center">
-                        <img src="{{ asset('images/image4.jpg') }}" alt="" />
-                    </div>
-                    <div class="w-full lg:w-3/5 space-y-4">
-                        <h3 class="font-normal text-xl md:text-2xl text-black text-center lg:text-start">
-                            Join the New Instructor Challenge!
-                        </h3>
-                        <p class="font-normal text-sm md:text-base text-black pt-3 text-center lg:text-start">
-                            Get exclusive tips and resources designed to help you launch
-                            your first course faster! Eligible instructors who publish their
-                            first course on time will receive a special bonus to celebrate.
-                            Start today!
-                        </p>
-                        <p
-                            class="font-normal text-sm md:text-base text-[#5624D0] underline pt-2 text-center lg:text-start">
-                            Get Started
-                        </p>
-                    </div>
-                </div>
                 @endif
-
-
-                    @if (session('success'))
-                        <div class="ml-12 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded " role="alert">
-                            <strong class="font-bold">Success!</strong>
-                            <span class="block sm:inline">{{ session('success') }}</span>
-                        </div>
-                    @endif
-                    @if (session('error'))
-                        <div class="ml-12 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
-                            <strong class="font-bold">Error!</strong>
-                            <span class="block sm:inline">{{ session('error') }}</span>
-                        </div>
-                    @endif
+                @if (session('error'))
+                    <div class="ml-12 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
+                        <strong class="font-bold">Error!</strong>
+                        <span class="block sm:inline">{{ session('error') }}</span>
+                    </div>
+                @endif
                 @if ($errors->any())
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded ml-12" role="alert">
                         <ul>
@@ -135,6 +44,95 @@
                         </ul>
                     </div>
                 @endif
+
+                    @if($user->createdCourses->count() == 0)
+                    <!-- 2 -->
+                    <div
+                        class="flex flex-col lg:flex-row w-11/12 mx-5 lg:mx-16 bg-[#F5F5F5] border-2 shadow-xl rounded-lg py-12 px-4 sm:px-6 lg:max-w-7xl lg:px-8 gap-6 items-center justify-between">
+                        <div class="w-2/5 flex items-center justify-center">
+                            <img src="{{ asset('images/image1.jpg') }}" alt="" />
+                        </div>
+                        <div class="w-full lg:w-3/5 space-y-4">
+                            <h3 class="font-normal text-xl md:text-2xl text-black text-center lg:text-start">
+                                Create an Engaging Course
+                            </h3>
+                            <p class="font-normal text-sm md:text-base text-black pt-3 text-center lg:text-start">
+                                Whether you've been teaching for years or are teaching for the
+                                first time, you can make an engaging course. We've compiled
+                                resources and best practices to help you get to the next level,
+                                no matter where you're starting.
+                            </p>
+                            <a href="{{ route('instructor.courses.create') }}" class="font-normal text-sm md:text-base text-[#5624D0] underline pt-2 text-center lg:text-start">
+                                Get Started
+                            </a>
+                        </div>
+                    </div>
+                    <!-- 3 -->
+                    <div
+                        class="flex flex-col md:flex-row my-6 w-11/12 mx-5 lg:mx-16 bg-[#F5F5F5] lg:max-w-7xl gap-6 items-center justify-between">
+                        <!-- 3.1 -->
+                        <div
+                            class="flex flex-col lg:flex-row w-11/12 bg-[#F5F5F5] border-2 shadow-xl rounded-lg py-12 px-4 sm:px-6 lg:max-w-7xl lg:px-8 gap-5 lg:gap-2 items-center justify-between">
+                            <div class="w-2/5 flex items-center justify-center">
+                                <img src="{{ asset('images/image2.jpg') }}" alt="" />
+                            </div>
+                            <div class="w-full lg:w-3/5 space-y-4">
+                                <h3 class="font-normal text-xl text-black text-center lg:text-start">
+                                    Get Started with Video
+                                </h3>
+                                <p class="font-normal text-sm text-black pt-3 text-center lg:text-start">
+                                    Quality video lectures can set your course apart. Use our
+                                    resources to learn the basics.
+                                </p>
+                                <a href="{{ route('instructor.courses.create') }}" class="font-normal text-sm text-[#5624D0] underline pt-2 text-center lg:text-start">
+                                    Get Started
+                                </a>
+                            </div>
+                        </div>
+                        <!-- 3.2 -->
+                        <div
+                            class="flex flex-col lg:flex-row w-11/12 bg-[#F5F5F5] border-2 shadow-xl rounded-lg py-14 lg:py-12 px-4 sm:px-6 lg:max-w-7xl lg:px-8 gap-5 lg:gap-2 items-center justify-between">
+                            <div class="w-2/5 flex items-center justify-center">
+                                <img src="{{ asset('images/image3.jpg') }}" alt="" />
+                            </div>
+                            <div class="w-full lg:w-3/5 space-y-4">
+                                <h3 class="font-normal text-xl text-black text-center lg:text-start">
+                                    Build Your Audience
+                                </h3>
+                                <p class="font-normal text-sm text-black pt-3 text-center lg:text-start">
+                                    Set your course up for success by building your audience.
+                                </p>
+                                <a href="{{ route('instructor.courses.create') }}" class="font-normal text-sm text-[#5624D0] underline pt-2 text-center lg:text-start">
+                                    Get Started
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 4 -->
+                    <div
+                        class="flex flex-col lg:flex-row w-11/12 mx-5 lg:mx-16 bg-[#F5F5F5] border-2 shadow-xl rounded-lg py-12 px-4 sm:px-6 lg:max-w-7xl lg:px-8 gap-6 items-center justify-between">
+                        <div class="w-2/5 flex items-center justify-center">
+                            <img src="{{ asset('images/image4.jpg') }}" alt="" />
+                        </div>
+                        <div class="w-full lg:w-3/5 space-y-4">
+                            <h3 class="font-normal text-xl md:text-2xl text-black text-center lg:text-start">
+                                Join the New Instructor Challenge!
+                            </h3>
+                            <p class="font-normal text-sm md:text-base text-black pt-3 text-center lg:text-start">
+                                Get exclusive tips and resources designed to help you launch
+                                your first course faster! Eligible instructors who publish their
+                                first course on time will receive a special bonus to celebrate.
+                                Start today!
+                            </p>
+                            <a href="{{ route('instructor.courses.create') }}" class="font-normal text-sm md:text-base text-[#5624D0] underline pt-2 text-center lg:text-start">
+                                Get Started
+                            </a>
+                        </div>
+                    </div>
+                @endif
+
+
+
                     <section  id="our_courses"  class="container mx-auto  p-5 lg:p-8">
                         <section class="container mx-auto mt-20"></section>
                         <h3 class="pl-6 font-bold text-4xl text-black  text text-center dark:text-white pb-8">

@@ -40,16 +40,20 @@
                   </li>
 
                   <li>
-                      <a
-                          href="{{route('instructor.dashboard')}}"
-                          class="block px-4 py-2 text-black dark:text-white hover:bg-gray-100"
-                      >Teach on ELP</a
-                      >
+                      <a  id="becomeInstructorLink" class="cursor-pointer block px-4 py-2 text-black dark:text-white hover:bg-gray-100">
+                          Teach on ELP
+                      </a>
+                      <form id="becomeInstructorForm" action="{{ route('user.become-instructor') }}" method="POST" style="display: none;">
+                          @csrf
+                      </form>
                   </li>
-                  @if(Auth::check() && Auth::user()->hasRole('admin'))
+              @if(Auth::check() && Auth::user()->hasRole('admin'))
                       <li>
                           <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-black dark:text-white hover:bg-gray-100">Admin Panel</a>
                       </li>
+                        <li>
+                            <a href="{{ route('admin.pulse') }}" class="block px-4 py-2 text-black dark:text-white hover:bg-gray-100">Pulse Panel</a>
+                        </li>
                   @endif
 
               @if(!Auth::id())
@@ -104,7 +108,7 @@
                 <div class="relative inline-block text-left">
                   <div class="group">
                     <button
-                      type="button"
+                        onclick="window.location.href='{{ route('user.courses') }}#our_courses'"                      type="button"
                       class="inline-flex justify-center items-center py-2 pl-3 pr-4 text-base font-normal text-[#DDDDDD] dark:text-white lg:hover:bg-transparent lg:border-0 lg:p-0"
                     >
                       Tutorials
@@ -217,15 +221,15 @@
 
             <div class="navbar-end">
                 <div class="grid grid-cols-2 items-center justify-center gap-10">
-                    <a href="{{route('instructor.dashboard')}}">
-                  <div class="hidden lg:block">
-                    <button class="text-base font-normal text-[#DDDDDD] dark:text-white lg:hover:bg-transparent">
-                      Teach on ELP
-                    </button>
-                  </div>
-                    </a>
+                    <form action="{{ route('user.become-instructor') }}" method="POST">
+                        @csrf
+                        <button class="text-base font-normal text-[#DDDDDD] dark:text-white lg:hover:bg-transparent">
+                            Teach on ELP
+                        </button>
+                    </form>
 
-                  <div class="hidden lg:block">
+
+                    <div class="hidden lg:block">
                     <a href="{{--{{route('userProfile')}}--}}">
                       <div class="inline-block">
                         <button type="button" class="transform hover:scale-110">
@@ -290,65 +294,64 @@
             </button>
           </div>
 
-<!-- languages menu -->
+    <!-- languages menu -->
     @if(request()->is('/'))
-    <div class="fixed w-full z-10  mt-4  md:mt-16 pt-1 sm:hidden xl:block lg:block @guest pt-6  navhidden @endguest"  >
-        <div class="lg-mt-negative-50  grid grid-cols-8 justify-items-center bg-[#282A35] py-2 @guest relative right-2 @endguest">
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">RUST</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">JAVASCRIPT</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">Bash</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">PHP</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">PYTHON</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">C</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">JAVA</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">GO</a>
+        <div class="fixed w-full z-10 mt-4 md:mt-16 pt-1 sm:hidden xl:block lg:block @guest pt-6 navhidden @endguest">
+            <div class="lg-mt-negative-50 grid grid-cols-8 justify-items-center bg-[#282A35] py-2 @guest relative right-2 @endguest">
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">RUST</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">JAVASCRIPT</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">Bash</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">PHP</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">PYTHON</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">C</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">JAVA</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">GO</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="fixed w-full z-30 mt-4  md:mt-16 pt-1 xl:hidden lg:hidden sm:block @guest  pt-20 w-full block @endguest"  >
-        <div class="lg-mt-negative-50 grid grid-cols-4
-         justify-items-center bg-[#282A35] py-2 @guest relative right-2 @endguest">
-            {{--<div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">RUST</a>
-            </div>--}}
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">JAVASCRIPT</a>
+        <div class="fixed w-full z-30 mt-4 md:mt-16 pt-1 xl:hidden lg:hidden sm:block @guest pt-20 w-full block @endguest">
+            <div class="lg-mt-negative-50 grid grid-cols-4 justify-items-center bg-[#282A35] py-2 @guest relative right-2 @endguest">
+                {{--<div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">RUST</a>
+                </div>--}}
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">JAVASCRIPT</a>
+                </div>
+                {{--<div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">Bash</a>
+                </div>--}}
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">PHP</a>
+                </div>
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">PYTHON</a>
+                </div>
+                {{--<div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">C</a>
+                </div>--}}
+                <div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">JAVA</a>
+                </div>
+                {{--<div class="font-normal text-base text-[#F1F1F1]">
+                    <a href="{{ route('user.courses') }}">GO</a>
+                </div>--}}
             </div>
-            {{--<div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">Bash</a>
-            </div>--}}
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">PHP</a>
-            </div>
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">PYTHON</a>
-            </div>
-            {{--<div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">C</a>
-            </div>--}}
-            <div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">JAVA</a>
-            </div>
-            {{--<div class="font-normal text-base text-[#F1F1F1]">
-                <a href="">GO</a>
-            </div>--}}
         </div>
-    </div>
     @endif
         <!-- banner -->
     </div>
@@ -394,6 +397,12 @@
     }
 </style>
 
+<script>
+    document.getElementById('becomeInstructorLink').addEventListener('click', function(event) {
+        event.preventDefault();
+        document.getElementById('becomeInstructorForm').submit();
+    });
+</script>
 
 
 

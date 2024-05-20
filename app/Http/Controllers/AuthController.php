@@ -7,9 +7,9 @@ use App\Models\User;
 use Cloudinary\Cloudinary;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -55,6 +55,42 @@ class AuthController extends Controller
 
         return redirect()->back()->withInput($request->except('password'))
             ->withErrors(['email' => 'The provided credentials do not match our records.']);
+    }
+
+    public function redirectToGithub() {
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function handleGithubCallback()
+    {
+        $githubUser = Socialite::driver('github')->user();
+
+        $user = User::where('github_id', $githubUser->id)->first();
+
+        if (!$user) {
+            $username = $githubUser->name ?? $githubUser->nickname;
+            $usernameBase = $username;
+            $counter = 1;
+
+            while (User::where('name', $username)->exists()) {
+                $username = $usernameBase . '_' . $counter;
+                $counter++;
+            }
+
+            $user = User::create([
+                'name' => $username,
+                'email' => $githubUser->email,
+                'github_id' => $githubUser->id,
+                'profile_image_url' => $githubUser->avatar,
+                'password' => bcrypt(Str::random(20)),
+            ]);
+
+            $user->assignRole('student');
+        }
+
+        Auth::login($user, true);
+
+        return redirect()->route('user.profile');
     }
 
     public function logout(Request $request) {

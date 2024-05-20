@@ -15,6 +15,7 @@
         "laravel/framework": "10.48.4",
         "laravel/pulse": "^1.0",
         "laravel/sanctum": "^3.3",
+        "laravel/socialite": "^5.14",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.4",
         "spatie/laravel-backup": "^8.6",

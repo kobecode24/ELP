@@ -80,7 +80,7 @@
                                             <div class="flex flex-col">
                                                 <label><a href="{{ $item instanceof \App\Models\Lesson ? route('user.lessons.show', $item) : route('user.exercises.show', $item) }}"
                                                           class="text-xs md:text-sm font-normal text-[#5624D0] truncate dark:text-white underline">
-                                                        {{ $item->title }}
+                                                        {{ strlen($item->title) > 20 ? substr($item->title, 0, 20).'...' : $item->title }}
                                                     </a></label>
                                                 <div class="flex items-center space-x-2">
                                                     <img class="flex-shrink-0" src="{{ asset($item->image) }}" alt="" />
@@ -95,7 +95,7 @@
                                             <div class="flex flex-col">
                                                 <label><a href="{{ $item instanceof \App\Models\Lesson ? route('user.lessons.show', $item) : route('user.exercises.show', $item) }}"
                                                           class="text-xs md:text-sm font-normal text-[#2D2F31] truncate dark:text-white">
-                                                        {{ $item->title }}
+                                                        {{ strlen($item->title) > 20 ? substr($item->title, 0, 20).'...' : $item->title }}
                                                     </a></label>
                                                 <div class="flex items-center space-x-2">
                                                     <img class="flex-shrink-0" src="{{ asset($item->image) }}" alt="" />
@@ -136,18 +136,26 @@
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/monokai");
         editor.session.setMode("{{ $editorMode }}");
-        console.log( "{{$editorMode}}")
+
+        function initializeAceEditor(editorId, content) {
+            var editor = ace.edit(editorId);
+            editor.setTheme("ace/theme/monokai");
+            editor.session.setMode("{{ $editorMode }}");
+            editor.setValue(content, 1);
+            editor.setOptions({
+                maxLines: Infinity
+            });
+            return editor;
+        }
+
         @if(!empty($exercise->test_code))
-        var testCaseEditor = ace.edit("testCaseEditor");
-        testCaseEditor.setTheme("ace/theme/monokai");
-        testCaseEditor.session.setMode("{{ $editorMode }}");
-        testCaseEditor.setValue(htmlDecode(`{{ trim($exercise->test_code) }}`));
+        var testCodeContent = htmlDecode(`{{ addslashes($exercise->test_code) }}`);
+        var expectedOutputContent = htmlDecode(`{{ addslashes($exercise->expected_output) }}`);
+
+        var testCaseEditor = initializeAceEditor("testCaseEditor", testCodeContent);
         testCaseEditor.setReadOnly(true);
 
-        var expectedOutputEditor = ace.edit("expectedOutputEditor");
-        expectedOutputEditor.setTheme("ace/theme/monokai");
-        expectedOutputEditor.session.setMode("ace/mode/plain_text");
-        expectedOutputEditor.setValue(htmlDecode(`{{ trim($exercise->expected_output) }}`));
+        var expectedOutputEditor = initializeAceEditor("expectedOutputEditor", expectedOutputContent);
         expectedOutputEditor.setReadOnly(true);
         @endif
 
@@ -187,8 +195,6 @@
                 overlay.style.display = 'none';
             }
         }
-
-
 
         function displayFeedback(data) {
             const annotations = [];
@@ -260,7 +266,6 @@
                 });
             }
         }
-
 
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('button[data-accordion-target]').forEach(button => {
