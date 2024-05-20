@@ -40,16 +40,20 @@
                   </li>
 
                   <li>
-                      <a
-                          href="{{route('instructor.dashboard')}}"
-                          class="block px-4 py-2 text-black dark:text-white hover:bg-gray-100"
-                      >Teach on ELP</a
-                      >
+                      <a  id="becomeInstructorLink" class="cursor-pointer block px-4 py-2 text-black dark:text-white hover:bg-gray-100">
+                          Teach on ELP
+                      </a>
+                      <form id="becomeInstructorForm" action="{{ route('user.become-instructor') }}" method="POST" style="display: none;">
+                          @csrf
+                      </form>
                   </li>
-                  @if(Auth::check() && Auth::user()->hasRole('admin'))
+              @if(Auth::check() && Auth::user()->hasRole('admin'))
                       <li>
                           <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-black dark:text-white hover:bg-gray-100">Admin Panel</a>
                       </li>
+                        <li>
+                            <a href="{{ route('admin.pulse') }}" class="block px-4 py-2 text-black dark:text-white hover:bg-gray-100">Pulse Panel</a>
+                        </li>
                   @endif
 
               @if(!Auth::id())
@@ -104,8 +108,7 @@
                 <div class="relative inline-block text-left">
                   <div class="group">
                     <button
-                      onclick="window.location.href='{{ route('user.courses') }}'"
-                      type="button"
+                        onclick="window.location.href='{{ route('user.courses') }}#our_courses'"                      type="button"
                       class="inline-flex justify-center items-center py-2 pl-3 pr-4 text-base font-normal text-[#DDDDDD] dark:text-white lg:hover:bg-transparent lg:border-0 lg:p-0"
                     >
                       Tutorials
@@ -218,15 +221,15 @@
 
             <div class="navbar-end">
                 <div class="grid grid-cols-2 items-center justify-center gap-10">
-                    <a href="{{route('instructor.dashboard')}}">
-                  <div class="hidden lg:block">
-                    <button class="text-base font-normal text-[#DDDDDD] dark:text-white lg:hover:bg-transparent">
-                      Teach on ELP
-                    </button>
-                  </div>
-                    </a>
+                    <form action="{{ route('user.become-instructor') }}" method="POST">
+                        @csrf
+                        <button class="text-base font-normal text-[#DDDDDD] dark:text-white lg:hover:bg-transparent">
+                            Teach on ELP
+                        </button>
+                    </form>
 
-                  <div class="hidden lg:block">
+
+                    <div class="hidden lg:block">
                     <a href="{{--{{route('userProfile')}}--}}">
                       <div class="inline-block">
                         <button type="button" class="transform hover:scale-110">
@@ -394,6 +397,12 @@
     }
 </style>
 
+<script>
+    document.getElementById('becomeInstructorLink').addEventListener('click', function(event) {
+        event.preventDefault();
+        document.getElementById('becomeInstructorForm').submit();
+    });
+</script>
 
 
 

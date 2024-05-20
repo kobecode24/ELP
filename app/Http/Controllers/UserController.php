@@ -41,9 +41,14 @@ class UserController extends Controller
     public function becomeInstructor()
     {
         $user = auth()->user();
+
+        if ($user->hasRole('instructor')) {
+            return redirect()->route('instructor.dashboard');
+        }
+
         $user->assignRole('instructor');
 
-        return redirect()->back()->with('success', 'Congratulations! You are now an instructor.');
+        return redirect()->route('instructor.dashboard')->with('success', 'Congratulations! You are now an instructor.');
     }
 
     public function updateProfile(UpdateProfileRequest $request)
