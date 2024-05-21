@@ -128,6 +128,8 @@
         <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
+                const player = new Plyr('#player');
+
                 document.querySelectorAll('button[data-accordion-target]').forEach(button => {
                     button.addEventListener('click', () => {
                         const accordionTargetId = button.getAttribute('data-accordion-target');
@@ -138,7 +140,6 @@
                     });
                 });
             });
-
         </script>
 
     @endpush
