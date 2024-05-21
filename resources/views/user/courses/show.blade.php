@@ -30,6 +30,17 @@
                                     </ul>
                                 </div>
                             @endif
+                            <div class="  text-[#C0C4FC] w-full  overflow-hidden flex flex-row flex-wrap items-end justify-start px-1 pb-[7.8px] box-border gap-[4px] leading-[normal] tracking-[normal] text-left text-xl ">
+                                <div class="flex flex-col items-start justify-start py-0 pr-[6.3px] pl-0 bg-[#401B9C[">
+                                    <a href="{{route('user.courses')}}#our_courses"><b class=" leading-[17px] inline-block min-w-[83px]">Your Courses</b></a>
+                                </div>
+                                <i class="pb-[5px] fas fa-greater-than noblock text-xs text-white"></i>
+                                <img class="xl:hidden h-4 w-4  overflow-hidden shrink-0" loading="lazy" alt="" src="{{ asset('images/right_svg.svg') }}">
+                                <div class="flex flex-col items-start justify-start py-0 pr-[8.5px] pl-0">
+                                    <a href="{{route('user.courses.show' , $course->id)}}"><b>{{ $course->title }}</b></a>
+                                </div>
+                            </div>
+
                         <h3 class="font-bold text-2xl md:text-4xl text-[#2D2F31] xl:text-white dark:text-white pb-1">
                             {{ $course->title }}
                         </h3>
