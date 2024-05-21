@@ -24,11 +24,6 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
-                    <textarea name="description" id="description" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">{{ $lesson->description }}</textarea>
-                </div>
-
-                <div class="mb-4">
                     <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Content:</label>
                     <textarea name="content" id="content" rows="5" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">{{ $lesson->content }}</textarea>
                 </div>

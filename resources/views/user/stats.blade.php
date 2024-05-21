@@ -94,7 +94,7 @@
                                                 </p>
                                                 <ul class="list-none pl-4 pt-4 lg:pt-8">
                                                     <li class="font-normal text-xs text-[#6A6F73] dark:text-slate-50">
-                                                        •  {{ $course->lessons_count }} lessons • {{ $course->exercises_count }} exercises
+                                                        •  {{ $course->lessons_count ?? 0 }} lessons • {{ $course->exercises_count ?? 0 }} exercises
                                                     </li>
                                                 </ul>
                                             </div>

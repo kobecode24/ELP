@@ -21,6 +21,10 @@ class CourseController extends Controller
             ->orderby('updated_at', 'desc')
             ->paginate(5);
         $user = Auth::user();
+        $courses->each(function ($course) {
+            $course->lessons_count = $course->chapters->pluck('lessons')->flatten()->count();
+            $course->exercises_count = $course->chapters->pluck('exercises')->flatten()->count();
+        });
         return view('admin.dashboard', compact('courses', 'user'));
     }
 
@@ -30,6 +34,10 @@ class CourseController extends Controller
             ->orderby('updated_at', 'desc')
             ->paginate(5);
         $user = Auth::user();
+        $courses->each(function ($course) {
+            $course->lessons_count = $course->chapters->pluck('lessons')->flatten()->count();
+            $course->exercises_count = $course->chapters->pluck('exercises')->flatten()->count();
+        });
         return view('admin.blacklist', compact('courses', 'user'));
     }
 
