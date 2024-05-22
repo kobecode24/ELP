@@ -29,7 +29,12 @@ class CodeExecutionWorkflowService
                 throw new \Exception('Execution failed: ' . $executionResult['message']);
             }
 
-            sleep(2);
+            if ($languageId == 93) {
+                sleep(10);
+            } else {
+                sleep(2);
+            }
+
             $submissionId = $executionResult['data']['id'];
             $fetchResult = $this->fetchResultService->fetchResult($submissionId);
 

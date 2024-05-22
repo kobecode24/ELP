@@ -162,7 +162,7 @@
         async function submitCode() {
             const code = editor.getValue();
             const exerciseId = "{{ $exercise->id }}";
-            const submitUrl = `/user/exercises/${exerciseId}/execute`;
+            const submitUrl = `/instructor/exercises/${exerciseId}/execute`;
             const overlay = document.getElementById('overlay');
 
             overlay.style.display = 'flex';

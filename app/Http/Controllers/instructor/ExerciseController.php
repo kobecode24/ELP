@@ -159,7 +159,13 @@ class ExerciseController extends Controller
             }
 
             $submissionId = $executionResult['data']['id'];
-            sleep(7);
+
+            if ($languageId == 93) {
+                sleep(10);
+            } else {
+                sleep(2);
+            }
+
             $fetchResult = $fetchResultService->fetchResult($submissionId);
 
             if (!$fetchResult['success']) {
