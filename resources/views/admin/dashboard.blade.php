@@ -33,21 +33,18 @@
                     @foreach($courses as $course)
                         <div>
                             <div class="flex gap-5 pl-3 lg:pl-32">
-                                <a href="{{ route('instructor.courses.show', $course->id) }}" >
-                                    <div>
-                                        @if($course->image_public_id)
-                                            <img src="https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_auto,h_200,w_300/{{$course->image_public_id}}.jpg" alt="{{ $course->title }}"    class="cld-responsive">
-                                        @else
-                                            <img src="https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_south,h_200,w_300/default_images/ofztxhwstxzvgchzthoi.jpg" alt="{{ $course->title }}" >
-                                        @endif
-                                    </div>
+                                <a href="{{ route('instructor.courses.show', $course->id) }}" class="flex-none">
+                                    <img
+                                        src="{{ $course->image_public_id ? 'https://res.cloudinary.com/hkjp5o9bu/image/upload/c_scale,w_300/'.$course->image_public_id.'.jpg' : 'https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_south,h_200,w_300/default_images/ofztxhwstxzvgchzthoi.jpg' }}"
+                                        alt="{{ $course->title }}"
+                                        class="cld-responsive w-32 h-32 object-cover">
                                 </a>
-                                <div class="flex justify-between gap-5 md:gap-20 lg:gap-56">
+                                <div class="flex flex-col justify-between flex-grow">
                                     <div>
                                         <h3 class="font-bold text-sm md:text-base text-black dark:text-white">
                                             {{ $course->title }}
                                         </h3>
-                                        <p class="font-normal text-xs md:text-sm text-black dark:text-white">
+                                        <p class="font-normal text-xs md:text-sm text-black dark:text-white overflow-hidden text-ellipsis">
                                             {{ $course->description }}
                                         </p>
                                         <p class="font-normal pt-px text-xs text-[#6A6F73] dark:text-slate-50">
@@ -67,10 +64,10 @@
                                     </form>
                                 </div>
                             </div>
-                            <!-- hr -->
                             <hr class="h-px my-6 ml-3 lg:ml-32 bg-[#D1D7DC] border-0 dark:bg-gray-700" />
                         </div>
                     @endforeach
+
                 </section>
                 <section class="container mx-auto">
                     <div class="flex justify-center items-center gap-10">
@@ -102,4 +99,26 @@
             </section>
         </div>
     </main>
+    <style>
+        .cld-responsive {
+            width: 100%;
+            height: auto;
+        }
+
+        .flex-none {
+            flex: none;
+        }
+
+        .flex-grow {
+            flex-grow: 1;
+        }
+
+        .text-ellipsis {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+    </style>
 @endsection

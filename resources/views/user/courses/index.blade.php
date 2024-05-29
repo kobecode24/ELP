@@ -69,23 +69,20 @@
         </section>
         <section class="container mx-auto grid justify-center mt-6 md:mt-10 p-5">
             @foreach($courses as $course)
-            <div>
+                <div>
                     <div class="flex gap-5 pl-3 lg:pl-32">
-                        <a href="{{ route('user.courses.show', $course->id) }}" >
-                        <div>
-                            @if($course->image_public_id)
-                            <img src="https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_auto,h_200,w_300/{{$course->image_public_id}}.jpg" alt="{{ $course->title }}"    class="cld-responsive">
-                            @else
-                                <img src="https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_south,h_200,w_300/default_images/ofztxhwstxzvgchzthoi.jpg" alt="{{ $course->title }}" >
-                            @endif
-                        </div>
+                        <a href="{{ route('user.courses.show', $course->id) }}" class="flex-none">
+                            <img
+                                src="{{ $course->image_public_id ? 'https://res.cloudinary.com/hkjp5o9bu/image/upload/c_scale,w_300/'.$course->image_public_id.'.jpg' : 'https://res.cloudinary.com/hkjp5o9bu/image/upload/c_crop,g_south,h_200,w_300/default_images/ofztxhwstxzvgchzthoi.jpg' }}"
+                                alt="{{ $course->title }}"
+                                class="cld-responsive w-32 h-32 object-cover">
                         </a>
-                        <div class="flex justify-between gap-5 md:gap-20 lg:gap-56">
+                        <div class="flex flex-col justify-between flex-grow">
                             <div>
                                 <h3 class="font-bold text-sm md:text-base text-black dark:text-white">
                                     {{ $course->title }}
                                 </h3>
-                                <p class="font-normal text-xs md:text-sm text-black dark:text-white">
+                                <p class="font-normal text-xs md:text-sm text-black dark:text-white overflow-hidden text-ellipsis">
                                     {{ $course->description }}
                                 </p>
                                 <p class="font-normal pt-px text-xs text-[#6A6F73] dark:text-slate-50">
@@ -97,15 +94,13 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="">
+                            <div class="flex justify-between items-center gap-5 md:gap-20 lg:gap-56">
                                 @if($user->courses->contains($course->id))
-                                    <a href="{{ route('user.courses.show', $course->id) }}">
-                                        <button type="button" class="flex gap-0 md:gap-1 justify-center items-center border border-black dark:border-white rounded-full py-1 px-2">
-                                            <h3 class="hidden sm:block sm:font-bold text-xs md:text-sm lg:text-base text-black dark:text-white">
-                                                Play
-                                            </h3>
-                                            <i class="pl-px fa-solid fa-play"></i>
-                                        </button>
+                                    <a href="{{ route('user.courses.show', $course->id) }}" class="flex gap-0 md:gap-1 justify-center items-center border border-black dark:border-white rounded-full py-1 px-2">
+                                        <h3 class="hidden sm:block sm:font-bold text-xs md:text-sm lg:text-base text-black dark:text-white">
+                                            Play
+                                        </h3>
+                                        <i class="pl-px fa-solid fa-play"></i>
                                     </a>
                                 @else
                                     <form method="POST" action="{{ route('user.courses.enroll', $course->id) }}">
@@ -114,16 +109,15 @@
                                             <h3 class="font-bold text-xs md:text-sm lg:text-base text-black dark:text-white">
                                                 {{ $course->points_required ?? '0' }}
                                             </h3>
-                                            <img class="w-3 lg:w-4" src="{{ asset('images/money2.svg') }}" alt="" />
+                                            <img class="w-3 lg:w-4" src="{{ asset('images/money2.svg') }}" alt="Points icon" />
                                         </button>
                                     </form>
                                 @endif
                             </div>
                         </div>
                     </div>
-                <!-- hr -->
-                <hr class="h-px my-6 ml-3 lg:ml-32 bg-[#D1D7DC] border-0 dark:bg-gray-700" />
-            </div>
+                    <hr class="h-px my-6 ml-3 lg:ml-32 bg-[#D1D7DC] border-0 dark:bg-gray-700" />
+                </div>
             @endforeach
         </section>
         <section class="container mx-auto">
@@ -153,7 +147,27 @@
                 @endif
             </div>
         </section>
-
     </main>
+    <style>
+        .cld-responsive {
+            width: 100%;
+            height: auto;
+        }
 
+        .flex-none {
+            flex: none;
+        }
+
+        .flex-grow {
+            flex-grow: 1;
+        }
+
+        .text-ellipsis {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+    </style>
 @endsection
