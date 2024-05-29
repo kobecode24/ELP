@@ -49,7 +49,7 @@ Route::prefix('instructor')->name('instructor.')->middleware(['auth' , 'role:ins
     Route::get('/dashboard', [InstructorCourseController::class, 'dashboard'])->name('dashboard');
     Route::resource('lessons', InstructorLessonController::class)->names('lessons')->except(['index']);;
     Route::resource('exercises', InstructorExerciseController::class)->names('exercises')->except(['index']);;
-    Route::resource('courses', InstructorCourseController::class)->names('courses');
+    Route::resource('courses', InstructorCourseController::class)->names('courses')->except(['index']);
     Route::resource('chapters', InstructorChapterController::class)->names('chapters')->except(['index']);;
     Route::post('/exercises/{exercise}/execute', [InstructorExerciseController::class, 'executeCode'])->name('exercises.execute');
     Route::get('/courses/{courseId}/items/{type}/{currentItemId}/next',  [CourseService::class , 'next'])->name('items.next');
