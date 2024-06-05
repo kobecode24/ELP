@@ -58,14 +58,14 @@
                                 class="block text-base font-semibold leading-6 text-black"
                             >Password</label
                             >
-                            <div class="flex text-sm">
-                                <p class="text-sm font-normal">Show</p>
+                            <div class="flex text-sm cursor-pointer" id="togglePassword">
+                                <p class="text-sm font-normal mr-2">Show</p>
+                                <i class="pt-1 fa-solid fa-eye-slash" id="toggleIcon" style="color: #000000;"></i>
                             </div>
                         </div>
                         <div class="mt-2">
                             <input
-                                type="password"
-                                name="password"
+                                id="passwordInput"  type="password" name="password" required value="{{ old('password') }}"
                                 class="w-full rounded-md py-2 px-4 border text-sm md:text-lg ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-inset focus:ring-balck"
                             />
                         </div>
@@ -138,5 +138,6 @@
             });
         </script>
     </main>
+    <script src="{{asset('js/togglePasswordVisibility.js')}}"></script>
 @endsection
 
